@@ -41,73 +41,20 @@ body {
   min-height: 100vh;
 }
 
-/* ── Phone stage ────────────────────────────────────────────── */
-.stage {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr min(420px, 96vw) 1fr;
-  align-items: start;
-  padding: 24px 0 60px;
-  gap: 0;
-}
-.stage__rail-l, .stage__rail-r {
-  position: sticky; top: 24px;
-  padding: 24px;
-  display: none; /* hidden on small */
-}
-@media (min-width: 1100px) {
-  .stage__rail-l, .stage__rail-r { display: block; }
-}
-.stage__phone {
-  grid-column: 2;
-  position: relative;
-  background: #000;
-  border-radius: 44px;
-  padding: 14px;
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.06),
-    0 30px 80px rgba(0,0,0,0.55),
-    0 0 120px rgba(249,127,172,0.18),
-    0 0 180px rgba(39,207,215,0.10);
-  overflow: hidden;
-}
-.phone__screen {
-  background: var(--ink);
-  border-radius: 32px;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-  /* 19.5:9-ish viewport, scrolls inside */
-  height: min(calc(100vh - 96px), 880px);
-  overflow-y: auto;
-  scroll-behavior: smooth;
-}
-.phone__screen::-webkit-scrollbar { width: 0; }
-.phone__notch {
-  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-  width: 110px; height: 28px; background: #000;
-  border-bottom-left-radius: 18px; border-bottom-right-radius: 18px;
-  z-index: 30;
-}
+/* ── Site shell (mobile is body-scroll, no bezel) ───────────── */
+.site { min-height: 100vh; background: var(--ink); }
+.site--mobile { background: var(--ink); }
+.site--mobile main { background: var(--ink); }
 
-/* ── Status bar ─────────────────────────────────────────────── */
-.statusbar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 28px 4px;
-  font-family: -apple-system, "SF Pro", system-ui;
-  font-weight: 600; font-size: 14px; color: #fff;
-  position: sticky; top: 0; z-index: 20;
-  background: linear-gradient(180deg, rgba(14,7,16,0.95) 0%, rgba(14,7,16,0.7) 70%, transparent 100%);
-  backdrop-filter: blur(14px);
-}
-
-/* ── Top nav (in-app) ───────────────────────────────────────── */
+/* ── Mobile top nav (real site, sticky to top) ──────────────── */
 .topnav {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 6px 18px 12px;
-  position: sticky; top: 36px; z-index: 19;
-  background: linear-gradient(180deg, rgba(14,7,16,0.85) 0%, rgba(14,7,16,0.55) 60%, transparent 100%);
+  padding: env(safe-area-inset-top, 8px) 18px 12px;
+  padding-top: max(env(safe-area-inset-top, 8px), 12px);
+  position: sticky; top: 0; z-index: 30;
+  background: linear-gradient(180deg, rgba(14,7,16,0.95) 0%, rgba(14,7,16,0.75) 70%, transparent 100%);
   backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 .topnav__brand {
   display: flex; align-items: center; gap: 8px;
@@ -123,13 +70,14 @@ body {
 }
 .topnav__menu:hover { background: rgba(255,255,255,0.14); }
 
-/* ── Drawer menu ───────────────────────────────────────────── */
+/* ── Drawer menu (fullscreen mobile overlay) ───────────────── */
 .drawer {
-  position: absolute; inset: 0;
+  position: fixed; inset: 0;
   background: linear-gradient(180deg, var(--plum) 0%, var(--ink) 100%);
-  z-index: 50; padding: 52px 24px 32px;
+  z-index: 80; padding: 52px 24px 32px;
   display: flex; flex-direction: column; gap: 0;
   animation: slide-down 240ms cubic-bezier(.2,.8,.2,1);
+  overflow-y: auto;
 }
 @keyframes slide-down { from { transform: translateY(-100%); opacity: 0.7; } to { transform: none; opacity: 1; } }
 .drawer__close {
@@ -383,14 +331,115 @@ body {
 .rise { animation: rise 600ms cubic-bezier(.2,.8,.2,1) both; }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
-/* ── Side rail content (desktop only) ──────────────────────── */
-.rail {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--dim); line-height: 1.8;
+/* ──────────────────────────────────────────────────────────────
+   DESKTOP — real site chrome at ≥960px
+   ────────────────────────────────────────────────────────────── */
+
+.site-header {
+  position: sticky; top: 0; z-index: 40;
+  background: linear-gradient(180deg, rgba(14,7,16,0.96) 0%, rgba(14,7,16,0.82) 100%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--line);
+  display: none;
 }
-.rail h4 {
-  font-family: var(--serif); font-style: italic; font-weight: 800;
-  font-size: 26px; letter-spacing: -0.03em; color: #fff;
-  text-transform: none; margin: 0 0 12px;
+.site-header__inner {
+  max-width: 1280px; margin: 0 auto;
+  padding: 14px 40px;
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 24px;
 }
-.rail .grad-text { -webkit-text-fill-color: transparent; }
+.site-header__brand {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: none; border: 0; cursor: pointer; padding: 0; color: #fff;
+}
+.site-header__nav {
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  flex-wrap: wrap;
+}
+.site-header__link {
+  background: none; border: 0; color: var(--dim); cursor: pointer;
+  padding: 10px 14px; border-radius: 999px;
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all 160ms cubic-bezier(.2,.8,.2,1);
+}
+.site-header__link:hover { color: #fff; background: rgba(255,255,255,0.06); }
+.site-header__link.is-active { color: #fff; background: rgba(255,255,255,0.10); }
+.site-header__cta { white-space: nowrap; }
+
+.site-footer {
+  background: linear-gradient(180deg, var(--ink) 0%, var(--plum-2) 100%);
+  border-top: 1px solid var(--line);
+  display: none;
+}
+.site-footer__inner {
+  max-width: 1280px; margin: 0 auto;
+  padding: 64px 40px 40px;
+  display: grid; grid-template-columns: 1.4fr 1fr 1.2fr;
+  gap: 56px;
+}
+.site-footer__col { display: flex; flex-direction: column; }
+.site-footer__link {
+  display: block; text-align: left;
+  background: none; border: 0; color: var(--dim); cursor: pointer;
+  padding: 6px 0;
+  font-family: var(--sans); font-size: 14px; font-weight: 500;
+}
+.site-footer__link:hover { color: #fff; }
+.site-footer__legal {
+  max-width: 1280px; margin: 0 auto;
+  padding: 24px 40px;
+  border-top: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+@media (min-width: 960px) {
+  body { background:
+    radial-gradient(1400px 900px at 80% -10%, rgba(249,127,172,0.18), transparent 60%),
+    radial-gradient(1400px 900px at -10% 30%, rgba(39,207,215,0.14), transparent 60%),
+    var(--plum);
+  }
+  .site-header, .site-footer { display: block; }
+  .site__main { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+
+  /* Wider section padding on desktop */
+  .sec { padding: 88px 0; }
+  .sec-tight { padding: 28px 0; }
+  .sec-divider { margin: 0; }
+
+  /* Pull section dividers / borders to full bleed inside the centered main */
+  .site__main > section[style*="background"] { border-radius: 24px; padding-left: 40px; padding-right: 40px; }
+
+  /* Scale up display type at desktop */
+  .display { letter-spacing: -0.05em; }
+  .site__main h1.display { font-size: clamp(64px, 7vw, 112px) !important; line-height: 0.92 !important; }
+  .site__main .sec .display { font-size: clamp(40px, 4.4vw, 64px) !important; }
+
+  /* "Five ways to cheer" + similar single-col stacks → 3-col grid */
+  .site__main .sec .col.gap-3:has(> .card),
+  .site__main .sec .col.gap-3:has(> button.card) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  /* Hero spacing — push content from the top, but don't over-pad */
+  .site__main > div > section:first-child { min-height: 70vh; }
+  .site__main > div > section:first-child > div[style*="paddingTop"] {
+    padding-top: 18vh !important;
+    max-width: 760px;
+  }
+
+  /* Editorial spread editorial 2-col already; keep but widen */
+  /* Marquee already full-bleed on its row */
+
+  /* Trust bar gets equally-spaced wider */
+  .sec-tight .row.between { gap: 48px; justify-content: center; }
+}
+
+/* Slightly larger nav row on very wide */
+@media (min-width: 1280px) {
+  .site-header__nav { gap: 8px; }
+  .site-header__link { font-size: 14px; padding: 10px 16px; }
+}

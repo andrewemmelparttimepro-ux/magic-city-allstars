@@ -136,4 +136,78 @@ function Reveal({ children, delay = 0 }) {
   );
 }
 
-Object.assign(window, { Logo, Wordmark, StatusBar, TopNav, Drawer, NAV_ITEMS, Photo, SectionHead, Reveal, useInView });
+// ─────────── Viewport hook ───────────
+function useMediaQuery(query) {
+  const get = () => typeof window !== 'undefined' && window.matchMedia(query).matches;
+  const [matches, setMatches] = useState(get);
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const handler = (e) => setMatches(e.matches);
+    mq.addEventListener ? mq.addEventListener('change', handler) : mq.addListener(handler);
+    setMatches(mq.matches);
+    return () => mq.removeEventListener ? mq.removeEventListener('change', handler) : mq.removeListener(handler);
+  }, [query]);
+  return matches;
+}
+
+// ─────────── Desktop header ───────────
+function DesktopHeader({ page, go }) {
+  return (
+    <header className="site-header">
+      <div className="site-header__inner">
+        <button onClick={() => go('home')} className="site-header__brand" aria-label="Magic City Allstars — home">
+          <Logo size={36}/>
+          <Wordmark size={20}/>
+          <span className="pill pill-teal" style={{ marginLeft: 8 }}>◉ MINOT, ND</span>
+        </button>
+        <nav className="site-header__nav" aria-label="Primary">
+          {NAV_ITEMS.map(it => (
+            <button key={it.id} onClick={() => go(it.id)} className={`site-header__link${page === it.id ? ' is-active' : ''}`}>
+              {it.label}
+            </button>
+          ))}
+        </nav>
+        <a href="#" className="btn btn-primary btn-sm site-header__cta">Book a free trial →</a>
+      </div>
+    </header>
+  );
+}
+
+// ─────────── Desktop footer ───────────
+function DesktopFooter({ go }) {
+  return (
+    <footer className="site-footer">
+      <div className="site-footer__inner">
+        <div className="site-footer__col">
+          <Wordmark size={20}/>
+          <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55, maxWidth: 320 }}>
+            Elite all-star cheer in Minot, ND. Tumbling, prep, rec, and tinies — all under one roof.
+          </p>
+          <div className="mono dim mt-4" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Minot · ND · est. 2018</div>
+        </div>
+        <div className="site-footer__col">
+          <div className="eyebrow eyebrow-teal mb-3">Visit</div>
+          {NAV_ITEMS.map(it => (
+            <button key={it.id} onClick={() => go(it.id)} className="site-footer__link">{it.label}</button>
+          ))}
+        </div>
+        <div className="site-footer__col">
+          <div className="eyebrow eyebrow-pink mb-3">On the app</div>
+          <p className="dim" style={{ fontSize: 13, lineHeight: 1.55 }}>
+            Schedules, billing, badges — all in <em className="grad-text">Hit Zero</em>.
+          </p>
+          <div className="row gap-2 mt-4">
+            <a href="#" className="app-badge"><div><div className="app-badge__top">Download on</div><div className="app-badge__btm">App Store</div></div></a>
+            <a href="#" className="app-badge"><div><div className="app-badge__top">Get it on</div><div className="app-badge__btm">Google Play</div></div></a>
+          </div>
+        </div>
+      </div>
+      <div className="site-footer__legal">
+        <span className="mono dim" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>© 2026 Magic City Allstars</span>
+        <span className="mono dim" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Built with <em className="serif-italic teal">Hit Zero</em></span>
+      </div>
+    </footer>
+  );
+}
+
+Object.assign(window, { Logo, Wordmark, StatusBar, TopNav, Drawer, NAV_ITEMS, Photo, SectionHead, Reveal, useInView, useMediaQuery, DesktopHeader, DesktopFooter });
