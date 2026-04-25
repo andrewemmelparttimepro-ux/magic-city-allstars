@@ -401,45 +401,78 @@ body {
     var(--plum);
   }
   .site-header, .site-footer { display: block; }
-  .site__main { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
 
-  /* Wider section padding on desktop */
-  .sec { padding: 88px 0; }
+  /* Content container: narrower than chrome for readable line-lengths */
+  .site__main { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+  .site__main > div > section { max-width: 1040px; margin-left: auto; margin-right: auto; }
+
+  /* Wider, breathier section padding on desktop */
+  .sec { padding: 80px 0; }
   .sec-tight { padding: 28px 0; }
   .sec-divider { margin: 0; }
 
-  /* Pull section dividers / borders to full bleed inside the centered main */
-  .site__main > section[style*="background"] { border-radius: 24px; padding-left: 40px; padding-right: 40px; }
-
-  /* Scale up display type at desktop */
+  /* Display type — scale UP from inline mobile sizes */
   .display { letter-spacing: -0.05em; }
-  .site__main h1.display { font-size: clamp(64px, 7vw, 112px) !important; line-height: 0.92 !important; }
-  .site__main .sec .display { font-size: clamp(40px, 4.4vw, 64px) !important; }
+  .site__main h1.display,
+  .site__main h1[class*="display"] { font-size: clamp(56px, 6vw, 88px) !important; line-height: 0.94 !important; }
+  .site__main .sec .display { font-size: clamp(36px, 3.6vw, 56px) !important; }
 
-  /* "Five ways to cheer" + similar single-col stacks → 3-col grid */
+  /* "Five ways to cheer" + similar card stacks → 3-col grid on desktop */
   .site__main .sec .col.gap-3:has(> .card),
   .site__main .sec .col.gap-3:has(> button.card) {
-    display: grid;
+    display: grid !important;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
-
-  /* Hero spacing — push content from the top, but don't over-pad */
-  .site__main > div > section:first-child { min-height: 70vh; }
-  .site__main > div > section:first-child > div[style*="paddingTop"] {
-    padding-top: 18vh !important;
-    max-width: 760px;
+  .site__main .sec .col.gap-3 > .card,
+  .site__main .sec .col.gap-3 > button.card {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch !important;
+    text-align: left;
+    grid-template-columns: none !important;
+    height: 100%;
   }
 
-  /* Editorial spread editorial 2-col already; keep but widen */
-  /* Marquee already full-bleed on its row */
+  /* HERO — bring CTAs above fold; constrain content width */
+  .site__main > div > section:first-child {
+    min-height: 64vh !important;
+    max-width: 1040px;
+    padding-left: 0 !important; padding-right: 0 !important;
+    border-radius: 28px;
+    overflow: hidden;
+    margin-top: 24px;
+  }
+  .site__main > div > section:first-child > div:last-child {
+    padding: 56px !important;
+    padding-top: 12vh !important;
+    max-width: 720px;
+  }
+  .site__main > div > section:first-child p { font-size: 17px !important; line-height: 1.55 !important; max-width: 480px !important; }
+  .site__main > div > section:first-child .col.gap-3.mt-6 { flex-direction: row !important; gap: 12px !important; max-width: 480px; }
+  .site__main > div > section:first-child .btn-block { width: auto !important; flex: 1; }
 
-  /* Trust bar gets equally-spaced wider */
-  .sec-tight .row.between { gap: 48px; justify-content: center; }
+  /* Trust bar — center, breathing room */
+  .sec-tight .row.between { gap: 64px; justify-content: center; }
+
+  /* Hit Zero meter section — center the content, keep meter centered */
+  .site__main .sec[style*="meter"], .site__main section .meter-ring { margin-left: auto; margin-right: auto; }
+
+  /* Editorial spread photos — constrain so they don't get huge */
+  .site__main .sec .ph[style*="aspect-ratio: 3/4"],
+  .site__main .sec .ph[style*="aspectRatio"] { max-height: 460px; }
+
+  /* App teaser two-card grid stays 2-col but widens nicely */
+  /* Marquee already full-bleed via mask */
+
+  /* Footer CTA buttons inline on desktop */
+  .site__main > div > section:last-child .col.gap-3.mt-6 { flex-direction: row !important; max-width: 520px; }
+  .site__main > div > section:last-child .btn-block { width: auto !important; flex: 1; }
 }
 
-/* Slightly larger nav row on very wide */
+/* Larger desktop polish */
 @media (min-width: 1280px) {
   .site-header__nav { gap: 8px; }
   .site-header__link { font-size: 14px; padding: 10px 16px; }
+  .site__main { padding: 0 56px; }
 }
