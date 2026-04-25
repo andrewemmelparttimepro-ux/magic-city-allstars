@@ -452,9 +452,12 @@ body {
   /* Hit Zero meter section — center the content, keep meter centered */
   .site__main .sec[style*="meter"], .site__main section .meter-ring { margin-left: auto; margin-right: auto; }
 
-  /* Editorial spread photos — constrain so they don't get huge */
-  .site__main .sec .ph[style*="aspect-ratio: 3/4"],
-  .site__main .sec .ph[style*="aspectRatio"] { max-height: 460px; }
+  /* Editorial spread photos — constrain so they don't get huge at desktop widths */
+  .site__main .sec .ph[style*="aspect-ratio: 3 / 4"],
+  .site__main .sec .ph[style*="aspect-ratio: 4 / 5"] {
+    aspect-ratio: 16 / 10 !important;
+    max-height: 380px;
+  }
 
   /* App teaser two-card grid stays 2-col but widens nicely */
   /* Marquee already full-bleed via mask */
