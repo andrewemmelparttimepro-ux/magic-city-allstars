@@ -33,17 +33,70 @@ function StatusBar() {
 // ─────────── Top nav (in-app) ───────────
 function TopNav({ onMenu, page, onHome }) {
   return (
-    <div className="topnav">
-      <button onClick={onHome} style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
-        <Logo size={32}/>
+    <header className="topnav" role="banner">
+      <button onClick={onHome} aria-label="Magic City Allstars — home" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, color: 'var(--text)' }}>
+        <Logo size={34}/>
+        <Wordmark size={16}/>
       </button>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span className="pill pill-teal" style={{ fontSize: 9 }}>◉ MINOT, ND</span>
-        <button className="topnav__menu" onClick={onMenu} aria-label="Menu">
-          <svg width="16" height="14" viewBox="0 0 16 14"><rect y="1" width="16" height="1.6" fill="#fff"/><rect y="6.2" width="16" height="1.6" fill="#fff"/><rect y="11.4" width="16" height="1.6" fill="#fff"/></svg>
+      <div className="topnav__actions">
+        <ThemeToggle/>
+        <button className="topnav__menu" onClick={onMenu} aria-label="Open menu" aria-expanded="false">
+          <svg width="16" height="14" viewBox="0 0 16 14" aria-hidden="true"><rect y="1" width="16" height="1.6"/><rect y="6.2" width="16" height="1.6"/><rect y="11.4" width="16" height="1.6"/></svg>
         </button>
       </div>
-    </div>
+    </header>
+  );
+}
+
+// ─────────── Theme toggle ───────────
+function useTheme() {
+  const [theme, setThemeState] = useState(() => (typeof document !== 'undefined' ? document.documentElement.getAttribute('data-theme') : 'dark') || 'dark');
+
+  const setTheme = (next) => {
+    setThemeState(next);
+    if (typeof document !== 'undefined') document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('mca-theme', next); } catch (_) {}
+  };
+
+  // Sync if system preference changes AND user hasn't explicitly chosen
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(prefers-color-scheme: light)');
+    const handler = (e) => {
+      try {
+        if (localStorage.getItem('mca-theme')) return;
+        const next = e.matches ? 'light' : 'dark';
+        setThemeState(next);
+        document.documentElement.setAttribute('data-theme', next);
+      } catch (_) {}
+    };
+    mq.addEventListener ? mq.addEventListener('change', handler) : mq.addListener(handler);
+    return () => mq.removeEventListener ? mq.removeEventListener('change', handler) : mq.removeListener(handler);
+  }, []);
+
+  return { theme, setTheme, toggle: () => setTheme(theme === 'dark' ? 'light' : 'dark') };
+}
+
+function ThemeToggle({ className = '' }) {
+  const { theme, toggle } = useTheme();
+  const isDark = theme === 'dark';
+  const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      className={`theme-toggle ${className}`}
+      aria-label={label}
+      title={label}
+    >
+      <svg className="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+      </svg>
+      <svg className="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <span className="sr-only">{label}</span>
+    </button>
   );
 }
 
@@ -59,25 +112,50 @@ const NAV_ITEMS = [
   { id: 'faq',      label: 'FAQ',          num: '08' },
 ];
 
-function Drawer({ onClose, onNav }) {
+function Drawer({ onClose, onNav, page }) {
+  // Trap escape, lock body scroll
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
+
   return (
-    <div className="drawer">
-      <button className="drawer__close" onClick={onClose} aria-label="Close">✕</button>
+    <div className="drawer" role="dialog" aria-modal="true" aria-label="Site navigation">
+      <button className="drawer__close" onClick={onClose} aria-label="Close menu">
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M2 2l10 10M12 2L2 12"/></svg>
+      </button>
       <div className="drawer__brand">
         <Logo size={36}/>
+        <Wordmark size={18}/>
       </div>
       {NAV_ITEMS.map(it => (
-        <button key={it.id} className="drawer__item" onClick={() => onNav(it.id)}>
+        <button
+          key={it.id}
+          className={`drawer__item${page === it.id ? ' is-active' : ''}`}
+          onClick={() => onNav(it.id)}
+          aria-current={page === it.id ? 'page' : undefined}
+        >
           <small>{it.num}</small>{it.label}
         </button>
       ))}
       <div className="drawer__divider"/>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
         <div className="eyebrow eyebrow-teal">Schedule + sign-ups</div>
-        <a href="#" className="btn btn-primary btn-block">Open in Hit Zero app →</a>
+        <a href="#/contact" onClick={(e) => { e.preventDefault(); onNav('contact'); }} className="btn btn-primary btn-block">Book a free trial →</a>
         <div className="dim" style={{ fontSize: 11, lineHeight: 1.5, marginTop: 6 }}>
           Real-time schedules, registration, billing and team rosters all live in the Hit Zero app.
         </div>
+      </div>
+      <div className="drawer__divider"/>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
+        <span className="eyebrow">Theme</span>
+        <ThemeToggle/>
       </div>
     </div>
   );
@@ -152,8 +230,20 @@ function useMediaQuery(query) {
 
 // ─────────── Desktop header ───────────
 function DesktopHeader({ page, go }) {
+  const headerRef = useRef(null);
+  // Add `.is-scrolled` once user has scrolled past hero — for glass effect that "settles in"
+  useEffect(() => {
+    const onScroll = () => {
+      if (!headerRef.current) return;
+      headerRef.current.classList.toggle('is-scrolled', window.scrollY > 8);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="site-header">
+    <header className="site-header" ref={headerRef} role="banner">
       <div className="site-header__inner">
         <button onClick={() => go('home')} className="site-header__brand" aria-label="Magic City Allstars — home">
           <Logo size={36}/>
@@ -162,12 +252,20 @@ function DesktopHeader({ page, go }) {
         </button>
         <nav className="site-header__nav" aria-label="Primary">
           {NAV_ITEMS.map(it => (
-            <button key={it.id} onClick={() => go(it.id)} className={`site-header__link${page === it.id ? ' is-active' : ''}`}>
+            <button
+              key={it.id}
+              onClick={() => go(it.id)}
+              className={`site-header__link${page === it.id ? ' is-active' : ''}`}
+              aria-current={page === it.id ? 'page' : undefined}
+            >
               {it.label}
             </button>
           ))}
         </nav>
-        <a href="#" className="btn btn-primary btn-sm site-header__cta">Book a free trial →</a>
+        <div className="site-header__actions">
+          <ThemeToggle/>
+          <a href="#/contact" onClick={(e) => { e.preventDefault(); go('contact'); }} className="btn btn-primary btn-sm site-header__cta">Book a free trial →</a>
+        </div>
       </div>
     </header>
   );
@@ -210,4 +308,4 @@ function DesktopFooter({ go }) {
   );
 }
 
-Object.assign(window, { Logo, Wordmark, StatusBar, TopNav, Drawer, NAV_ITEMS, Photo, SectionHead, Reveal, useInView, useMediaQuery, DesktopHeader, DesktopFooter });
+Object.assign(window, { Logo, Wordmark, StatusBar, TopNav, Drawer, NAV_ITEMS, Photo, SectionHead, Reveal, useInView, useMediaQuery, DesktopHeader, DesktopFooter, ThemeToggle, useTheme });

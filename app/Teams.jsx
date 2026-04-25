@@ -31,8 +31,9 @@ function TeamsPage({ go }) {
           {TEAMS.map((tm, i) => (
             <button key={tm.name} onClick={() => setActive(i)}
               className="pill" style={{
-                background: i === active ? 'linear-gradient(135deg, var(--teal), var(--pink))' : 'rgba(255,255,255,0.08)',
-                color: i === active ? '#14010A' : '#fff', whiteSpace: 'nowrap', cursor: 'pointer',
+                background: i === active ? 'linear-gradient(135deg, var(--teal), var(--pink))' : 'var(--surface-soft)',
+                color: i === active ? 'var(--text-on-grad)' : 'var(--text)', whiteSpace: 'nowrap', cursor: 'pointer',
+                border: i === active ? 'none' : undefined,
               }}>
               {tm.name} · {tm.level}
             </button>

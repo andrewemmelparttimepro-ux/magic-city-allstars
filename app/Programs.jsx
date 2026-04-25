@@ -43,7 +43,7 @@ function ProgramsPage({ go }) {
       <section className="sec-tight" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
         <div className="row gap-2 no-scrollbar" style={{ overflowX: 'auto', paddingBottom: 4 }}>
           {['All', 'All-Star', 'Tumbling', 'Tinies', 'Rec', 'Privates'].map((t, i) => (
-            <button key={t} className="pill" style={{ background: i === 0 ? 'linear-gradient(135deg, var(--teal), var(--pink))' : undefined, color: i === 0 ? '#14010A' : '#fff', whiteSpace: 'nowrap' }}>
+            <button key={t} className="pill" style={{ background: i === 0 ? 'linear-gradient(135deg, var(--teal), var(--pink))' : undefined, color: i === 0 ? 'var(--text-on-grad)' : 'var(--text)', whiteSpace: 'nowrap', border: i === 0 ? 'none' : undefined, cursor: 'pointer' }}>
               {t}
             </button>
           ))}

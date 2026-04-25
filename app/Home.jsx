@@ -10,7 +10,7 @@ function HomePage({ go }) {
         {/* Hero photo backdrop full-bleed */}
         <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
           <Photo ratio="auto" tone="mix" label="HERO · MID-STUNT" style={{ height: '100%', borderRadius: 0 }}/>
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 20%, rgba(39,207,215,0.45), transparent 55%), radial-gradient(ellipse at 80% 80%, rgba(249,127,172,0.55), transparent 55%), linear-gradient(180deg, transparent 30%, rgba(14,7,16,0.85) 100%)' }}/>
+          <div style={{ position: 'absolute', inset: 0, background: 'var(--hero-overlay)' }}/>
         </div>
 
         <div style={{ position: 'relative', zIndex: 2, paddingTop: 280, color: '#fff' }}>
@@ -24,7 +24,7 @@ function HomePage({ go }) {
             in Minot.
           </h1>
           <p className="dim mt-4" style={{ fontSize: 14, lineHeight: 1.55, maxWidth: 320 }}>
-            Elite all-star teams. Tumbling, prep, rec, and tinies — under one roof. <em className="serif-italic" style={{ color: '#fff' }}>Hit zero</em> mindset, drilled from the first day.
+            Elite all-star teams. Tumbling, prep, rec, and tinies — under one roof. <em className="serif-italic" style={{ color: '#fff' }}>Hit zero</em>{' '}mindset, drilled from the first day.
           </p>
           <div className="col gap-3 mt-6">
             <a href="#" className="btn btn-primary btn-block">Book a free trial class →</a>
@@ -184,7 +184,7 @@ function HitZeroMeter() {
         </div>
       </div>
       <p className="dim mt-6" style={{ fontSize: 13, lineHeight: 1.55 }}>
-        We coach to the score sheet. Every practice opens with synchronized 8-counts and ends with a clean run-through. <em className="serif-italic" style={{ color: '#fff' }}>If it's worth doing, it's worth doing zero.</em>
+        We coach to the score sheet. Every practice opens with synchronized 8-counts and ends with a clean run-through. <em className="serif-italic" style={{ color: 'var(--text)' }}>If it's worth doing, it's worth doing zero.</em>
       </p>
     </section>
   );
@@ -239,7 +239,7 @@ function AppTeaser() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 4 }}>
             {Array.from({length: 25}).map((_, i) => {
               const s = i % 4;
-              const bg = s === 0 ? 'rgba(255,255,255,0.05)' :
+              const bg = s === 0 ? 'var(--surface-soft)' :
                          s === 1 ? 'rgba(255,180,84,0.25)' :
                          s === 2 ? 'rgba(39,207,215,0.3)' :
                          'linear-gradient(135deg, rgba(39,207,215,0.5), rgba(249,127,172,0.5))';
