@@ -418,21 +418,15 @@ body {
   .site__main .sec .display { font-size: clamp(36px, 3.6vw, 56px) !important; }
 
   /* "Five ways to cheer" + similar card stacks → 3-col grid on desktop */
-  .site__main .sec .col.gap-3:has(> .card),
-  .site__main .sec .col.gap-3:has(> button.card) {
+  /* Cards are wrapped in <Reveal> divs, so target the parent that has .card descendants */
+  .site__main .sec .col.gap-3:has(.card) {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    align-items: stretch;
   }
-  .site__main .sec .col.gap-3 > .card,
-  .site__main .sec .col.gap-3 > button.card {
-    display: flex !important;
-    flex-direction: column;
-    align-items: stretch !important;
-    text-align: left;
-    grid-template-columns: none !important;
-    height: 100%;
-  }
+  .site__main .sec .col.gap-3:has(.card) > * { display: block; height: 100%; }
+  .site__main .sec .col.gap-3:has(.card) .card { height: 100%; }
 
   /* HERO — bring CTAs above fold; constrain content width */
   .site__main > div > section:first-child {
