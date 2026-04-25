@@ -475,14 +475,14 @@ button.card:hover { transform: translateY(-2px); border-color: var(--line-strong
   background: none; border: 0; cursor: pointer; padding: 0; color: var(--text);
 }
 .site-header__nav {
-  display: flex; align-items: center; justify-content: center; gap: 4px;
-  flex-wrap: wrap;
+  display: flex; align-items: center; justify-content: center; gap: 2px;
+  flex-wrap: nowrap;
 }
 .site-header__link {
-  background: none; border: 0; color: var(--dim); cursor: pointer;
-  padding: 10px 14px; border-radius: 999px;
+  background: none; border: 1px solid transparent; color: var(--text-dim); cursor: pointer;
+  padding: 9px 12px; border-radius: 999px;
   font-family: var(--sans); font-size: 13px; font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em; white-space: nowrap;
   transition: all 160ms cubic-bezier(.2,.8,.2,1);
 }
 .site-header__link:hover { color: var(--text); background: var(--surface-soft); }
@@ -669,6 +669,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
   transition: top 200ms ease;
 }
 .skip-link:focus { top: 12px; }
+
+/* Hide MINOT pill in brand area below 1200px so nav has room */
+@media (min-width: 960px) and (max-width: 1199px) {
+  .site-header__brand .pill { display: none; }
+}
 
 /* Larger desktop polish */
 @media (min-width: 1280px) {
