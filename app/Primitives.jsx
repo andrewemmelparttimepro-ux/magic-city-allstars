@@ -101,15 +101,20 @@ function ThemeToggle({ className = '' }) {
 }
 
 // ─────────── Drawer (slide-down nav) ───────────
+// Primary nav — kept to 6 for clean fit on desktop (Grok feedback)
 const NAV_ITEMS = [
   { id: 'home',     label: 'Home',         num: '01' },
   { id: 'programs', label: 'Programs',     num: '02' },
   { id: 'teams',    label: 'Teams',        num: '03' },
-  { id: 'facility', label: 'Facility',     num: '04' },
-  { id: 'coaches',  label: 'Coaches',      num: '05' },
-  { id: 'pricing',  label: 'Pricing',      num: '06' },
-  { id: 'contact',  label: 'Contact',      num: '07' },
-  { id: 'faq',      label: 'FAQ',          num: '08' },
+  { id: 'coaches',  label: 'Coaches',      num: '04' },
+  { id: 'pricing',  label: 'Pricing',      num: '05' },
+  { id: 'contact',  label: 'Contact',      num: '06' },
+];
+
+// Secondary — surfaced in footer + drawer, not main nav
+const SECONDARY_NAV = [
+  { id: 'facility', label: 'Facility' },
+  { id: 'faq',      label: 'FAQ' },
 ];
 
 function Drawer({ onClose, onNav, page }) {
@@ -144,6 +149,19 @@ function Drawer({ onClose, onNav, page }) {
           <small>{it.num}</small>{it.label}
         </button>
       ))}
+      <div className="drawer__divider"/>
+      <div style={{ display: 'flex', gap: 18, padding: '6px 0 12px' }}>
+        {SECONDARY_NAV.map(it => (
+          <button
+            key={it.id}
+            onClick={() => onNav(it.id)}
+            className={`drawer__sub${page === it.id ? ' is-active' : ''}`}
+            aria-current={page === it.id ? 'page' : undefined}
+          >
+            {it.label}
+          </button>
+        ))}
+      </div>
       <div className="drawer__divider"/>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
         <div className="eyebrow eyebrow-teal">Schedule + sign-ups</div>
@@ -274,18 +292,23 @@ function DesktopHeader({ page, go }) {
 // ─────────── Desktop footer ───────────
 function DesktopFooter({ go }) {
   return (
-    <footer className="site-footer">
+    <footer className="site-footer" role="contentinfo">
       <div className="site-footer__inner">
         <div className="site-footer__col">
           <Wordmark size={20}/>
           <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55, maxWidth: 320 }}>
             Elite all-star cheer in Minot, ND. Tumbling, prep, rec, and tinies — all under one roof.
           </p>
+          <address style={{ fontStyle: 'normal', marginTop: 18 }}>
+            <div style={{ fontSize: 13, lineHeight: 1.6 }}>2400 SE Burdick<br/>Minot, ND 58701</div>
+            <a href="tel:7015550182" style={{ display: 'block', marginTop: 8, fontSize: 13, color: 'var(--text)', textDecoration: 'none' }}>701-555-0182</a>
+            <a href="mailto:hello@magiccityallstars.com" style={{ display: 'block', fontSize: 13, color: 'var(--text)', textDecoration: 'none' }}>hello@magiccityallstars.com</a>
+          </address>
           <div className="mono dim mt-4" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Minot · ND · est. 2018</div>
         </div>
         <div className="site-footer__col">
           <div className="eyebrow eyebrow-teal mb-3">Visit</div>
-          {NAV_ITEMS.map(it => (
+          {[...NAV_ITEMS, ...SECONDARY_NAV].map(it => (
             <button key={it.id} onClick={() => go(it.id)} className="site-footer__link">{it.label}</button>
           ))}
         </div>
@@ -295,8 +318,16 @@ function DesktopFooter({ go }) {
             Schedules, billing, badges — all in <em className="grad-text">Hit Zero</em>.
           </p>
           <div className="row gap-2 mt-4">
-            <a href="#" className="app-badge"><div><div className="app-badge__top">Download on</div><div className="app-badge__btm">App Store</div></div></a>
-            <a href="#" className="app-badge"><div><div className="app-badge__top">Get it on</div><div className="app-badge__btm">Google Play</div></div></a>
+            <a href="#" className="app-badge" aria-label="Download on the App Store"><div><div className="app-badge__top">Download on</div><div className="app-badge__btm">App Store</div></div></a>
+            <a href="#" className="app-badge" aria-label="Get it on Google Play"><div><div className="app-badge__top">Get it on</div><div className="app-badge__btm">Google Play</div></div></a>
+          </div>
+          <div className="row gap-3 mt-6" style={{ alignItems: 'center' }}>
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="social-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+            </a>
+            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="social-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>
+            </a>
           </div>
         </div>
       </div>
@@ -308,4 +339,4 @@ function DesktopFooter({ go }) {
   );
 }
 
-Object.assign(window, { Logo, Wordmark, StatusBar, TopNav, Drawer, NAV_ITEMS, Photo, SectionHead, Reveal, useInView, useMediaQuery, DesktopHeader, DesktopFooter, ThemeToggle, useTheme });
+Object.assign(window, { Logo, Wordmark, StatusBar, TopNav, Drawer, NAV_ITEMS, SECONDARY_NAV, Photo, SectionHead, Reveal, useInView, useMediaQuery, DesktopHeader, DesktopFooter, ThemeToggle, useTheme });

@@ -205,6 +205,12 @@ body {
 .drawer__item:hover, .drawer__item.is-active { color: var(--teal); }
 [data-theme="light"] .drawer__item:hover, [data-theme="light"] .drawer__item.is-active { color: var(--teal-dim); }
 .drawer__divider { height: 1px; background: var(--line); margin: 14px 0; }
+.drawer__sub {
+  background: none; border: 0; padding: 6px 0;
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  color: var(--text-dim); cursor: pointer; text-align: left;
+}
+.drawer__sub:hover, .drawer__sub.is-active { color: var(--text); }
 
 /* ── Type ───────────────────────────────────────────────────── */
 .display {
@@ -643,6 +649,26 @@ button, a { -webkit-tap-highlight-color: transparent; }
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Social icons ──────────────────────────────────────────── */
+.social-icon {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--surface-soft); color: var(--text);
+  border: 1px solid var(--line); text-decoration: none;
+  transition: all 160ms cubic-bezier(.2,.8,.2,1);
+}
+.social-icon:hover { background: var(--bg-elev-2); border-color: var(--line-strong); transform: translateY(-1px); }
+
+/* ── Skip link (a11y) ──────────────────────────────────────── */
+.skip-link {
+  position: absolute; top: -100px; left: 16px; z-index: 100;
+  background: var(--text); color: var(--bg);
+  padding: 10px 16px; border-radius: 8px;
+  font-weight: 700; font-size: 14px; text-decoration: none;
+  transition: top 200ms ease;
+}
+.skip-link:focus { top: 12px; }
 
 /* Larger desktop polish */
 @media (min-width: 1280px) {

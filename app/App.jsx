@@ -50,8 +50,9 @@ function App() {
   if (isDesktop) {
     return (
       <div className="site site--desktop">
+        <a href="#main" className="skip-link">Skip to content</a>
         <DesktopHeader page={page} go={go}/>
-        <main key={page} className="site__main rise">
+        <main key={page} id="main" className="site__main rise">
           {PAGES[page]}
         </main>
         <DesktopFooter go={go}/>
@@ -61,9 +62,10 @@ function App() {
 
   return (
     <div className="site site--mobile">
+      <a href="#main" className="skip-link">Skip to content</a>
       <TopNav onMenu={() => setDrawerOpen(true)} page={page} onHome={() => go('home')}/>
-      {drawerOpen && <Drawer onClose={() => setDrawerOpen(false)} onNav={go}/>}
-      <main key={page} className="rise">
+      {drawerOpen && <Drawer onClose={() => setDrawerOpen(false)} onNav={go} page={page}/>}
+      <main key={page} id="main" className="rise">
         {PAGES[page]}
       </main>
     </div>
