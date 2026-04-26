@@ -184,17 +184,16 @@ function HitZeroMeter() {
 // ─────────── Editorial spread ───────────
 function EditorialSpread() {
   return (
-    <section className="sec" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)' }}>
+    <section className="sec editorial-spread" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)' }}>
       <div className="eyebrow eyebrow-teal mb-4">03 · A SEASON HERE</div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        <Photo ratio="3/4" tone="pink" label="AUG · TRYOUTS"/>
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-          <div className="display" style={{ fontSize: 28, lineHeight: 0.95 }}>From <em className="grad-text">scared</em> first cartwheel</div>
+      <div className="editorial-spread__grid">
+        <Photo ratio="3/4" tone="pink" label="AUG · TRYOUTS" style={{ gridArea: 'pic1' }}/>
+        <div style={{ gridArea: 'headline', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div className="display" style={{ fontSize: 'clamp(30px, 8vw, 44px)', lineHeight: 1.0 }}>
+            From <em className="grad-text">scared</em> first cartwheel to <em className="serif-italic pink" style={{ fontWeight: 800 }}>nationals</em>.
+          </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-          <div className="display-strong" style={{ fontSize: 28, lineHeight: 0.95 }}>to <em className="serif-italic pink" style={{ fontWeight: 800 }}>nationals</em>.</div>
-        </div>
-        <Photo ratio="3/4" tone="teal" label="APR · SUMMIT"/>
+        <Photo ratio="3/4" tone="teal" label="APR · SUMMIT" style={{ gridArea: 'pic2' }}/>
       </div>
       <div className="hairline mt-6 mb-4"/>
       <div className="row gap-4">

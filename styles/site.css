@@ -400,6 +400,30 @@ button.card:hover { transform: translateY(-2px); border-color: var(--line-strong
 .faq-a { font-size: 14px; line-height: 1.55; color: var(--dim); margin-top: 10px; }
 .faq-toggle { color: var(--teal); font-family: var(--mono); font-size: 18px; }
 
+/* ── Editorial spread (A season here) ──────────────────────── */
+.editorial-spread__grid {
+  display: grid;
+  gap: 16px;
+  /* Mobile: stack cleanly — pic, headline, pic */
+  grid-template-areas:
+    "pic1"
+    "headline"
+    "pic2";
+  grid-template-columns: 1fr;
+}
+.editorial-spread__grid > .ph { width: 100%; }
+
+@media (min-width: 960px) {
+  /* Desktop: side-by-side, single row, headline centered */
+  .editorial-spread__grid {
+    grid-template-areas: "pic1 headline pic2";
+    grid-template-columns: 1fr 1.3fr 1fr;
+    align-items: stretch;
+    gap: 28px;
+  }
+  .editorial-spread__grid > .ph { max-height: 420px !important; aspect-ratio: 4/5 !important; }
+}
+
 /* ── Marquee ───────────────────────────────────────────────── */
 .marquee {
   overflow: hidden;
