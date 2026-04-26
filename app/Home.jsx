@@ -35,7 +35,7 @@ function HomePage({ go }) {
 
       {/* Trust bar — Minot's only 100% cheer-focused gym */}
       <section className="sec-tight" style={{ borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)', textAlign: 'center', padding: '28px 22px' }}>
-        <div className="eyebrow eyebrow-pink mb-3">ONLY IN MINOT</div>
+        <div className="eyebrow eyebrow-pink mb-3">CHEER IS LIFE</div>
         <div className="display" style={{ fontSize: 26, lineHeight: 1.1, maxWidth: 720, margin: '0 auto' }}>
           The <em className="grad-text">only 100% cheer-focused</em> gym in Minot.
         </div>
