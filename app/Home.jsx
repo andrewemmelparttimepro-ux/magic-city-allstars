@@ -33,24 +33,15 @@ function HomePage({ go }) {
         </div>
       </section>
 
-      {/* Trust bar */}
-      <section className="sec-tight" style={{ borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
-        <div className="row between center gap-3" style={{ flexWrap: 'wrap' }}>
-          <div className="col" style={{ minWidth: 0 }}>
-            <div className="display-strong grad-text" style={{ fontSize: 32, lineHeight: 1 }}>87%</div>
-            <div className="eyebrow mt-1">Teams hit zero last season</div>
-          </div>
-          <div style={{ width: 1, height: 36, background: 'var(--line)' }}/>
-          <div className="col">
-            <div className="display-strong" style={{ fontSize: 32, lineHeight: 1 }}>14</div>
-            <div className="eyebrow mt-1">Competitive teams · 2026</div>
-          </div>
-          <div style={{ width: 1, height: 36, background: 'var(--line)' }}/>
-          <div className="col">
-            <div className="display-strong pink" style={{ fontSize: 32, lineHeight: 1 }}>1</div>
-            <div className="eyebrow mt-1">Gym in Minot</div>
-          </div>
+      {/* Trust bar — Minot's only 100% cheer-focused gym */}
+      <section className="sec-tight" style={{ borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)', textAlign: 'center', padding: '28px 22px' }}>
+        <div className="eyebrow eyebrow-pink mb-3">ONLY IN MINOT</div>
+        <div className="display" style={{ fontSize: 26, lineHeight: 1.1, maxWidth: 720, margin: '0 auto' }}>
+          The <em className="grad-text">only 100% cheer-focused</em> gym in Minot.
         </div>
+        <p className="dim mt-3" style={{ fontSize: 14, lineHeight: 1.55, maxWidth: 560, margin: '12px auto 0' }}>
+          Not a side program. Not "we also do cheer." Every coach, every hour, every square foot of mat is built around one sport — done right.
+        </p>
       </section>
 
       {/* Hit Zero meter — the signature interactive moment */}
