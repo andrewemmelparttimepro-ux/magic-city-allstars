@@ -41,7 +41,7 @@ function FAQPage() {
 }
 
 // ─────────── CONTACT ───────────
-const CONTACT_EMAIL = 'hello@magiccityallstars.com';
+const CONTACT_EMAIL = 'hello@magiccityathletics.com';
 const CONTACT_PHONE = '701-555-0182';
 const CONTACT_ADDRESS = '2400 SE Burdick, Minot, ND 58701';
 
@@ -95,7 +95,7 @@ function ContactPage() {
       {/* "Map" — stylized, theme-aware */}
       <section className="sec-tight" aria-label="Location map illustration">
         <div style={{ position: 'relative', borderRadius: 18, overflow: 'hidden', aspectRatio: '4/3', background: 'linear-gradient(135deg, var(--bg-elev-2) 0%, var(--bg-elev-3) 100%)', color: 'var(--text)', border: '1px solid var(--line)' }}>
-          <svg viewBox="0 0 400 300" role="img" aria-label="Stylized map of Minot showing Magic City Allstars location" style={{ width: '100%', height: '100%', display: 'block' }}>
+          <svg viewBox="0 0 400 300" role="img" aria-label="Stylized map of Minot showing Magic City Athletics location" style={{ width: '100%', height: '100%', display: 'block' }}>
             <defs>
               <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
                 <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" strokeOpacity="0.08" strokeWidth="0.5"/>
@@ -113,7 +113,7 @@ function ContactPage() {
               <circle r="20" fill="rgba(249,127,172,0.45)"/>
               <circle r="8" fill="#F97FAC" stroke="currentColor" strokeWidth="2"/>
             </g>
-            <text x="200" y="115" fill="currentColor" textAnchor="middle" fontSize="12" fontFamily="Fraunces" fontStyle="italic" fontWeight="800">Magic City Allstars</text>
+            <text x="200" y="115" fill="currentColor" textAnchor="middle" fontSize="12" fontFamily="Fraunces" fontStyle="italic" fontWeight="800">Magic City Athletics</text>
             <text x="200" y="195" fill="currentColor" fillOpacity="0.55" textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="2">2400 SE BURDICK · MINOT</text>
           </svg>
         </div>

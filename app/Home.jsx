@@ -16,7 +16,7 @@ function HomePage({ go }) {
         <div style={{ position: 'relative', zIndex: 2, paddingTop: 280, color: '#fff' }}>
           <div className="eyebrow eyebrow-teal mb-3" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--teal)', boxShadow: '0 0 10px var(--teal)' }}/>
-            MAGIC CITY ALLSTARS · MINOT, ND
+            MAGIC CITY ATHLETICS · MINOT, ND
           </div>
           <h1 className="display" style={{ fontSize: 56, margin: 0 }}>
             <span className="display-strong" style={{ fontStyle: 'normal' }}>THE</span><br/>

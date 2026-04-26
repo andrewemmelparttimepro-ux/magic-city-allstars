@@ -5,13 +5,13 @@ const { useState, useEffect, useRef, useMemo } = React;
 
 // ─────────── Logo + wordmark ───────────
 function Logo({ size = 28 }) {
-  return <img src="assets/mca-logo.png" alt="Magic City Allstars" style={{ height: size, width: 'auto', display: 'block' }} />;
+  return <img src="assets/mca-logo.png" alt="Magic City Athletics" style={{ height: size, width: 'auto', display: 'block' }} />;
 }
 
 function Wordmark({ size = 18 }) {
   return (
     <span className="serif-italic" style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontWeight: 800, letterSpacing: '-0.03em', fontSize: size, lineHeight: 1 }}>
-      Magic City <span className="grad-text">Allstars</span>
+      Magic City <span className="grad-text">Athletics</span>
     </span>
   );
 }
@@ -34,7 +34,7 @@ function StatusBar() {
 function TopNav({ onMenu, page, onHome }) {
   return (
     <header className="topnav" role="banner">
-      <button onClick={onHome} aria-label="Magic City Allstars — home" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, color: 'var(--text)' }}>
+      <button onClick={onHome} aria-label="Magic City Athletics — home" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, color: 'var(--text)' }}>
         <Logo size={34}/>
         <Wordmark size={16}/>
       </button>
@@ -263,7 +263,7 @@ function DesktopHeader({ page, go }) {
   return (
     <header className="site-header" ref={headerRef} role="banner">
       <div className="site-header__inner">
-        <button onClick={() => go('home')} className="site-header__brand" aria-label="Magic City Allstars — home">
+        <button onClick={() => go('home')} className="site-header__brand" aria-label="Magic City Athletics — home">
           <Logo size={36}/>
           <Wordmark size={20}/>
           <span className="pill pill-teal" style={{ marginLeft: 8 }}>◉ MINOT, ND</span>
@@ -302,7 +302,7 @@ function DesktopFooter({ go }) {
           <address style={{ fontStyle: 'normal', marginTop: 18 }}>
             <div style={{ fontSize: 13, lineHeight: 1.6 }}>2400 SE Burdick<br/>Minot, ND 58701</div>
             <a href="tel:7015550182" style={{ display: 'block', marginTop: 8, fontSize: 13, color: 'var(--text)', textDecoration: 'none' }}>701-555-0182</a>
-            <a href="mailto:hello@magiccityallstars.com" style={{ display: 'block', fontSize: 13, color: 'var(--text)', textDecoration: 'none' }}>hello@magiccityallstars.com</a>
+            <a href="mailto:hello@magiccityathletics.com" style={{ display: 'block', fontSize: 13, color: 'var(--text)', textDecoration: 'none' }}>hello@magiccityathletics.com</a>
           </address>
           <div className="mono dim mt-4" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Minot · ND · est. 2018</div>
         </div>
@@ -332,7 +332,7 @@ function DesktopFooter({ go }) {
         </div>
       </div>
       <div className="site-footer__legal">
-        <span className="mono dim" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>© 2026 Magic City Allstars</span>
+        <span className="mono dim" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>© 2026 Magic City Athletics</span>
         <span className="mono dim" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Built with <em className="serif-italic teal">Hit Zero</em></span>
       </div>
     </footer>

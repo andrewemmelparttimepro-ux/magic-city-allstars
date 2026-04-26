@@ -32,8 +32,8 @@ function App() {
       history.replaceState(null, '', target);
     }
     document.title = page === 'home'
-      ? 'Magic City Allstars — Minot, ND'
-      : `${page[0].toUpperCase()}${page.slice(1)} · Magic City Allstars`;
+      ? 'Magic City Athletics — Minot, ND'
+      : `${page[0].toUpperCase()}${page.slice(1)} · Magic City Athletics`;
   }, [page]);
 
   const PAGES = {
