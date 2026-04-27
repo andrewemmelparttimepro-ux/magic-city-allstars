@@ -63,6 +63,32 @@
     return text ? JSON.parse(text) : null;
   }
 
+  // Edge-function call for public intake (lead + registration). Anon-direct
+  // PostgREST inserts are blocked at the Supabase project level, so we go
+  // through public-intake-v1 which uses service role + server-side validation.
+  async function intake(payload) {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/public-intake-v1`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+    let data = null;
+    try { data = await res.json(); } catch (_) {}
+    if (!res.ok || !data?.ok) {
+      const msg = data?.message || `intake failed (${res.status})`;
+      const err = new Error(msg);
+      err.status = res.status;
+      err.code = data?.code;
+      err.detail = data;
+      throw err;
+    }
+    return data;
+  }
+
   async function getProgram(slug) {
     const s = slug || MCA_SLUG;
     const rows = await rest(`/program_public_directory?slug=eq.${encodeURIComponent(s)}&select=*&limit=1`);
@@ -85,8 +111,8 @@
     const ctx = captureSourceContext();
     const body = Object.assign(
       {
-        program_id: MCA_PROGRAM_ID,
-        stage: 'new',
+        kind: 'lead',
+        program_slug: MCA_SLUG,
         source: payload.source || 'public_website',
         referrer_url: ctx.referrer_url,
         utm_source: ctx.utm_source,
@@ -105,29 +131,19 @@
         ),
       }
     );
-    const rows = await rest('/leads', {
-      method: 'POST',
-      headers: { Prefer: 'return=representation' },
-      body: JSON.stringify(body),
-    });
-    return Array.isArray(rows) ? rows[0] : rows;
+    return intake(body);
   }
 
   async function submitRegistration(payload) {
     const body = Object.assign(
       {
-        program_id: MCA_PROGRAM_ID,
-        status: 'pending',
+        kind: 'registration',
+        program_slug: MCA_SLUG,
         source: payload.source || 'public_website',
       },
       payload
     );
-    const rows = await rest('/registrations', {
-      method: 'POST',
-      headers: { Prefer: 'return=representation' },
-      body: JSON.stringify(body),
-    });
-    return Array.isArray(rows) ? rows[0] : rows;
+    return intake(body);
   }
 
   // Run UTM capture on initial load so the first inserted lead carries it
