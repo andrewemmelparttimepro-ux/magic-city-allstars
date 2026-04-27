@@ -138,6 +138,35 @@ function PricingPage({ go }) {
         </p>
       </section>
 
+      {/* Open Gym — FREE */}
+      <section className="sec">
+        <article className="card" style={{ padding: 28, background: 'linear-gradient(160deg, rgba(39,207,215,0.12), rgba(249,127,172,0.12))', border: '1px solid var(--line)', position: 'relative', overflow: 'hidden' }}>
+          <div className="row between center" style={{ flexWrap: 'wrap', gap: 8 }}>
+            <div className="eyebrow eyebrow-teal">Before you spend a dollar</div>
+            <span className="pill pill-grad">No sign-up required</span>
+          </div>
+          <div className="row center" style={{ alignItems: 'baseline', gap: 14, marginTop: 14, flexWrap: 'wrap' }}>
+            <div className="display" style={{ fontSize: 'clamp(34px, 8vw, 48px)', lineHeight: 1, fontStyle: 'italic' }}>Open Gym</div>
+            <div className="display-strong grad-text" style={{ fontSize: 'clamp(48px, 12vw, 72px)', lineHeight: 0.9, letterSpacing: '-0.04em' }}>FREE</div>
+          </div>
+          <p className="mt-4" style={{ fontSize: 15, lineHeight: 1.55 }}>
+            Cheer can feel intimidating from the outside — the music, the stunts, the gear, the lingo. We want to take that wall down.
+          </p>
+          <p className="dim mt-3" style={{ fontSize: 14, lineHeight: 1.6 }}>
+            Walk in, meet the coaches, and <em className="serif-italic" style={{ color: 'var(--text)' }}>get a feel for the mats</em> — no commitment, no registration, no pressure. Just see if it's for you.
+          </p>
+          <div className="hairline mt-6 mb-4"/>
+          <div className="col gap-2" style={{ fontSize: 13, lineHeight: 1.5 }}>
+            <div className="row gap-3 center"><span className="grad-text" style={{ fontFamily: 'var(--mono)' }}>◈</span><span>All ages welcome — bring the kid, bring yourself</span></div>
+            <div className="row gap-3 center"><span className="grad-text" style={{ fontFamily: 'var(--mono)' }}>◈</span><span>No experience needed — first cartwheel counts</span></div>
+            <div className="row gap-3 center"><span className="grad-text" style={{ fontFamily: 'var(--mono)' }}>◈</span><span>Coaches on the floor to answer anything</span></div>
+          </div>
+          <div className="col gap-3 mt-6">
+            <button onClick={() => go('contact')} className="btn btn-primary btn-block">Find the next open gym →</button>
+          </div>
+        </article>
+      </section>
+
       <section className="sec">
         <div className="col gap-6">
           {PRICE_GROUPS.map(g => (
