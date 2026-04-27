@@ -2,26 +2,32 @@
 
 const PROGRAMS = [
   { code: 'AS', name: 'All-Star', sub: 'Tiny · Mini · Youth · Junior · Senior', tone: 'pink',
+    src: 'assets/photos/athlete-1.jpeg',
     body: 'Year-round competitive teams across every age group. Prep and Elite levels based on skill — we place every athlete where they\'ll grow fastest.',
     bullets: ['Tiny / Mini / Youth / Junior / Senior', 'Prep + Elite divisions', 'Full comp season + ASWC in April'],
     cta: 'Tryout info' },
   { code: 'PC', name: 'Performance Cheer', sub: '6-month program · Tiny → Senior', tone: 'mix',
+    src: 'assets/photos/athlete-2.jpeg',
     body: 'A taste of the All-Star experience without the lengthy comp schedule. One competition performance at our closest comp — all the glitz and glam, none of the travel marathon.',
     bullets: ['6-month season', 'One competition performance', 'Tiny / Mini / Youth / Junior / Senior'],
     cta: 'Sign up for Performance Cheer' },
   { code: 'RC', name: 'Rec Cheer', sub: 'With pom-poms · non-competitive', tone: 'teal',
+    src: 'assets/photos/athlete-3.jpeg',
     body: 'Cheer with pom-poms. No travel, no comps — just the fun, the friends, and the skills.',
     bullets: ['Non-competitive', 'No travel required', 'Rolling enrollment'],
     cta: 'Drop in this week' },
   { code: 'TU', name: 'Tumbling', sub: 'Ages 5+ · beginner to advanced', tone: 'teal',
+    src: 'assets/photos/athlete-4.jpeg',
     body: 'From forward rolls to standing fulls. Beginner, intermediate, and advanced classes — work with the same coaches our All-Star teams have.',
     bullets: ['Tiny, Beginner, Intermediate', '6-week sessions', 'Ages 5+'],
     cta: 'See class times' },
   { code: 'ST', name: 'Stunting', sub: 'Ages 5+ · group fundamentals', tone: 'pink',
+    src: 'assets/photos/athlete-5.jpeg',
     body: 'Group stunting taught by certified coaches. Build the bases, flyers, and back-spots that make every routine click.',
     bullets: ['Stunt clinic + standing classes', 'Ages 5+', 'All experience levels'],
     cta: 'Book a stunt clinic' },
   { code: 'PV', name: 'Privates', sub: 'One-on-one · all ages', tone: 'mix',
+    src: 'assets/photos/athlete-6.jpeg',
     body: 'Working a specific skill? Book a private with a coach who specializes in it. Tumbling, jumps, stunts, flexibility, routine work.',
     bullets: ['One-on-one', 'Pick your coach', 'Any skill, any age'],
     cta: 'Book a private' },
@@ -55,7 +61,7 @@ function ProgramsPage({ go }) {
           {PROGRAMS.map((p, i) => (
             <Reveal key={p.code} delay={i * 50}>
               <article className="card" style={{ padding: 0, overflow: 'hidden' }}>
-                <Photo ratio="16/9" tone={p.tone} label={`${p.code} · ${p.name.toUpperCase()}`} style={{ borderRadius: 0 }}/>
+                <Photo ratio="16/9" tone={p.tone} src={p.src} alt={`${p.name} at Magic City Athletics`} focal="50% 30%" label={`${p.code} · ${p.name.toUpperCase()}`} style={{ borderRadius: 0 }}/>
                 <div style={{ padding: 20 }}>
                   <div className="row between center mb-2">
                     <div className="eyebrow">{p.sub}</div>

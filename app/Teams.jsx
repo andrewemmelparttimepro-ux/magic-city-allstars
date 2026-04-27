@@ -2,12 +2,12 @@
 const { useState: useS_t } = React;
 
 const TEAMS = [
-  { name: 'Sparkle', level: 'L1', age: '5–8',  size: 18, tone: 'pink', record: '4 zeros · 2 firsts' },
-  { name: 'Frost',   level: 'L1', age: '8–11', size: 22, tone: 'teal', record: '3 zeros · 1 first' },
-  { name: 'Aurora',  level: 'L3', age: '11–14',size: 24, tone: 'mix',  record: '2 zeros · Summit bid' },
-  { name: 'Onyx',    level: 'L4', age: '12–16',size: 20, tone: 'pink', record: '5 zeros · 2 firsts' },
-  { name: 'Steel',   level: 'L5', age: '14–18',size: 22, tone: 'teal', record: '6 zeros · Worlds bid' },
-  { name: 'Glacier', level: 'Sr', age: '15–18',size: 18, tone: 'mix',  record: '4 zeros · 3 firsts' },
+  { name: 'Sparkle', level: 'L1', age: '5–8',  size: 18, tone: 'pink', src: 'assets/photos/athlete-1.jpeg', record: '4 zeros · 2 firsts' },
+  { name: 'Frost',   level: 'L1', age: '8–11', size: 22, tone: 'teal', src: 'assets/photos/athlete-2.jpeg', record: '3 zeros · 1 first' },
+  { name: 'Aurora',  level: 'L3', age: '11–14',size: 24, tone: 'mix',  src: 'assets/photos/athlete-3.jpeg', record: '2 zeros · Summit bid' },
+  { name: 'Onyx',    level: 'L4', age: '12–16',size: 20, tone: 'pink', src: 'assets/photos/athlete-4.jpeg', record: '5 zeros · 2 firsts' },
+  { name: 'Steel',   level: 'L5', age: '14–18',size: 22, tone: 'teal', src: 'assets/photos/athlete-5.jpeg', record: '6 zeros · Worlds bid' },
+  { name: 'Glacier', level: 'Sr', age: '15–18',size: 18, tone: 'mix',  src: 'assets/photos/athlete-6.jpeg', record: '4 zeros · 3 firsts' },
 ];
 
 function TeamsPage({ go }) {
@@ -42,8 +42,8 @@ function TeamsPage({ go }) {
       </section>
 
       <section className="sec">
-        <Photo ratio="4/5" tone={t.tone} label={`${t.name.toUpperCase()} · ${t.level} · ${t.age}`}>
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 18, zIndex: 3 }}>
+        <Photo ratio="4/5" tone={t.tone} src={t.src} alt={`${t.name} team at Magic City Athletics`} focal="50% 30%" overlay label={`${t.name.toUpperCase()} · ${t.level} · ${t.age}`}>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 18, zIndex: 3, color: '#fff' }}>
             <div className="row between">
               <span className="pill pill-grad">{t.level}</span>
               <span className="pill" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)' }}>{t.size} ATHLETES</span>
@@ -69,7 +69,7 @@ function TeamsPage({ go }) {
         <div className="col gap-2 mt-6">
           {TEAMS.map(tm => (
             <div key={tm.name} className="card" style={{ padding: 14, display: 'grid', gridTemplateColumns: '40px 1fr auto', gap: 14, alignItems: 'center' }}>
-              <Photo ratio="1/1" tone={tm.tone} label={tm.level} style={{ borderRadius: 10 }}/>
+              <Photo ratio="1/1" tone={tm.tone} src={tm.src} alt={`${tm.name} team`} label={tm.level} style={{ borderRadius: 10 }}/>
               <div>
                 <div style={{ fontWeight: 700, fontSize: 14 }}>{tm.name}</div>
                 <div className="eyebrow mt-1">{tm.record}</div>
@@ -111,7 +111,7 @@ function FacilityPage() {
       </section>
 
       <section className="sec-tight">
-        <Photo ratio="16/9" tone="dark" label="MAIN FLOOR · SPRING"/>
+        <Photo ratio="16/9" tone="dark" src="assets/photos/team-group-2.jpeg" alt="Magic City Athletics — owners and coaches on the floor" focal="50% 35%" label="MAIN FLOOR · SPRING"/>
       </section>
 
       <section className="sec">

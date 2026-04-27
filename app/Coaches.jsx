@@ -2,18 +2,22 @@
 const { useState: useS_p } = React;
 
 const COACHES = [
-  { name: 'Kara Lindstrom', role: 'Head Coach · Owner', tone: 'pink', years: 14,
-    bio: 'Two-time USASF Worlds athlete. Built MCA from a 4-team roster in 2018.',
-    quote: 'My job is to make zero feel boring.' },
-  { name: 'Dre Whitfield',  role: 'Tumbling Director', tone: 'teal', years: 9,
-    bio: 'Trained 40+ athletes to standing fulls. Specialty: kids who think they "can\'t."',
-    quote: 'Tumbling is just patience with momentum.' },
-  { name: 'Sam Reyes',      role: 'L4/L5 Choreographer', tone: 'mix', years: 11,
-    bio: 'Routines hit zero in 8 of 11 outings last season.',
+  { name: 'Carissa Todd', role: 'Owner', tone: 'pink',
+    src: 'assets/photos/coach-carissa-todd.jpeg', focal: '50% 25%',
+    bio: 'Co-founder of Magic City Athletics. Builder of the family-first culture that runs through every team in the gym.',
+    quote: 'Bring out the MAGIC in YOU.' },
+  { name: 'Melissa Rauser', role: 'Owner', tone: 'teal',
+    src: 'assets/photos/coach-melissa-rauser.jpeg', focal: '50% 25%',
+    bio: 'Co-founder of Magic City Athletics. Sets the standard for safe, uplifting training across every level.',
+    quote: 'More than a gym — it\'s a cheer family.' },
+  { name: 'Brynn Franklin', role: 'Coach', tone: 'mix',
+    src: 'assets/photos/coach-brynn-franklin.jpeg', focal: '50% 25%',
+    bio: 'On the floor with our athletes — choreography, technique, and the work that turns a routine into a zero.',
     quote: 'Clean is louder than hard.' },
-  { name: 'Mia Andersen',   role: 'Tinies Lead', tone: 'pink', years: 6,
-    bio: 'The reason most of our all-star athletes started at 4.',
-    quote: 'If a 4-year-old isn\'t laughing, I\'m doing it wrong.' },
+  { name: 'Carlie Wilson', role: 'Coach', tone: 'pink',
+    src: 'assets/photos/coach-carlie-wilson.jpeg', focal: '50% 25%',
+    bio: 'Coaches the fundamentals that scale — tumbling, stunting, and the reps that build real confidence.',
+    quote: 'Confidence is built one rep at a time.' },
 ];
 
 function CoachesPage() {
@@ -31,9 +35,9 @@ function CoachesPage() {
           {COACHES.map((c, i) => (
             <Reveal key={c.name} delay={i * 60}>
               <article className="card" style={{ padding: 0, overflow: 'hidden' }}>
-                <Photo ratio="3/4" tone={c.tone} label={c.name.toUpperCase()}>
-                  <div style={{ position: 'absolute', inset: 0, padding: 18, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', zIndex: 3 }}>
-                    <div className="display-strong" style={{ fontSize: 30, lineHeight: 0.95 }}>{c.name}</div>
+                <Photo ratio="3/4" tone={c.tone} src={c.src} alt={`${c.name}, ${c.role}`} focal={c.focal} overlay label={c.name.toUpperCase()}>
+                  <div style={{ position: 'absolute', inset: 0, padding: 18, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', zIndex: 3, color: '#fff' }}>
+                    <div className="display-strong" style={{ fontSize: 30, lineHeight: 0.95, color: '#fff' }}>{c.name}</div>
                     <div className="eyebrow mt-2" style={{ color: '#fff' }}>{c.role}</div>
                   </div>
                 </Photo>
@@ -44,8 +48,8 @@ function CoachesPage() {
                     <span className="grad-text">"</span>{c.quote}<span className="grad-text">"</span>
                   </div>
                   <div className="row between mt-4">
-                    <span className="eyebrow">{c.years} yrs coaching</span>
-                    <span className="pill pill-teal">USASF</span>
+                    <span className="eyebrow">Magic City Athletics</span>
+                    <span className={`pill ${c.tone === 'teal' ? 'pill-teal' : 'pill-pink'}`}>{c.role.split(' ')[0]}</span>
                   </div>
                 </div>
               </article>

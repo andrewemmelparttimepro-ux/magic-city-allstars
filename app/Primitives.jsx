@@ -179,14 +179,31 @@ function Drawer({ onClose, onNav, page }) {
   );
 }
 
-// ─────────── Photo placeholder w/ visible label ───────────
-function Photo({ ratio = '4/5', label = 'PHOTO', tone = 'mix', children, style = {} }) {
+// ─────────── Photo (real image when src provided, placeholder otherwise) ───────────
+function Photo({ ratio = '4/5', label = 'PHOTO', tone = 'mix', src, alt, focal = '50% 50%', overlay = false, children, style = {} }) {
   const tones = {
     mix:  'linear-gradient(135deg, rgba(39,207,215,0.55) 0%, rgba(249,127,172,0.7) 100%)',
     teal: 'linear-gradient(135deg, rgba(39,207,215,0.7) 0%, rgba(26,143,148,0.8) 100%)',
     pink: 'linear-gradient(135deg, rgba(249,127,172,0.85) 0%, rgba(184,86,122,0.85) 100%)',
     dark: 'linear-gradient(135deg, rgba(38,22,34,1) 0%, rgba(184,86,122,0.5) 100%)',
   };
+  if (src) {
+    return (
+      <div className="ph ph--photo" style={{ aspectRatio: ratio, position: 'relative', overflow: 'hidden', ...style }}>
+        <img
+          src={src}
+          alt={alt || label}
+          loading="lazy"
+          decoding="async"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: focal, display: 'block' }}
+        />
+        {overlay && (
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,7,16,0.05) 0%, rgba(14,7,16,0.65) 100%)', zIndex: 1 }}/>
+        )}
+        {children}
+      </div>
+    );
+  }
   return (
     <div className="ph" style={{ aspectRatio: ratio, background: tones[tone] || tones.mix, ...style }}>
       <span className="ph__label">{label}</span>

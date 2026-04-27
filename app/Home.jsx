@@ -9,7 +9,7 @@ function HomePage({ go }) {
       <section style={{ position: 'relative', minHeight: 620, padding: '20px 22px 36px', overflow: 'hidden' }}>
         {/* Hero photo backdrop full-bleed */}
         <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-          <Photo ratio="auto" tone="mix" label="HERO · MID-STUNT" style={{ height: '100%', borderRadius: 0 }}/>
+          <Photo ratio="auto" tone="mix" src="assets/photos/team-group-1.jpeg" alt="Magic City Athletics — owners and coaches" focal="50% 30%" label="HERO" style={{ height: '100%', borderRadius: 0 }}/>
           <div style={{ position: 'absolute', inset: 0, background: 'var(--hero-overlay)' }}/>
         </div>
 
@@ -54,16 +54,16 @@ function HomePage({ go }) {
         </Reveal>
         <div className="col gap-3">
           {[
-            { code: 'AS', name: 'All-Star', sub: 'Tiny → Senior · Prep + Elite', tone: 'pink', body: 'Competitive teams across every age group. Prep and Elite levels by skill.' },
-            { code: 'PC', name: 'Performance Cheer', sub: '6-month program', tone: 'mix', body: 'A taste of the All-Star experience without the long comp schedule. One competition, all the glitz.' },
-            { code: 'RC', name: 'Rec Cheer', sub: 'With pom-poms', tone: 'teal', body: 'Non-competitive cheer — fun, friends, and pom-poms.' },
-            { code: 'TU', name: 'Tumbling', sub: 'Ages 5+', tone: 'teal', body: 'From forward rolls to standing fulls. Beginner to advanced classes.' },
-            { code: 'ST', name: 'Stunting', sub: 'Ages 5+', tone: 'pink', body: 'Group stunting fundamentals taught by certified coaches.' },
-            { code: 'PV', name: 'Privates', sub: 'One-on-one', tone: 'mix', body: 'Private lessons for tumbling, stunting, or routine work.' },
+            { code: 'AS', name: 'All-Star', sub: 'Tiny → Senior · Prep + Elite', tone: 'pink', src: 'assets/photos/athlete-1.jpeg', body: 'Competitive teams across every age group. Prep and Elite levels by skill.' },
+            { code: 'PC', name: 'Performance Cheer', sub: '6-month program', tone: 'mix', src: 'assets/photos/athlete-2.jpeg', body: 'A taste of the All-Star experience without the long comp schedule. One competition, all the glitz.' },
+            { code: 'RC', name: 'Rec Cheer', sub: 'With pom-poms', tone: 'teal', src: 'assets/photos/athlete-3.jpeg', body: 'Non-competitive cheer — fun, friends, and pom-poms.' },
+            { code: 'TU', name: 'Tumbling', sub: 'Ages 5+', tone: 'teal', src: 'assets/photos/athlete-4.jpeg', body: 'From forward rolls to standing fulls. Beginner to advanced classes.' },
+            { code: 'ST', name: 'Stunting', sub: 'Ages 5+', tone: 'pink', src: 'assets/photos/athlete-5.jpeg', body: 'Group stunting fundamentals taught by certified coaches.' },
+            { code: 'PV', name: 'Privates', sub: 'One-on-one', tone: 'mix', src: 'assets/photos/athlete-6.jpeg', body: 'Private lessons for tumbling, stunting, or routine work.' },
           ].map((p, i) => (
             <Reveal key={p.code} delay={i * 60}>
               <button onClick={() => go('programs')} className="card" style={{ textAlign: 'left', cursor: 'pointer', border: 0, background: 'var(--ink-2)', width: '100%', display: 'grid', gridTemplateColumns: '64px 1fr auto', gap: 16, alignItems: 'center', padding: 16 }}>
-                <Photo ratio="1/1" tone={p.tone} label={p.code} style={{ borderRadius: 14 }}/>
+                <Photo ratio="1/1" tone={p.tone} src={p.src} alt={`${p.name} at Magic City Athletics`} label={p.code} style={{ borderRadius: 14 }}/>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 16 }}>{p.name}</div>
                   <div className="eyebrow mt-1">{p.sub}</div>
@@ -175,13 +175,13 @@ function EditorialSpread() {
     <section className="sec editorial-spread" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)' }}>
       <div className="eyebrow eyebrow-teal mb-4">03 · A SEASON HERE</div>
       <div className="editorial-spread__grid">
-        <Photo ratio="3/4" tone="pink" label="AUG · MAKING THE TEAM" style={{ gridArea: 'pic1' }}/>
+        <Photo ratio="3/4" tone="pink" src="assets/photos/athlete-2.jpeg" alt="Making the team — August" focal="50% 30%" label="AUG · MAKING THE TEAM" style={{ gridArea: 'pic1' }}/>
         <div style={{ gridArea: 'headline', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <div className="display" style={{ fontSize: 'clamp(30px, 8vw, 44px)', lineHeight: 1.0 }}>
             From <em className="grad-text">making the team</em> to <em className="serif-italic pink" style={{ fontWeight: 800 }}>ASWC</em>.
           </div>
         </div>
-        <Photo ratio="3/4" tone="teal" label="APR · ASWC" style={{ gridArea: 'pic2' }}/>
+        <Photo ratio="3/4" tone="teal" src="assets/photos/athlete-5.jpeg" alt="ASWC — April" focal="50% 30%" label="APR · ASWC" style={{ gridArea: 'pic2' }}/>
       </div>
       <div className="hairline mt-6 mb-4"/>
       <div className="row gap-4">
