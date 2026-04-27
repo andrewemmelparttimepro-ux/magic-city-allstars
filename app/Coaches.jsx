@@ -2,22 +2,22 @@
 const { useState: useS_p } = React;
 
 const COACHES = [
-  { name: 'Carissa Todd', role: 'Owner', tone: 'pink',
-    src: 'assets/photos/coach-carissa-todd.jpeg', focal: '50% 25%',
-    bio: 'Co-founder of Magic City Athletics. Builder of the family-first culture that runs through every team in the gym.',
-    quote: 'Bring out the MAGIC in YOU.' },
-  { name: 'Melissa Rauser', role: 'Owner', tone: 'teal',
-    src: 'assets/photos/coach-melissa-rauser.jpeg', focal: '50% 25%',
-    bio: 'Co-founder of Magic City Athletics. Sets the standard for safe, uplifting training across every level.',
-    quote: 'More than a gym — it\'s a cheer family.' },
-  { name: 'Brynn Franklin', role: 'Coach', tone: 'mix',
+  { name: 'Brynn Franklin', role: 'Co-Owner · CEO · Director of Athletic Operations', short: 'CEO', tone: 'pink',
     src: 'assets/photos/coach-brynn-franklin.jpeg', focal: '50% 25%',
-    bio: 'On the floor with our athletes — choreography, technique, and the work that turns a routine into a zero.',
-    quote: 'Clean is louder than hard.' },
-  { name: 'Carlie Wilson', role: 'Coach', tone: 'pink',
-    src: 'assets/photos/coach-carlie-wilson.jpeg', focal: '50% 25%',
-    bio: 'Coaches the fundamentals that scale — tumbling, stunting, and the reps that build real confidence.',
+    bio: 'Co-founder of Magic City Athletics. Leads athletic operations — programs, coaching, and the work on the floor.',
+    quote: 'Bring out the MAGIC in YOU.' },
+  { name: 'Melissa Rouser', role: 'Co-Owner · Chief Financial Officer', short: 'CFO', tone: 'teal',
+    src: 'assets/photos/coach-melissa-rauser.jpeg', focal: '50% 25%',
+    bio: 'Co-founder of Magic City Athletics. Runs the gym\'s finances — billing, planning, and keeping every season on solid footing.',
+    quote: 'More than a gym — it\'s a cheer family.' },
+  { name: 'Carissa Todd', role: 'Co-Owner · Chief Administrative Officer', short: 'CAO', tone: 'mix',
+    src: 'assets/photos/coach-carissa-todd.jpeg', focal: '50% 25%',
+    bio: 'Co-founder of Magic City Athletics. Leads administration — schedules, registration, and the systems behind the scenes.',
     quote: 'Confidence is built one rep at a time.' },
+  { name: 'Carlie Collins', role: 'Co-Owner · Chief Operating Officer', short: 'COO', tone: 'pink',
+    src: 'assets/photos/coach-carlie-wilson.jpeg', focal: '50% 25%',
+    bio: 'Co-founder of Magic City Athletics. Runs day-to-day operations — making sure every class, practice, and event runs on time.',
+    quote: 'Clean is louder than hard.' },
 ];
 
 function CoachesPage() {
@@ -48,8 +48,8 @@ function CoachesPage() {
                     <span className="grad-text">"</span>{c.quote}<span className="grad-text">"</span>
                   </div>
                   <div className="row between mt-4">
-                    <span className="eyebrow">Magic City Athletics</span>
-                    <span className={`pill ${c.tone === 'teal' ? 'pill-teal' : 'pill-pink'}`}>{c.role.split(' ')[0]}</span>
+                    <span className="eyebrow">Co-Owner · Magic City Athletics</span>
+                    <span className={`pill ${c.tone === 'teal' ? 'pill-teal' : 'pill-pink'}`}>{c.short}</span>
                   </div>
                 </div>
               </article>
