@@ -706,7 +706,3 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .site__main { padding: 0 56px; }
 }
 
-/* Logo: kill the white plate on light theme. The PNG ships with a white
-   background; on dark backgrounds it disappears visually, but on light
-   theme it shows as a square. multiply blends white into the page. */
-[data-theme="light"] .mca-logo { mix-blend-mode: multiply; }
