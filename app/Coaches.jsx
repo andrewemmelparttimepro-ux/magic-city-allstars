@@ -58,13 +58,67 @@ function CoachesPage() {
 }
 
 // ─────────── PRICING ───────────
-const TIERS = [
-  { name: 'Tumbling', price: '95', sub: 'per month',
-    incl: ['1 class/week', 'Skill tracking in app', 'Open gym Saturdays'], tone: 'teal' },
-  { name: 'Prep', price: '155', sub: 'per month', star: true,
-    incl: ['3 hrs/week practice', '2 local comps', 'Uniform + bow', 'Choreo included'], tone: 'mix' },
-  { name: 'All-Star', price: '245', sub: 'per month',
-    incl: ['8–10 hrs/week', 'Full comp season', 'Choreo + music', 'Travel coordination'], tone: 'pink' },
+const PRICE_GROUPS = [
+  {
+    title: 'All-Star Competitive',
+    eyebrow: 'Monthly tuition',
+    accent: 'pink',
+    rows: [
+      { name: 'Senior',         price: '$200', unit: '/month' },
+      { name: 'Youth / Junior', price: '$185', unit: '/month' },
+      { name: 'Mini / Youth',   price: '$165', unit: '/month' },
+    ],
+  },
+  {
+    title: 'Non-Competitive',
+    eyebrow: 'Per session (Fall + Spring)',
+    accent: 'teal',
+    rows: [
+      { name: 'Youth',  price: '$125', unit: '/month per session' },
+      { name: 'Senior', price: '$125', unit: '/month per session' },
+    ],
+  },
+  {
+    title: 'Cheer 101',
+    eyebrow: '6-week sessions',
+    accent: 'teal',
+    rows: [
+      { name: 'Ages 5–7',  price: '$165', unit: '/session' },
+      { name: 'Ages 8–12', price: '$185', unit: '/session' },
+      { name: 'Ages 13+',  price: '$200', unit: '/session' },
+    ],
+  },
+  {
+    title: 'Tumbling',
+    eyebrow: '6-week sessions',
+    accent: 'pink',
+    rows: [
+      { name: 'Tiny',         price: '$175', unit: '/session' },
+      { name: 'Beginner',     price: '$225', unit: '/session' },
+      { name: 'Intermediate', price: '$270', unit: '/session' },
+    ],
+  },
+  {
+    title: 'Specialty',
+    eyebrow: 'Add-ons & clinics',
+    accent: 'teal',
+    rows: [
+      { name: 'Mom Pom Class',   price: '$75', unit: '/month' },
+      { name: 'Jump Clinic',     price: '$75', unit: '/athlete' },
+      { name: 'Stunt Clinic',    price: '$75', unit: '/athlete' },
+    ],
+  },
+  {
+    title: '3-Day Clinic',
+    eyebrow: 'By age group',
+    accent: 'pink',
+    rows: [
+      { name: 'Tiny · 45 min',     price: '$75' },
+      { name: 'Youth · 1 hr',      price: '$100' },
+      { name: 'Junior · 1.5 hr',   price: '$125' },
+      { name: 'Senior · 2 hr',     price: '$175' },
+    ],
+  },
 ];
 
 function PricingPage({ go }) {
@@ -73,57 +127,61 @@ function PricingPage({ go }) {
       <section className="sec">
         <div className="eyebrow eyebrow-pink mb-2">06 · PRICING</div>
         <h1 className="display" style={{ fontSize: 52, margin: 0 }}>
-          One <em className="grad-text">fee</em>. <br/>No surprises.
+          Clear <em className="grad-text">pricing</em>.<br/>No surprises.
         </h1>
         <p className="dim mt-4" style={{ fontSize: 14, lineHeight: 1.55 }}>
-          Tuition covers practice, choreo, music, and the gym. Comp fees and travel are billed transparently in the app — never tacked on.
+          Gym fees go directly to the gym. All-Star competition fees are regulated separately through the booster club. Hours scale with age and level.
         </p>
       </section>
 
       <section className="sec">
-        <div className="col gap-4">
-          {TIERS.map(t => (
-            <article key={t.name} className={`card ${t.star ? 'card-glow' : ''}`} style={{ padding: 22, position: 'relative' }}>
-              {t.star && <span className="pill pill-grad" style={{ position: 'absolute', top: -10, left: 22 }}>MOST POPULAR</span>}
-              <div className="row between center">
-                <div className="display" style={{ fontSize: 28 }}>{t.name}</div>
-                <span className={`pill ${t.tone === 'pink' ? 'pill-pink' : 'pill-teal'}`}>{t.tone === 'pink' ? 'COMPETITIVE' : t.tone === 'teal' ? 'BEGINNER' : 'INTRO'}</span>
-              </div>
-              <div className="row" style={{ alignItems: 'baseline', gap: 6, marginTop: 12 }}>
-                <span className="display-strong grad-text" style={{ fontSize: 56, lineHeight: 1 }}>${t.price}</span>
-                <span className="dim" style={{ fontSize: 13 }}>{t.sub}</span>
-              </div>
-              <div className="hairline mt-4 mb-4"/>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {t.incl.map(b => (
-                  <li key={b} style={{ display: 'flex', alignItems: 'baseline', gap: 10, fontSize: 13 }}>
-                    <span className="grad-text" style={{ fontFamily: 'var(--mono)' }}>◈</span>{b}
-                  </li>
+        <div className="col gap-6">
+          {PRICE_GROUPS.map(g => (
+            <article key={g.title} className="card" style={{ padding: 22 }}>
+              <div className={`eyebrow eyebrow-${g.accent} mb-2`}>{g.eyebrow}</div>
+              <div className="display" style={{ fontSize: 26, marginBottom: 16 }}>{g.title}</div>
+              <div className="col" style={{ gap: 0 }}>
+                {g.rows.map((r, i) => (
+                  <div key={r.name} className="row between center" style={{ padding: '14px 0', borderTop: i === 0 ? '1px solid var(--line)' : 'none', borderBottom: '1px solid var(--line)', gap: 12 }}>
+                    <span style={{ fontWeight: 600, fontSize: 14 }}>{r.name}</span>
+                    <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 4, whiteSpace: 'nowrap' }}>
+                      <span className="display-strong grad-text" style={{ fontSize: 22, lineHeight: 1 }}>{r.price}</span>
+                      {r.unit && <span className="dim" style={{ fontSize: 11 }}>{r.unit}</span>}
+                    </span>
+                  </div>
                 ))}
-              </ul>
-              <button className={`btn ${t.star ? 'btn-primary' : ''} btn-block mt-6`}>Start free trial →</button>
+              </div>
             </article>
           ))}
         </div>
       </section>
 
       <section className="sec" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)' }}>
-        <div className="display" style={{ fontSize: 24 }}>What's <em className="grad-text">not</em> in the price?</div>
-        <div className="col gap-3 mt-4">
+        <div className="eyebrow eyebrow-pink mb-3">HEADS UP</div>
+        <div className="display" style={{ fontSize: 26 }}>What's <em className="grad-text">not</em> in the price.</div>
+        <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.6 }}>
+          For All-Star teams, gym tuition is separate from competition costs. Competition fees are regulated through the booster club. Practice hours scale with age and level — choreo and music are billed separately.
+        </p>
+        <div className="col gap-2 mt-4">
           {[
-            ['Comp registration','~$75 per event · billed per comp'],
-            ['Travel (hotel/gas)','Coordinated by the gym, paid by family'],
-            ['Uniform','$280 first season · reusable in future seasons'],
-            ['Make-up & bow','$45 · seasonal kit'],
-          ].map(([l,r]) => (
-            <div key={l} className="row between" style={{ padding: '12px 0', borderBottom: '1px solid var(--line)' }}>
-              <span style={{ fontWeight: 600, fontSize: 13 }}>{l}</span>
-              <span className="dim" style={{ fontSize: 12 }}>{r}</span>
+            'Music', 'Choreography', 'Coaches’ fees during competition (hotel, travel, day rate)',
+            'Competition fees', 'Travel (hotel + gas)', 'Uniform', 'Make-up + bows',
+            'Practice uniform', 'Uniform cover-up', 'Shoes',
+          ].map(item => (
+            <div key={item} className="row gap-3 center" style={{ padding: '8px 0', borderBottom: '1px solid var(--line)' }}>
+              <span className="grad-text" style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>◈</span>
+              <span style={{ fontSize: 13 }}>{item}</span>
             </div>
           ))}
         </div>
-        <div className="dim mt-6" style={{ fontSize: 12, lineHeight: 1.55, fontStyle: 'italic' }}>
-          Multi-athlete discount: 10% off second sibling, 20% off third.
+      </section>
+
+      <section className="sec">
+        <div className="display" style={{ fontSize: 28 }}>Questions on pricing?</div>
+        <p className="dim mt-3" style={{ fontSize: 13 }}>We'll walk you through every dollar before you sign anything. Book a tour or shoot us an email.</p>
+        <div className="col gap-3 mt-4">
+          <button onClick={() => go('contact')} className="btn btn-primary btn-block">Book a tour →</button>
+          <a href="mailto:coaches@magiccityathletics.net" className="btn btn-block">Email coaches@magiccityathletics.net</a>
         </div>
       </section>
     </div>

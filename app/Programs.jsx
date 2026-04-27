@@ -1,29 +1,29 @@
 /* global React, Photo, SectionHead, Reveal */
 
 const PROGRAMS = [
-  { code: 'AS', name: 'All-Star Competitive', sub: 'Levels 1 → 6 · ages 5–18', tone: 'pink',
-    body: 'Year-round competitive teams that travel the upper Midwest. Routine premieres in November, comp season runs through April.',
-    bullets: ['8–10 hrs/week practice', 'Tryouts: late May', 'Travel: Fargo · Mpls · Bismarck'],
+  { code: 'AS', name: 'All-Star', sub: 'Tiny · Mini · Youth · Junior · Senior', tone: 'pink',
+    body: 'Year-round competitive teams across every age group. Prep and Elite levels based on skill — we place every athlete where they\'ll grow fastest.',
+    bullets: ['Tiny / Mini / Youth / Junior / Senior', 'Prep + Elite divisions', 'Full comp season + ASWC in April'],
     cta: 'Tryout info' },
-  { code: 'PR', name: 'Prep', sub: 'New to all-star · ages 5–14', tone: 'mix',
-    body: 'A first-year-friendly track. Same routines, smaller competition schedule, half the time commitment.',
-    bullets: ['3 hrs/week practice', '2 local comps per season', 'No travel required'],
-    cta: 'Schedule a placement' },
-  { code: 'RC', name: 'Rec Cheer', sub: 'No travel · ages 5–14', tone: 'teal',
-    body: 'For families who want the gym, the friends, and the stunt skills — without the road trips and hotel weekends.',
-    bullets: ['2 hrs/week', 'Showcase performance', 'Rolling enrollment'],
+  { code: 'PC', name: 'Performance Cheer', sub: '6-month program · Tiny → Senior', tone: 'mix',
+    body: 'A taste of the All-Star experience without the lengthy comp schedule. One competition performance at our closest comp — all the glitz and glam, none of the travel marathon.',
+    bullets: ['6-month season', 'One competition performance', 'Tiny / Mini / Youth / Junior / Senior'],
+    cta: 'Sign up for Performance Cheer' },
+  { code: 'RC', name: 'Rec Cheer', sub: 'With pom-poms · non-competitive', tone: 'teal',
+    body: 'Cheer with pom-poms. No travel, no comps — just the fun, the friends, and the skills.',
+    bullets: ['Non-competitive', 'No travel required', 'Rolling enrollment'],
     cta: 'Drop in this week' },
-  { code: 'TU', name: 'Tumbling Classes', sub: 'Ages 5+ · all skill levels', tone: 'teal',
-    body: 'Drop-in classes that build from forward rolls to standing fulls. Work with the same coaches our all-star teams have.',
-    bullets: ['45-minute classes', '6 levels of progression', 'Open gym Saturdays'],
+  { code: 'TU', name: 'Tumbling', sub: 'Ages 5+ · beginner to advanced', tone: 'teal',
+    body: 'From forward rolls to standing fulls. Beginner, intermediate, and advanced classes — work with the same coaches our All-Star teams have.',
+    bullets: ['Tiny, Beginner, Intermediate', '6-week sessions', 'Ages 5+'],
     cta: 'See class times' },
-  { code: 'TI', name: 'Tinies', sub: 'Ages 3–5', tone: 'pink',
-    body: 'Music, glitter, motor skills, and the world\'s most patient coaches. The best 30 minutes of your week, we promise.',
-    bullets: ['30-minute sessions', 'Parents stay & watch', 'No experience needed'],
-    cta: 'Book a tiny class' },
+  { code: 'ST', name: 'Stunting', sub: 'Ages 5+ · group fundamentals', tone: 'pink',
+    body: 'Group stunting taught by certified coaches. Build the bases, flyers, and back-spots that make every routine click.',
+    bullets: ['Stunt clinic + standing classes', 'Ages 5+', 'All experience levels'],
+    cta: 'Book a stunt clinic' },
   { code: 'PV', name: 'Privates', sub: 'One-on-one · all ages', tone: 'mix',
-    body: 'Working a specific skill? Book a private with a coach who specializes in it. Tumbling, jumps, stunts, flexibility.',
-    bullets: ['30 or 60 minutes', 'Pick your coach', 'Book in the Hit Zero app'],
+    body: 'Working a specific skill? Book a private with a coach who specializes in it. Tumbling, jumps, stunts, flexibility, routine work.',
+    bullets: ['One-on-one', 'Pick your coach', 'Any skill, any age'],
     cta: 'Book a private' },
 ];
 
@@ -42,7 +42,7 @@ function ProgramsPage({ go }) {
 
       <section className="sec-tight" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
         <div className="row gap-2 no-scrollbar" style={{ overflowX: 'auto', paddingBottom: 4 }}>
-          {['All', 'All-Star', 'Tumbling', 'Tinies', 'Rec', 'Privates'].map((t, i) => (
+          {['All', 'All-Star', 'Performance', 'Rec', 'Tumbling', 'Stunting', 'Privates'].map((t, i) => (
             <button key={t} className="pill" style={{ background: i === 0 ? 'linear-gradient(135deg, var(--teal), var(--pink))' : undefined, color: i === 0 ? 'var(--text-on-grad)' : 'var(--text)', whiteSpace: 'nowrap', border: i === 0 ? 'none' : undefined, cursor: 'pointer' }}>
               {t}
             </button>

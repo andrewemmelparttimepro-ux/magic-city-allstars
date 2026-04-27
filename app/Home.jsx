@@ -23,11 +23,11 @@ function HomePage({ go }) {
             place to <em className="grad-text" style={{ fontStyle: 'italic' }}>cheer</em><br/>
             in Minot.
           </h1>
-          <p className="dim mt-4" style={{ fontSize: 14, lineHeight: 1.55, maxWidth: 320 }}>
-            Elite all-star teams. Tumbling, prep, rec, and tinies — under one roof. <em className="serif-italic" style={{ color: '#fff' }}>Hit zero</em>{' '}mindset, drilled from the first day.
+          <p className="dim mt-4" style={{ fontSize: 16, lineHeight: 1.5, maxWidth: 420, color: '#fff' }}>
+            Bring out the <em className="serif-italic grad-text" style={{ fontWeight: 800 }}>MAGIC</em> in <em className="serif-italic" style={{ color: '#fff' }}>YOU</em>.
           </p>
           <div className="col gap-3 mt-6">
-            <a href="#" className="btn btn-primary btn-block">Book a free trial class →</a>
+            <button onClick={() => go('contact')} className="btn btn-primary btn-block">Book a free trial class →</button>
             <button onClick={() => go('programs')} className="btn btn-block">Explore programs</button>
           </div>
         </div>
@@ -50,15 +50,16 @@ function HomePage({ go }) {
       {/* Programs preview */}
       <section className="sec">
         <Reveal>
-          <SectionHead eyebrow="02 · WHAT WE DO" title={<><em>Five</em> ways to cheer.</>} kicker="From your kid's first cartwheel to a national-championship-bound senior team." accent="pink"/>
+          <SectionHead eyebrow="02 · WHAT WE DO" title={<><em>Six</em> ways to cheer.</>} kicker="From your kid's first cartwheel to a national-championship-bound senior team." accent="pink"/>
         </Reveal>
         <div className="col gap-3">
           {[
-            { code: 'AS', name: 'All-Star', sub: 'Levels 1 → 6', tone: 'pink', body: 'Competitive teams competing across the upper Midwest.' },
-            { code: 'TU', name: 'Tumbling', sub: 'Ages 5+', tone: 'teal', body: 'Drop-in classes from forward rolls to standing fulls.' },
-            { code: 'PR', name: 'Prep', sub: 'New to all-star', tone: 'mix', body: 'A friendlier first season — short comp schedule, big learning curve.' },
-            { code: 'RC', name: 'Rec', sub: 'No travel needed', tone: 'teal', body: 'For families who want the experience without the road trips.' },
-            { code: 'TI', name: 'Tiny', sub: 'Ages 3–5', tone: 'pink', body: 'Glitter, music, and motor skills — the gateway drug to cheer.' },
+            { code: 'AS', name: 'All-Star', sub: 'Tiny → Senior · Prep + Elite', tone: 'pink', body: 'Competitive teams across every age group. Prep and Elite levels by skill.' },
+            { code: 'PC', name: 'Performance Cheer', sub: '6-month program', tone: 'mix', body: 'A taste of the All-Star experience without the long comp schedule. One competition, all the glitz.' },
+            { code: 'RC', name: 'Rec Cheer', sub: 'With pom-poms', tone: 'teal', body: 'Non-competitive cheer — fun, friends, and pom-poms.' },
+            { code: 'TU', name: 'Tumbling', sub: 'Ages 5+', tone: 'teal', body: 'From forward rolls to standing fulls. Beginner to advanced classes.' },
+            { code: 'ST', name: 'Stunting', sub: 'Ages 5+', tone: 'pink', body: 'Group stunting fundamentals taught by certified coaches.' },
+            { code: 'PV', name: 'Privates', sub: 'One-on-one', tone: 'mix', body: 'Private lessons for tumbling, stunting, or routine work.' },
           ].map((p, i) => (
             <Reveal key={p.code} delay={i * 60}>
               <button onClick={() => go('programs')} className="card" style={{ textAlign: 'left', cursor: 'pointer', border: 0, background: 'var(--ink-2)', width: '100%', display: 'grid', gridTemplateColumns: '64px 1fr auto', gap: 16, alignItems: 'center', padding: 16 }}>
@@ -78,19 +79,20 @@ function HomePage({ go }) {
       {/* Editorial spread: "From scared first cartwheel to..." */}
       <EditorialSpread/>
 
-      {/* Marquee of recent wins */}
+      {/* Marquee — values + tagline */}
       <section style={{ padding: '18px 0', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)', background: 'var(--ink-2)' }}>
-        <div className="eyebrow eyebrow-pink" style={{ padding: '0 22px 12px' }}>HIT ZERO · 2025–26 SEASON</div>
+        <div className="eyebrow eyebrow-pink" style={{ padding: '0 22px 12px' }}>BRING OUT THE MAGIC IN YOU</div>
         <div className="marquee">
           <div className="marquee__track">
             {Array.from({length: 2}).map((_, k) => (
               <React.Fragment key={k}>
-                <span className="marquee__item">Sparkle · L2 · zero deduction</span>
-                <span className="marquee__item">Onyx · L4 · 2nd place Minneapolis</span>
-                <span className="marquee__item">Aurora · L3 · zero deduction</span>
-                <span className="marquee__item">Steel · L5 · 1st place Fargo</span>
-                <span className="marquee__item">Frost · L1 · zero deduction</span>
-                <span className="marquee__item">Glacier · Sr · bid to Summit</span>
+                <span className="marquee__item">Confidence</span>
+                <span className="marquee__item">Teamwork</span>
+                <span className="marquee__item">Discipline</span>
+                <span className="marquee__item">Resilience</span>
+                <span className="marquee__item">Family</span>
+                <span className="marquee__item">Glitz + glam</span>
+                <span className="marquee__item">On + off the mat</span>
               </React.Fragment>
             ))}
           </div>
@@ -100,19 +102,19 @@ function HomePage({ go }) {
       {/* Hit Zero app teaser */}
       <AppTeaser/>
 
-      {/* Testimonial */}
+      {/* Brand statement */}
       <section className="sec">
         <Reveal>
-          <div className="card" style={{ padding: 24, background: 'linear-gradient(160deg, rgba(39,207,215,0.10), rgba(249,127,172,0.10))' }}>
-            <div className="grad-text serif-italic" style={{ fontSize: 56, lineHeight: 0.6, marginBottom: 8 }}>"</div>
-            <div className="display" style={{ fontSize: 26, lineHeight: 1.05 }}>
-              My daughter was the kid who wouldn't try a cartwheel. Two seasons in, she just hit zero at her first national.
+          <div className="card" style={{ padding: 28, background: 'linear-gradient(160deg, rgba(39,207,215,0.10), rgba(249,127,172,0.10))' }}>
+            <div className="eyebrow eyebrow-teal mb-3">MORE THAN A GYM</div>
+            <div className="display" style={{ fontSize: 26, lineHeight: 1.15 }}>
+              We create a safe, uplifting space where athletes <em className="grad-text">shine</em>, build confidence, and grow through teamwork, discipline, and resilience — on and off the mat.
             </div>
             <div className="row center gap-3 mt-6">
               <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'linear-gradient(135deg, var(--teal), var(--pink))' }}/>
               <div>
-                <div style={{ fontWeight: 700, fontSize: 13 }}>Jenna R.</div>
-                <div className="eyebrow mt-1">Aurora L3 mom · 2 yrs</div>
+                <div style={{ fontWeight: 700, fontSize: 13 }}>Magic City Athletics</div>
+                <div className="eyebrow mt-1">A cheer family · Minot, ND</div>
               </div>
             </div>
           </div>
@@ -160,21 +162,7 @@ function HitZeroMeter() {
           </div>
         </div>
       </div>
-      <div className="row gap-3" style={{ justifyContent: 'space-between' }}>
-        <div className="col">
-          <div className="display-strong" style={{ fontSize: 22 }}>87%</div>
-          <div className="eyebrow mt-1">2025–26</div>
-        </div>
-        <div className="col">
-          <div className="display-strong dim" style={{ fontSize: 22 }}>74%</div>
-          <div className="eyebrow mt-1">2024–25</div>
-        </div>
-        <div className="col">
-          <div className="display-strong dim" style={{ fontSize: 22 }}>61%</div>
-          <div className="eyebrow mt-1">2023–24</div>
-        </div>
-      </div>
-      <p className="dim mt-6" style={{ fontSize: 13, lineHeight: 1.55 }}>
+      <p className="dim mt-3" style={{ fontSize: 14, lineHeight: 1.6, textAlign: 'center', maxWidth: 520, margin: '12px auto 0' }}>
         We coach to the score sheet. Every practice opens with synchronized 8-counts and ends with a clean run-through. <em className="serif-italic" style={{ color: 'var(--text)' }}>If it's worth doing, it's worth doing zero.</em>
       </p>
     </section>
@@ -187,24 +175,28 @@ function EditorialSpread() {
     <section className="sec editorial-spread" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)' }}>
       <div className="eyebrow eyebrow-teal mb-4">03 · A SEASON HERE</div>
       <div className="editorial-spread__grid">
-        <Photo ratio="3/4" tone="pink" label="AUG · TRYOUTS" style={{ gridArea: 'pic1' }}/>
+        <Photo ratio="3/4" tone="pink" label="AUG · MAKING THE TEAM" style={{ gridArea: 'pic1' }}/>
         <div style={{ gridArea: 'headline', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <div className="display" style={{ fontSize: 'clamp(30px, 8vw, 44px)', lineHeight: 1.0 }}>
-            From <em className="grad-text">scared</em> first cartwheel to <em className="serif-italic pink" style={{ fontWeight: 800 }}>nationals</em>.
+            From <em className="grad-text">making the team</em> to <em className="serif-italic pink" style={{ fontWeight: 800 }}>ASWC</em>.
           </div>
         </div>
-        <Photo ratio="3/4" tone="teal" label="APR · SUMMIT" style={{ gridArea: 'pic2' }}/>
+        <Photo ratio="3/4" tone="teal" label="APR · ASWC" style={{ gridArea: 'pic2' }}/>
       </div>
       <div className="hairline mt-6 mb-4"/>
       <div className="row gap-4">
         <div className="col" style={{ flex: 1 }}>
-          <div className="eyebrow eyebrow-pink mb-2">AUG–OCT</div>
-          <div style={{ fontSize: 12, lineHeight: 1.5 }} className="dim">Choreo, conditioning, skills audit. We build the routine around the athletes — not the other way around.</div>
+          <div className="eyebrow eyebrow-pink mb-2">AUGUST</div>
+          <div style={{ fontSize: 13, lineHeight: 1.5 }} className="dim">Tryouts and team formation. Choreo, conditioning, and skills audit kick off the season.</div>
         </div>
         <div className="col" style={{ flex: 1 }}>
-          <div className="eyebrow eyebrow-teal mb-2">NOV–APR</div>
-          <div style={{ fontSize: 12, lineHeight: 1.5 }} className="dim">Comp season. Most of our travel sits within 4 hours — Fargo, Bismarck, Minneapolis. No teams require flights.</div>
+          <div className="eyebrow eyebrow-teal mb-2">APRIL · ASWC</div>
+          <div style={{ fontSize: 13, lineHeight: 1.5 }} className="dim">Capping the season. Most of our travel stays within 7 hours of Minot — no flights required.</div>
         </div>
+      </div>
+      <div className="row between mt-6" style={{ alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
+        <span className="eyebrow">7-HOUR RADIUS · OUR COMP TERRITORY</span>
+        <span className="eyebrow eyebrow-pink">EST. 2026</span>
       </div>
     </section>
   );

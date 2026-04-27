@@ -2,14 +2,18 @@
 const { useState: useS_c } = React;
 
 const FAQ = [
-  { q: 'Do we have to compete to join?', a: 'Not at all. Tumbling, rec, and tinies are non-competitive tracks. About 40% of our athletes never compete and stay for years.' },
-  { q: 'How much travel is involved?', a: 'Almost none for prep, rec, tumbling and tinies. All-star teams travel within driving distance — Fargo, Bismarck, Minneapolis. No flights required for any team.' },
-  { q: 'My kid has zero experience. Where do they start?', a: 'Tinies (3–5), tumbling 1, or rec cheer. Book a free trial and we\'ll place them after one class.' },
-  { q: 'What\'s the trial process?', a: 'First class is free. Walk in, try it, decide. We send a recap in the Hit Zero app the same day.' },
-  { q: 'How do I sign up?', a: 'Download the Hit Zero app, create a free account, pick a class. Tuition is billed monthly, no setup fees.' },
-  { q: 'What does "hit zero" actually mean?', a: 'A zero-deduction routine — perfect execution at competition. It\'s the standard we coach to, every team, every level.' },
-  { q: 'What about safety?', a: 'USASF-credentialed coaches, 1:8 ratio on stunts, concussion + first-aid current across the bench. Open viewing window into every practice.' },
-  { q: 'Can I watch practice?', a: 'Yes. Parent lounge has a full window. Bring a coffee, stay as long as you want.' },
+  {
+    q: 'Do we have to compete to join?',
+    a: 'Not at all. Recreational cheer, performance cheer, tumbling, and stunt classes are all non-competitive options.',
+  },
+  {
+    q: 'How much travel is involved?',
+    a: 'For non-competitive programs, none. All-Star Competitive teams travel within driving distance — we try to keep competitions closer to an airport in case flying is more your style.',
+  },
+  {
+    q: 'My kid has zero experience. Where do they start?',
+    a: 'We specialize in teaching athletes with zero experience. Beginner classes, basic tumbling, and stunt classes are all built for first-timers.',
+  },
 ];
 
 function FAQPage() {
@@ -41,9 +45,8 @@ function FAQPage() {
 }
 
 // ─────────── CONTACT ───────────
-const CONTACT_EMAIL = 'hello@magiccityathletics.com';
-const CONTACT_PHONE = '701-555-0182';
-const CONTACT_ADDRESS = '2400 SE Burdick, Minot, ND 58701';
+const CONTACT_EMAIL = 'coaches@magiccityathletics.net';
+const CONTACT_ADDRESS = '111 45th Ave NE, Minot, ND 58703';
 
 function ContactPage() {
   const [step, setStep] = useS_c(0);
@@ -88,7 +91,7 @@ function ContactPage() {
           Find us in <em className="grad-text">Minot</em>.
         </h1>
         <p className="dim mt-3" style={{ fontSize: 14, lineHeight: 1.55, maxWidth: 520 }}>
-          One gym, easy to find — right off Burdick. Drop in any weekday or schedule a tour and we'll walk you through.
+          One gym, easy to find — over on 45th Ave NE. Drop in any weekday or schedule a tour and we'll walk you through.
         </p>
       </section>
 
@@ -114,7 +117,7 @@ function ContactPage() {
               <circle r="8" fill="#F97FAC" stroke="currentColor" strokeWidth="2"/>
             </g>
             <text x="200" y="115" fill="currentColor" textAnchor="middle" fontSize="12" fontFamily="Fraunces" fontStyle="italic" fontWeight="800">Magic City Athletics</text>
-            <text x="200" y="195" fill="currentColor" fillOpacity="0.55" textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="2">2400 SE BURDICK · MINOT</text>
+            <text x="200" y="195" fill="currentColor" fillOpacity="0.55" textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="2">111 45TH AVE NE · MINOT</text>
           </svg>
         </div>
       </section>
@@ -123,17 +126,12 @@ function ContactPage() {
         <div className="card" style={{ padding: 18 }}>
           <div className="row between" style={{ padding: '8px 0' }}>
             <span className="eyebrow">ADDRESS</span>
-            <a href={`https://maps.google.com/?q=${encodeURIComponent(CONTACT_ADDRESS)}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', textDecoration: 'none' }}>2400 SE Burdick →</a>
+            <a href={`https://maps.google.com/?q=${encodeURIComponent(CONTACT_ADDRESS)}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', textDecoration: 'none' }}>111 45th Ave NE →</a>
           </div>
           <div className="hairline"/>
           <div className="row between" style={{ padding: '8px 0' }}>
             <span className="eyebrow">CITY</span>
-            <span style={{ fontSize: 13, fontWeight: 600 }}>Minot, ND 58701</span>
-          </div>
-          <div className="hairline"/>
-          <div className="row between" style={{ padding: '8px 0' }}>
-            <span className="eyebrow">PHONE</span>
-            <a href={`tel:${CONTACT_PHONE.replace(/-/g,'')}`} style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', textDecoration: 'none' }}>{CONTACT_PHONE}</a>
+            <span style={{ fontSize: 13, fontWeight: 600 }}>Minot, ND 58703</span>
           </div>
           <div className="hairline"/>
           <div className="row between" style={{ padding: '8px 0' }}>

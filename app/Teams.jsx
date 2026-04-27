@@ -21,7 +21,7 @@ function TeamsPage({ go }) {
           Six teams. <em className="grad-text">One mindset.</em>
         </h1>
         <p className="dim mt-4" style={{ fontSize: 14, lineHeight: 1.55 }}>
-          From first-year tinies to senior elite, every Magic City team trains to one number: zero.
+          From Tinies to Seniors, every Magic City team trains to one number: <em className="serif-italic" style={{ color: 'var(--text)' }}>zero</em>.
         </p>
       </section>
 
@@ -103,47 +103,30 @@ function FacilityPage() {
       <section className="sec">
         <div className="eyebrow eyebrow-teal mb-2">04 · THE GYM</div>
         <h1 className="display" style={{ fontSize: 52, margin: 0 }}>
-          14,000 sqft, <em className="grad-text">all spring</em>.
+          11,600 sqft, <em className="grad-text">spring floor</em>.
         </h1>
         <p className="dim mt-4" style={{ fontSize: 14, lineHeight: 1.55 }}>
-          Built in 2022 specifically for cheer. Two full spring floors, foam pit, tumble track, and a parent lounge with a window into every practice.
+          Built for cheer — full-size spring floor, parent lounge, pro shop, and dressing rooms. One roof, everything you need.
         </p>
       </section>
 
       <section className="sec-tight">
-        <Photo ratio="16/9" tone="dark" label="MAIN FLOOR · 54×42"/>
+        <Photo ratio="16/9" tone="dark" label="MAIN FLOOR · SPRING"/>
       </section>
 
       <section className="sec">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12 }}>
           {[
-            { l: 'SPRING FLOORS', n: '2', sub: 'Full-size competition spec' },
-            { l: 'FOAM PIT',      n: '1', sub: 'Trampoline + drop' },
-            { l: 'TUMBLE TRACK',  n: '40\'', sub: 'Rod floor with end mat' },
-            { l: 'PARENT LOUNGE', n: '✓', sub: 'Coffee + viewing window' },
+            { l: 'GYM',           n: '11,600', sub: 'Square feet of training' },
+            { l: 'SPRING FLOOR',  n: '1',      sub: 'Full-size competition spec' },
+            { l: 'PARENT LOUNGE', n: '✓',      sub: 'Coffee + viewing window' },
+            { l: 'PRO SHOP',      n: '✓',      sub: 'Bows, shoes, practice gear' },
+            { l: 'DRESSING ROOMS',n: '✓',      sub: 'Changing space + storage' },
           ].map(s => (
             <div key={s.l} className="card" style={{ padding: 16 }}>
               <div className="grad-text display-strong" style={{ fontSize: 36, lineHeight: 1 }}>{s.n}</div>
               <div className="eyebrow mt-2">{s.l}</div>
               <div className="dim mt-1" style={{ fontSize: 11 }}>{s.sub}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="sec" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)' }}>
-        <SectionHead eyebrow="SAFETY" title={<>Coached <em className="grad-text">small</em>.</>} accent="pink"
-          kicker="USASF-credentialed staff. 1:8 max ratio on stunting groups. Concussion + first-aid certified across the bench."/>
-        <div className="col gap-3">
-          {[
-            'USASF credentials posted on every coach',
-            '1:8 coach-to-athlete ratio on all stunt work',
-            'Concussion baseline + first-aid current for all staff',
-            'Visible camera coverage of every floor',
-          ].map(it => (
-            <div key={it} className="row gap-3 center" style={{ padding: '10px 0', borderBottom: '1px solid var(--line)' }}>
-              <span className="grad-text" style={{ fontFamily: 'var(--mono)', fontSize: 14 }}>◈</span>
-              <span style={{ fontSize: 13 }}>{it}</span>
             </div>
           ))}
         </div>

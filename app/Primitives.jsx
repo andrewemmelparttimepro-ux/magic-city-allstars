@@ -296,15 +296,14 @@ function DesktopFooter({ go }) {
       <div className="site-footer__inner">
         <div className="site-footer__col">
           <Wordmark size={20}/>
-          <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55, maxWidth: 320 }}>
-            Elite all-star cheer in Minot, ND. Tumbling, prep, rec, and tinies — all under one roof.
+          <p className="dim mt-3" style={{ fontSize: 14, lineHeight: 1.6, maxWidth: 360 }}>
+            More than a gym — it's a cheer family. We create a safe, uplifting space where athletes shine, build confidence, and grow through teamwork, discipline, and resilience — on and off the mat. <em className="serif-italic" style={{ color: 'var(--text)' }}>Bring out the MAGIC in YOU.</em>
           </p>
           <address style={{ fontStyle: 'normal', marginTop: 18 }}>
-            <div style={{ fontSize: 13, lineHeight: 1.6 }}>2400 SE Burdick<br/>Minot, ND 58701</div>
-            <a href="tel:7015550182" style={{ display: 'block', marginTop: 8, fontSize: 13, color: 'var(--text)', textDecoration: 'none' }}>701-555-0182</a>
-            <a href="mailto:hello@magiccityathletics.com" style={{ display: 'block', fontSize: 13, color: 'var(--text)', textDecoration: 'none' }}>hello@magiccityathletics.com</a>
+            <div style={{ fontSize: 13, lineHeight: 1.6 }}>111 45th Ave NE<br/>Minot, ND 58703</div>
+            <a href="mailto:coaches@magiccityathletics.net" style={{ display: 'block', marginTop: 8, fontSize: 13, color: 'var(--text)', textDecoration: 'none' }}>coaches@magiccityathletics.net</a>
           </address>
-          <div className="mono dim mt-4" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Minot · ND · est. 2018</div>
+          <div className="mono dim mt-4" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Minot · ND · est. 2026</div>
         </div>
         <div className="site-footer__col">
           <div className="eyebrow eyebrow-teal mb-3">Visit</div>
