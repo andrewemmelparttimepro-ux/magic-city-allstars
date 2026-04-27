@@ -206,7 +206,7 @@ function Photo({ ratio = '4/5', label = 'PHOTO', tone = 'mix', src, alt, focal =
   }
   return (
     <div className="ph" style={{ aspectRatio: ratio, background: tones[tone] || tones.mix, ...style }}>
-      <span className="ph__label">{label}</span>
+      {!children && <span className="ph__label">{label}</span>}
       {children}
     </div>
   );

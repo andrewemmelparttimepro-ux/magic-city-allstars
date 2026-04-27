@@ -175,13 +175,29 @@ function EditorialSpread() {
     <section className="sec editorial-spread" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)' }}>
       <div className="eyebrow eyebrow-teal mb-4">03 · A SEASON HERE</div>
       <div className="editorial-spread__grid">
-        <Photo ratio="3/4" tone="pink" label="AUG · MAKING THE TEAM" style={{ gridArea: 'pic1' }}/>
+        <Photo ratio="3/4" tone="pink" label="AUG · MAKING THE TEAM" style={{ gridArea: 'pic1' }}>
+          <div style={{ position: 'absolute', inset: 0, padding: 22, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', zIndex: 3, color: '#fff' }}>
+            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.9 }}>Day 1</div>
+            <div>
+              <div className="display-strong" style={{ fontSize: 'clamp(56px, 14vw, 96px)', lineHeight: 0.85, letterSpacing: '-0.04em' }}>AUG</div>
+              <div className="serif-italic" style={{ fontSize: 18, fontWeight: 700, lineHeight: 1.1, marginTop: 8, opacity: 0.95 }}>Making the team</div>
+            </div>
+          </div>
+        </Photo>
         <div style={{ gridArea: 'headline', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <div className="display" style={{ fontSize: 'clamp(30px, 8vw, 44px)', lineHeight: 1.0 }}>
             From <em className="grad-text">making the team</em> to <em className="serif-italic pink" style={{ fontWeight: 800 }}>ASWC</em>.
           </div>
         </div>
-        <Photo ratio="3/4" tone="teal" label="APR · ASWC" style={{ gridArea: 'pic2' }}/>
+        <Photo ratio="3/4" tone="teal" label="APR · ASWC" style={{ gridArea: 'pic2' }}>
+          <div style={{ position: 'absolute', inset: 0, padding: 22, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', zIndex: 3, color: '#fff' }}>
+            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.9 }}>The big one</div>
+            <div>
+              <div className="display-strong" style={{ fontSize: 'clamp(56px, 14vw, 96px)', lineHeight: 0.85, letterSpacing: '-0.04em' }}>APR</div>
+              <div className="serif-italic" style={{ fontSize: 18, fontWeight: 700, lineHeight: 1.1, marginTop: 8, opacity: 0.95 }}>ASWC · Worlds bid</div>
+            </div>
+          </div>
+        </Photo>
       </div>
       <div className="hairline mt-6 mb-4"/>
       <div className="row gap-4">
