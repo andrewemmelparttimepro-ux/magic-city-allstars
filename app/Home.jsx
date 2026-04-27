@@ -33,19 +33,31 @@ function HomePage({ go }) {
         </div>
       </section>
 
-      {/* Trust bar — Minot's only 100% cheer-focused gym */}
-      <section className="sec-tight" style={{ borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)', textAlign: 'center', padding: '28px 22px' }}>
-        <div className="eyebrow eyebrow-pink mb-3">CHEER IS LIFE</div>
-        <div className="display" style={{ fontSize: 26, lineHeight: 1.1, maxWidth: 720, margin: '0 auto' }}>
+      {/* Cheer is Life — the why-us moment */}
+      <section className="sec" style={{ borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)', textAlign: 'center', padding: '64px 22px', background: 'linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%)' }}>
+        <div className="eyebrow eyebrow-pink mb-4" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--pink)', boxShadow: '0 0 10px var(--pink)' }}/>
+          01 · CHEER IS LIFE
+        </div>
+        <div className="display" style={{ fontSize: 'clamp(36px, 9vw, 64px)', lineHeight: 1.0, maxWidth: 880, margin: '0 auto', letterSpacing: '-0.02em' }}>
           The <em className="grad-text">only 100% cheer-focused</em> gym in Minot.
         </div>
-        <p className="dim mt-3" style={{ fontSize: 14, lineHeight: 1.55, maxWidth: 560, margin: '12px auto 0' }}>
-          Not a side program. Not "we also do cheer." Every coach, every hour, every square foot of mat is built around one sport — done right.
+        <p className="mt-6" style={{ fontSize: 17, lineHeight: 1.55, maxWidth: 620, margin: '24px auto 0' }}>
+          Not a side program. Not <em className="serif-italic dim" style={{ fontStyle: 'italic' }}>"we also do cheer."</em> Every coach, every hour, every square foot of mat is built around one sport — done right.
         </p>
+        <div className="mt-8" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, maxWidth: 560, margin: '40px auto 0' }}>
+          {[
+            { n: '100%', l: 'Cheer-focused' },
+            { n: '11,600', l: 'Sqft built for it' },
+            { n: '1', l: 'Full spring floor' },
+          ].map(s => (
+            <div key={s.l} className="card" style={{ padding: 16, textAlign: 'center' }}>
+              <div className="display-strong grad-text" style={{ fontSize: 'clamp(26px, 6vw, 34px)', lineHeight: 1, letterSpacing: '-0.02em' }}>{s.n}</div>
+              <div className="eyebrow mt-2" style={{ fontSize: 10 }}>{s.l}</div>
+            </div>
+          ))}
+        </div>
       </section>
-
-      {/* Hit Zero meter — the signature interactive moment */}
-      <HitZeroMeter/>
 
       {/* Programs preview */}
       <section className="sec">
@@ -124,48 +136,6 @@ function HomePage({ go }) {
       {/* Footer CTA */}
       <FooterCTA go={go}/>
     </div>
-  );
-}
-
-// ─────────── Hit Zero meter (interactive signature moment) ───────────
-function HitZeroMeter() {
-  const [val, setVal] = useState_h(0);
-  const ref = React.useRef(null);
-  useEffect_h(() => {
-    if (!ref.current) return;
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) {
-        let v = 0;
-        const id = setInterval(() => {
-          v += 0.025;
-          setVal(Math.min(0.92, v));
-          if (v >= 0.92) clearInterval(id);
-        }, 24);
-      }
-    }, { threshold: 0.4 });
-    io.observe(ref.current);
-    return () => io.disconnect();
-  }, []);
-
-  return (
-    <section ref={ref} className="sec" style={{ background: 'linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
-      <div className="eyebrow eyebrow-pink mb-3">01 · HIT ZERO MINDSET</div>
-      <div className="display" style={{ fontSize: 32, marginBottom: 24 }}>
-        Zero deductions.<br/>
-        <em className="grad-text">Every routine.</em>
-      </div>
-      <div className="row center" style={{ justifyContent: 'center', marginBottom: 24 }}>
-        <div className="meter-ring" style={{ '--val': val }}>
-          <div className="meter-value">
-            <span className="grad-text">{Math.round(val * 100)}</span>
-            <span className="dim" style={{ fontSize: 18, marginLeft: 4 }}>%</span>
-          </div>
-        </div>
-      </div>
-      <p className="dim mt-3" style={{ fontSize: 14, lineHeight: 1.6, textAlign: 'center', maxWidth: 520, margin: '12px auto 0' }}>
-        We coach to the score sheet. Every practice opens with synchronized 8-counts and ends with a clean run-through. <em className="serif-italic" style={{ color: 'var(--text)' }}>If it's worth doing, it's worth doing zero.</em>
-      </p>
-    </section>
   );
 }
 
