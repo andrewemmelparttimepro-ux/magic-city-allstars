@@ -175,13 +175,13 @@ function EditorialSpread() {
     <section className="sec editorial-spread" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)' }}>
       <div className="eyebrow eyebrow-teal mb-4">03 · A SEASON HERE</div>
       <div className="editorial-spread__grid">
-        <Photo ratio="3/4" tone="pink" src="assets/photos/athlete-2.jpeg" alt="Making the team — August" focal="50% 30%" label="AUG · MAKING THE TEAM" style={{ gridArea: 'pic1' }}/>
+        <Photo ratio="3/4" tone="pink" label="AUG · MAKING THE TEAM" style={{ gridArea: 'pic1' }}/>
         <div style={{ gridArea: 'headline', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <div className="display" style={{ fontSize: 'clamp(30px, 8vw, 44px)', lineHeight: 1.0 }}>
             From <em className="grad-text">making the team</em> to <em className="serif-italic pink" style={{ fontWeight: 800 }}>ASWC</em>.
           </div>
         </div>
-        <Photo ratio="3/4" tone="teal" src="assets/photos/athlete-5.jpeg" alt="ASWC — April" focal="50% 30%" label="APR · ASWC" style={{ gridArea: 'pic2' }}/>
+        <Photo ratio="3/4" tone="teal" label="APR · ASWC" style={{ gridArea: 'pic2' }}/>
       </div>
       <div className="hairline mt-6 mb-4"/>
       <div className="row gap-4">
