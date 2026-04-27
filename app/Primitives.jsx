@@ -5,7 +5,7 @@ const { useState, useEffect, useRef, useMemo } = React;
 
 // ─────────── Logo + wordmark ───────────
 function Logo({ size = 28 }) {
-  return <img src="assets/mca-logo.png" alt="Magic City Athletics" style={{ height: size, width: 'auto', display: 'block' }} />;
+  return <img className="mca-logo" src="assets/mca-logo.png" alt="Magic City Athletics" style={{ height: size, width: 'auto', display: 'block' }} />;
 }
 
 function Wordmark({ size = 18 }) {
@@ -320,7 +320,7 @@ function DesktopFooter({ go }) {
             <div style={{ fontSize: 13, lineHeight: 1.6 }}>111 45th Ave NE<br/>Minot, ND 58703</div>
             <a href="mailto:coaches@magiccityathletics.net" style={{ display: 'block', marginTop: 8, fontSize: 13, color: 'var(--text)', textDecoration: 'none' }}>coaches@magiccityathletics.net</a>
           </address>
-          <div className="mono dim mt-4" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Minot · ND · est. 2026</div>
+          <div className="mono dim mt-4" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Minot · ND</div>
         </div>
         <div className="site-footer__col">
           <div className="eyebrow eyebrow-teal mb-3">Visit</div>

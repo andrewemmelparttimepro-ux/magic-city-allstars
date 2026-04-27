@@ -45,11 +45,10 @@ function HomePage({ go }) {
         <p className="mt-6" style={{ fontSize: 17, lineHeight: 1.55, maxWidth: 620, margin: '24px auto 0' }}>
           Not a side program. Not <em className="serif-italic dim" style={{ fontStyle: 'italic' }}>"we also do cheer."</em> Every coach, every hour, every square foot of mat is built around one sport — done right.
         </p>
-        <div className="mt-8" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, maxWidth: 560, margin: '40px auto 0' }}>
+        <div className="mt-8" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12, maxWidth: 440, margin: '40px auto 0' }}>
           {[
             { n: '100%', l: 'Cheer-focused' },
             { n: '11,600', l: 'Sqft built for it' },
-            { n: '1', l: 'Full spring floor' },
           ].map(s => (
             <div key={s.l} className="card" style={{ padding: 16, textAlign: 'center' }}>
               <div className="display-strong grad-text" style={{ fontSize: 'clamp(26px, 6vw, 34px)', lineHeight: 1, letterSpacing: '-0.02em' }}>{s.n}</div>
@@ -182,7 +181,7 @@ function EditorialSpread() {
       </div>
       <div className="row between mt-6" style={{ alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
         <span className="eyebrow">7-HOUR RADIUS · OUR COMP TERRITORY</span>
-        <span className="eyebrow eyebrow-pink">EST. 2026</span>
+        <span className="eyebrow eyebrow-pink">MINOT · ND</span>
       </div>
     </section>
   );
@@ -197,7 +196,7 @@ function AppTeaser() {
         Schedules, billing, badges — all in <em className="grad-text">Hit Zero</em>.
       </div>
       <p className="dim" style={{ fontSize: 13, lineHeight: 1.55 }}>
-        We run the gym on Hit Zero. Tryouts, registration, real-time schedules, skill-tracking, payments. Download once — nothing else to sign up for.
+        We run the gym on Hit Zero. Tryouts, registration, real-time schedules, skill-tracking, payments. <em className="serif-italic" style={{ color: 'var(--text)' }}>No app store, no install</em> — open it in your browser and save it to your home screen in two taps.
       </p>
 
       {/* Mini phone-in-phone preview */}
@@ -227,21 +226,32 @@ function AppTeaser() {
         </div>
       </div>
 
-      <div className="row gap-2 mt-6">
-        <a href="#" className="app-badge" style={{ flex: 1 }}>
-          <svg width="20" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M17.05 12.04c-.04-3.96 3.23-5.86 3.38-5.95-1.85-2.7-4.71-3.07-5.73-3.11-2.44-.25-4.76 1.43-6 1.43-1.25 0-3.16-1.4-5.2-1.36-2.67.04-5.13 1.55-6.5 3.94-2.78 4.81-.71 11.94 2.01 15.85 1.33 1.91 2.91 4.06 4.99 3.98 2-.08 2.76-1.29 5.18-1.29 2.41 0 3.1 1.29 5.21 1.25 2.15-.04 3.51-1.94 4.83-3.86 1.52-2.21 2.15-4.36 2.18-4.47-.05-.02-4.18-1.6-4.22-6.36zM13.4 4.62c1.1-1.34 1.85-3.2 1.65-5.05-1.59.07-3.52 1.06-4.66 2.4-1.02 1.18-1.92 3.07-1.68 4.9 1.78.13 3.59-.91 4.69-2.25z"/></svg>
-          <div>
-            <div className="app-badge__top">Download on</div>
-            <div className="app-badge__btm">App Store</div>
+      {/* Save to home screen — PWA, no app store */}
+      <div className="card mt-6" style={{ padding: 18, background: 'var(--ink-2)' }}>
+        <div className="row between center" style={{ flexWrap: 'wrap', gap: 8 }}>
+          <div className="eyebrow eyebrow-teal">Save it to your phone</div>
+          <span className="pill pill-grad">No download · No app store</span>
+        </div>
+        <div className="display mt-3" style={{ fontSize: 20, lineHeight: 1.2 }}>
+          Open in your browser. <em className="grad-text">Pin it to your home screen.</em>
+        </div>
+        <div className="mt-4" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div className="card" style={{ padding: 14, background: 'var(--ink)' }}>
+            <div className="eyebrow eyebrow-pink mb-2">iPhone · Safari</div>
+            <div style={{ fontSize: 12, lineHeight: 1.5 }} className="dim">
+              Tap <span style={{ color: 'var(--text)', fontWeight: 600 }}>Share</span> → <span style={{ color: 'var(--text)', fontWeight: 600 }}>Add to Home Screen</span>.
+            </div>
           </div>
-        </a>
-        <a href="#" className="app-badge" style={{ flex: 1 }}>
-          <svg width="20" height="22" viewBox="0 0 24 24"><path d="M3.6 1.5c-.4.4-.6 1-.6 1.7v17.6c0 .7.2 1.3.6 1.7l11.4-11L3.6 1.5z" fill="#27CFD7"/><path d="M17.4 14L4.7 22.7c.4.2.9.3 1.4.3.5 0 1-.1 1.4-.4l13.6-7.7L17.4 14z" fill="#F97FAC"/><path d="M21 9.6L17.4 7.5l-3.4 3.5L17.4 14 21 12c.7-.4 1.1-1 1.1-1.7s-.4-1.3-1.1-1.7z" fill="#fff"/><path d="M14 11l-3.4-3.5L4.7 1.3c-.4.3-.9.4-1.4.4l11.4 11.3L14 11z" fill="#fff" opacity="0.8"/></svg>
-          <div>
-            <div className="app-badge__top">Get it on</div>
-            <div className="app-badge__btm">Google Play</div>
+          <div className="card" style={{ padding: 14, background: 'var(--ink)' }}>
+            <div className="eyebrow eyebrow-teal mb-2">Android · Chrome</div>
+            <div style={{ fontSize: 12, lineHeight: 1.5 }} className="dim">
+              Tap the <span style={{ color: 'var(--text)', fontWeight: 600 }}>⋮ menu</span> → <span style={{ color: 'var(--text)', fontWeight: 600 }}>Install app</span>.
+            </div>
           </div>
-        </a>
+        </div>
+        <p className="dim mt-4" style={{ fontSize: 11, lineHeight: 1.55 }}>
+          Opens like a real app. Works offline. Updates automatically — no version checks, no store reviews.
+        </p>
       </div>
     </section>
   );
@@ -264,7 +274,7 @@ function FooterCTA({ go }) {
       <div className="hairline mt-8 mb-4"/>
       <div className="row between center">
         <Wordmark size={14}/>
-        <div className="mono dim" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Minot · ND · est. 2018</div>
+        <div className="mono dim" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Minot · ND</div>
       </div>
     </section>
   );
