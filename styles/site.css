@@ -513,6 +513,13 @@ button.card:hover { transform: translateY(-2px); border-color: var(--line-strong
 .site-header__link.is-active { color: var(--text); background: var(--bg-elev-2); border: 1px solid var(--line); }
 .site-header__cta { white-space: nowrap; }
 .site-header__actions { display: inline-flex; align-items: center; gap: 8px; }
+.site-header__signin {
+  font-size: 13px; font-weight: 600; color: var(--text-dim);
+  text-decoration: none; padding: 6px 10px; border-radius: 8px;
+  transition: color 160ms ease, background 160ms ease;
+  white-space: nowrap;
+}
+.site-header__signin:hover { color: var(--text); background: var(--surface-soft); }
 
 .site-footer {
   background: linear-gradient(180deg, var(--ink) 0%, var(--plum-2) 100%);

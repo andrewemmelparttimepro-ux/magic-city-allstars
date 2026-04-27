@@ -1,7 +1,67 @@
-/* global React */
+/* global React, HZ */
 // MCA — small shared primitives
 
 const { useState, useEffect, useRef, useMemo } = React;
+
+// ─────────── Program data (Hit Zero `program_public_directory`) ───────────
+// Hardcoded fallback covers the case where the directory record is empty or
+// the network request fails — page never goes blank.
+const PROGRAM_FALLBACK = {
+  id: '11111111-1111-1111-1111-111111111111',
+  slug: 'mca',
+  public_name: 'Magic City Athletics',
+  brand_name: 'Magic City Athletics',
+  description: null,
+  website_url: null,
+  logo_url: null,
+  public_email: 'coaches@magiccityathletics.net',
+  public_phone: null,
+  address_line1: '111 45th Ave NE',
+  address_line2: null,
+  city: 'Minot',
+  state: 'ND',
+  postal_code: '58703',
+  country: 'US',
+  is_accepting_leads: true,
+  payment_provider: 'square',
+  public_checkout_enabled: false,
+  checkout_mode: 'manual_invoice',
+  public_payment_note: null,
+};
+
+// Module-level cache — one fetch per page-load, shared by every component.
+let _programPromise = null;
+function loadProgram() {
+  if (_programPromise) return _programPromise;
+  if (typeof window === 'undefined' || !window.HZ) {
+    _programPromise = Promise.resolve(PROGRAM_FALLBACK);
+    return _programPromise;
+  }
+  _programPromise = window.HZ.getProgram()
+    .then(row => mergeWithFallback(row))
+    .catch(() => PROGRAM_FALLBACK);
+  return _programPromise;
+}
+
+function mergeWithFallback(row) {
+  if (!row) return PROGRAM_FALLBACK;
+  // For each field, prefer the live row but fall back if empty/null.
+  const merged = { ...PROGRAM_FALLBACK };
+  for (const k of Object.keys(row)) {
+    if (row[k] != null && row[k] !== '') merged[k] = row[k];
+  }
+  return merged;
+}
+
+function useProgram() {
+  const [program, setProgram] = useState(PROGRAM_FALLBACK);
+  useEffect(() => {
+    let cancelled = false;
+    loadProgram().then(p => { if (!cancelled) setProgram(p); });
+    return () => { cancelled = true; };
+  }, []);
+  return program;
+}
 
 // ─────────── Logo + wordmark ───────────
 function Logo({ size = 28 }) {
@@ -166,6 +226,7 @@ function Drawer({ onClose, onNav, page }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
         <div className="eyebrow eyebrow-teal">Schedule + sign-ups</div>
         <a href="#/contact" onClick={(e) => { e.preventDefault(); onNav('contact'); }} className="btn btn-primary btn-block">Book a free trial →</a>
+        <a href={(window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app'} target="_blank" rel="noopener noreferrer" className="btn btn-block">Sign in to Hit Zero</a>
         <div className="dim" style={{ fontSize: 11, lineHeight: 1.5, marginTop: 6 }}>
           Real-time schedules, registration, billing and team rosters all live in the Hit Zero app.
         </div>
@@ -299,6 +360,7 @@ function DesktopHeader({ page, go }) {
         </nav>
         <div className="site-header__actions">
           <ThemeToggle/>
+          <a href={(window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app'} target="_blank" rel="noopener noreferrer" className="site-header__signin" aria-label="Sign in to Hit Zero">Sign in</a>
           <a href="#/contact" onClick={(e) => { e.preventDefault(); go('contact'); }} className="btn btn-primary btn-sm site-header__cta">Book a free trial →</a>
         </div>
       </div>
@@ -333,9 +395,11 @@ function DesktopFooter({ go }) {
           <p className="dim" style={{ fontSize: 13, lineHeight: 1.55 }}>
             Schedules, billing, badges — all in <em className="grad-text">Hit Zero</em>.
           </p>
-          <div className="row gap-2 mt-4">
-            <a href="#" className="app-badge" aria-label="Download on the App Store"><div><div className="app-badge__top">Download on</div><div className="app-badge__btm">App Store</div></div></a>
-            <a href="#" className="app-badge" aria-label="Get it on Google Play"><div><div className="app-badge__top">Get it on</div><div className="app-badge__btm">Google Play</div></div></a>
+          <div className="col gap-2 mt-4">
+            <a href={(window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app'} target="_blank" rel="noopener noreferrer" className="btn btn-block">Sign in to Hit Zero →</a>
+            <p className="dim" style={{ fontSize: 11, lineHeight: 1.5 }}>
+              No app-store install. Open in your browser, then add to home screen.
+            </p>
           </div>
           <div className="row gap-3 mt-6" style={{ alignItems: 'center' }}>
             <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="social-icon">
@@ -355,4 +419,4 @@ function DesktopFooter({ go }) {
   );
 }
 
-Object.assign(window, { Logo, Wordmark, StatusBar, TopNav, Drawer, NAV_ITEMS, SECONDARY_NAV, Photo, SectionHead, Reveal, useInView, useMediaQuery, DesktopHeader, DesktopFooter, ThemeToggle, useTheme });
+Object.assign(window, { Logo, Wordmark, StatusBar, TopNav, Drawer, NAV_ITEMS, SECONDARY_NAV, Photo, SectionHead, Reveal, useInView, useMediaQuery, DesktopHeader, DesktopFooter, ThemeToggle, useTheme, useProgram });

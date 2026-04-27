@@ -1,5 +1,5 @@
-/* global React, Photo, SectionHead, Reveal */
-const { useState: useS_p } = React;
+/* global React, Photo, SectionHead, Reveal, useProgram, HZ */
+const { useState: useS_p, useEffect: useE_p, useRef: useR_p } = React;
 
 const COACHES = [
   { name: 'Brynn Franklin', role: 'Co-Owner · CEO · Director of Athletic Operations', short: 'CEO', tone: 'pink',
@@ -57,6 +57,9 @@ function CoachesPage() {
           ))}
         </div>
       </section>
+
+      {/* Owner-only console deep links */}
+      <OwnerToolsCard/>
     </div>
   );
 }
@@ -126,6 +129,17 @@ const PRICE_GROUPS = [
 ];
 
 function PricingPage({ go }) {
+  const [windows, setWindows] = useS_p([]);
+  useE_p(() => {
+    let cancelled = false;
+    if (window.HZ) {
+      window.HZ.getActiveRegistrationWindows()
+        .then(rows => { if (!cancelled) setWindows(rows || []); })
+        .catch(() => { /* show no windows */ });
+    }
+    return () => { cancelled = true; };
+  }, []);
+
   return (
     <div>
       <section className="sec">
@@ -166,6 +180,22 @@ function PricingPage({ go }) {
           </div>
         </article>
       </section>
+
+      {/* Active registration windows — pulled live from Hit Zero */}
+      {windows.length > 0 && (
+        <section className="sec" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
+          <div className="eyebrow eyebrow-teal mb-2">SIGN UP NOW</div>
+          <div className="display" style={{ fontSize: 'clamp(28px, 6vw, 40px)', lineHeight: 1.05 }}>
+            Open <em className="grad-text">registration</em>.
+          </div>
+          <p className="dim mt-3" style={{ fontSize: 14, lineHeight: 1.55 }}>
+            Reserve your athlete's spot. We review every registration and email you within 48 hours.
+          </p>
+          <div className="col gap-4 mt-6">
+            {windows.map(w => <RegistrationWindowCard key={w.id} window_={w}/>)}
+          </div>
+        </section>
+      )}
 
       <section className="sec">
         <div className="col gap-6">
@@ -221,4 +251,182 @@ function PricingPage({ go }) {
   );
 }
 
-Object.assign(window, { CoachesPage, PricingPage });
+// ─────────── Owner tools (deep links into Hit Zero) ───────────
+function OwnerToolsCard() {
+  const HZ_URL = (window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app';
+  return (
+    <section className="sec" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)' }}>
+      <div className="card" style={{ padding: 22 }}>
+        <div className="row between center" style={{ flexWrap: 'wrap', gap: 8 }}>
+          <div className="eyebrow eyebrow-teal">Owners only</div>
+          <span className="pill pill-grad">Hit Zero</span>
+        </div>
+        <div className="display mt-3" style={{ fontSize: 22, lineHeight: 1.2 }}>
+          Run the gym in <em className="grad-text">Hit Zero</em>.
+        </div>
+        <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55 }}>
+          Roster, leads, registrations, and billing all live in the owner console. Sign in with your magic-link email to manage everything — and connect your Square account to take payments.
+        </p>
+        <div className="col gap-2 mt-5">
+          <a href={`${HZ_URL}/#billing`} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-block">Connect Square (sign in) →</a>
+          <a href={`${HZ_URL}/#admin`} target="_blank" rel="noopener noreferrer" className="btn btn-block">Open owner console</a>
+        </div>
+        <p className="dim mt-3" style={{ fontSize: 11, lineHeight: 1.55 }}>
+          You'll be asked to sign in via magic link the first time. After that, deep links open straight into the right tab.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+// ─────────── Registration window card ───────────
+function fmtDate(iso) {
+  if (!iso) return null;
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch (_) { return null; }
+}
+
+function RegistrationWindowCard({ window_: w }) {
+  const [open, setOpen] = useS_p(false);
+  const [submitted, setSubmitted] = useS_p(false);
+  const [submitting, setSubmitting] = useS_p(false);
+  const [submitError, setSubmitError] = useS_p(null);
+  const [form, setForm] = useS_p({ athleteName: '', athleteDob: '', parentName: '', parentEmail: '', parentPhone: '', levelInterest: '', notes: '', hp: '' });
+  const [errors, setErrors] = useS_p({});
+  const mountedAt = useR_p(Date.now());
+
+  const closesLabel = w.closes_at ? `closes ${fmtDate(w.closes_at)}` : 'rolling';
+  const opensLabel = w.opens_at ? `opens ${fmtDate(w.opens_at)}` : null;
+
+  const onChange = (k) => (e) => {
+    setForm({ ...form, [k]: e.target.value });
+    if (errors[k]) setErrors({ ...errors, [k]: undefined });
+  };
+
+  const validate = () => {
+    const next = {};
+    if (!form.athleteName.trim()) next.athleteName = 'Required';
+    if (!form.parentName.trim()) next.parentName = 'Required';
+    if (!form.parentEmail.trim()) next.parentEmail = 'Required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.parentEmail.trim())) next.parentEmail = 'Looks invalid';
+    if (form.levelInterest && !/^\d+$/.test(form.levelInterest.trim())) next.levelInterest = 'Numbers only (1–6)';
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitError(null);
+    if (form.hp) { setSubmitted(true); return; }
+    if (Date.now() - mountedAt.current < 2000) {
+      setSubmitError('Please take a second to review and resubmit.');
+      return;
+    }
+    if (!validate()) return;
+    setSubmitting(true);
+    try {
+      await window.HZ.submitRegistration({
+        window_id: w.id,
+        athlete_name: form.athleteName.trim(),
+        athlete_dob: form.athleteDob || null,
+        parent_name: form.parentName.trim(),
+        parent_email: form.parentEmail.trim(),
+        parent_phone: form.parentPhone.trim() || null,
+        level_interest: form.levelInterest ? parseInt(form.levelInterest, 10) : null,
+        notes: form.notes.trim() || null,
+      });
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError('We couldn\'t submit your registration. Please try again or email us directly.');
+      console.error('registration submit failed', err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <article className="card" style={{ padding: 22 }}>
+      <div className="row between" style={{ flexWrap: 'wrap', gap: 12, alignItems: 'flex-start' }}>
+        <div style={{ flex: 1, minWidth: 200 }}>
+          <div className="eyebrow eyebrow-pink mb-1">{[opensLabel, closesLabel].filter(Boolean).join(' · ')}</div>
+          <div className="display" style={{ fontSize: 22, lineHeight: 1.2 }}>{w.title}</div>
+        </div>
+        {Number(w.fee_amount) > 0 && (
+          <div style={{ textAlign: 'right' }}>
+            <div className="display-strong grad-text" style={{ fontSize: 28, lineHeight: 1, letterSpacing: '-0.02em' }}>${Number(w.fee_amount).toFixed(0)}</div>
+            <div className="eyebrow mt-1">Fee</div>
+          </div>
+        )}
+      </div>
+      {w.description && <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55 }}>{w.description}</p>}
+
+      {!open && !submitted && (
+        <button onClick={() => setOpen(true)} className="btn btn-primary btn-block mt-4">Register →</button>
+      )}
+
+      {open && !submitted && (
+        <form onSubmit={onSubmit} className="col gap-3 mt-5" noValidate>
+          <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+            <label>Leave this empty <input tabIndex="-1" autoComplete="off" type="text" value={form.hp} onChange={onChange('hp')}/></label>
+          </div>
+          <Field label="ATHLETE NAME" htmlFor={`r-${w.id}-an`} error={errors.athleteName}>
+            <input id={`r-${w.id}-an`} type="text" placeholder="Your athlete's name" value={form.athleteName} onChange={onChange('athleteName')} className="form-input" required aria-invalid={!!errors.athleteName}/>
+          </Field>
+          <Field label="ATHLETE DATE OF BIRTH" htmlFor={`r-${w.id}-dob`}>
+            <input id={`r-${w.id}-dob`} type="date" value={form.athleteDob} onChange={onChange('athleteDob')} className="form-input"/>
+          </Field>
+          <Field label="LEVEL INTEREST (1–6, optional)" htmlFor={`r-${w.id}-lv`} error={errors.levelInterest}>
+            <input id={`r-${w.id}-lv`} type="text" inputMode="numeric" placeholder="e.g. 2" value={form.levelInterest} onChange={onChange('levelInterest')} className="form-input" aria-invalid={!!errors.levelInterest}/>
+          </Field>
+          <Field label="PARENT/GUARDIAN NAME" htmlFor={`r-${w.id}-pn`} error={errors.parentName}>
+            <input id={`r-${w.id}-pn`} type="text" placeholder="First & last" value={form.parentName} onChange={onChange('parentName')} className="form-input" autoComplete="name" required aria-invalid={!!errors.parentName}/>
+          </Field>
+          <Field label="PARENT EMAIL" htmlFor={`r-${w.id}-em`} error={errors.parentEmail}>
+            <input id={`r-${w.id}-em`} type="email" placeholder="you@example.com" value={form.parentEmail} onChange={onChange('parentEmail')} className="form-input" autoComplete="email" required aria-invalid={!!errors.parentEmail}/>
+          </Field>
+          <Field label="PARENT PHONE (OPTIONAL)" htmlFor={`r-${w.id}-ph`}>
+            <input id={`r-${w.id}-ph`} type="tel" placeholder="(701) 555-0123" value={form.parentPhone} onChange={onChange('parentPhone')} className="form-input" autoComplete="tel"/>
+          </Field>
+          <Field label="NOTES (OPTIONAL)" htmlFor={`r-${w.id}-no`}>
+            <textarea id={`r-${w.id}-no`} rows="2" placeholder="Anything we should know" value={form.notes} onChange={onChange('notes')} className="form-input" style={{ resize: 'vertical', minHeight: 60 }}/>
+          </Field>
+          {submitError && (
+            <div role="alert" className="card" style={{ padding: 12, fontSize: 13, lineHeight: 1.5, borderColor: 'var(--pink)' }}>{submitError}</div>
+          )}
+          <div className="row gap-2 mt-2">
+            <button type="button" onClick={() => setOpen(false)} className="btn" style={{ flex: 1 }}>Cancel</button>
+            <button type="submit" disabled={submitting} className="btn btn-primary" style={{ flex: 2 }}>{submitting ? 'Submitting…' : 'Submit registration →'}</button>
+          </div>
+          <p className="dim" style={{ fontSize: 11, lineHeight: 1.55 }}>
+            Goes straight to MCA staff in <em>Hit Zero</em>. Payment (if any) handled separately by the gym after acceptance.
+          </p>
+        </form>
+      )}
+
+      {submitted && (
+        <div className="card mt-4" role="status" aria-live="polite" style={{ padding: 18, textAlign: 'center', background: 'linear-gradient(160deg, rgba(39,207,215,0.10), rgba(249,127,172,0.10))' }}>
+          <div className="grad-text serif-italic" style={{ fontSize: 36, lineHeight: 1, fontWeight: 900 }}>✓</div>
+          <div className="display mt-2" style={{ fontSize: 18 }}>You're registered.</div>
+          <p className="dim mt-2" style={{ fontSize: 12, lineHeight: 1.5 }}>MCA staff will review and email you within 48 hours.</p>
+        </div>
+      )}
+    </article>
+  );
+}
+
+// Tiny field wrapper (mirrors the one in FAQContact.jsx)
+function Field({ label, htmlFor, error, children }) {
+  return (
+    <label className="col gap-2" htmlFor={htmlFor}>
+      <span className="row between center">
+        <span className="eyebrow">{label}</span>
+        {error && <span className="eyebrow eyebrow-pink" role="alert">{error}</span>}
+      </span>
+      {children}
+    </label>
+  );
+}
+
+Object.assign(window, { CoachesPage, PricingPage, RegistrationWindowCard, OwnerToolsCard });
