@@ -6,7 +6,7 @@ function HomePage({ go }) {
   return (
     <div>
       {/* HERO */}
-      <section style={{ position: 'relative', minHeight: 620, padding: '20px 22px 36px', overflow: 'hidden' }}>
+      <section className="home-hero" style={{ position: 'relative', minHeight: 620, padding: '20px 22px 36px', overflow: 'hidden' }}>
         {/* Hero photo backdrop full-bleed */}
         <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
           <Photo ratio="auto" tone="mix" src="assets/photos/team-group-1.jpeg" alt="Magic City Athletics — owners and coaches" focal="50% 30%" label="HERO" style={{ height: '100%', borderRadius: 0 }}/>
