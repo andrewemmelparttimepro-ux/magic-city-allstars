@@ -95,6 +95,18 @@
     return (rows && rows[0]) || null;
   }
 
+  // Marketing tracks (the 6 cards on the Programs page).
+  async function getTracks(slug) {
+    const s = slug || MCA_SLUG;
+    return (await rest(`/public_program_tracks?program_slug=eq.${encodeURIComponent(s)}&select=*&order=display_order.asc`)) || [];
+  }
+
+  // Priced offerings under the tracks (the Pricing page rows).
+  async function getClasses(slug) {
+    const s = slug || MCA_SLUG;
+    return (await rest(`/public_program_classes?program_slug=eq.${encodeURIComponent(s)}&select=*&order=display_order.asc`)) || [];
+  }
+
   async function getActiveRegistrationWindows(programId) {
     const pid = programId || MCA_PROGRAM_ID;
     const nowIso = new Date().toISOString();
@@ -156,6 +168,8 @@
     MCA_SLUG,
     HIT_ZERO_URL,
     getProgram,
+    getTracks,
+    getClasses,
     getActiveRegistrationWindows,
     submitLead,
     submitRegistration,

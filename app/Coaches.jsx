@@ -65,80 +65,70 @@ function CoachesPage() {
 }
 
 // ─────────── PRICING ───────────
-const PRICE_GROUPS = [
-  {
-    title: 'All-Star Competitive',
-    eyebrow: 'Monthly tuition',
-    accent: 'pink',
-    rows: [
-      { name: 'Senior',         price: '$200', unit: '/month' },
-      { name: 'Youth / Junior', price: '$185', unit: '/month' },
-      { name: 'Mini / Youth',   price: '$165', unit: '/month' },
-    ],
-  },
-  {
-    title: 'Non-Competitive',
-    eyebrow: 'Per session (Fall + Spring)',
-    accent: 'teal',
-    rows: [
-      { name: 'Youth',  price: '$125', unit: '/month per session' },
-      { name: 'Senior', price: '$125', unit: '/month per session' },
-    ],
-  },
-  {
-    title: 'Cheer 101',
-    eyebrow: '6-week sessions',
-    accent: 'teal',
-    rows: [
-      { name: 'Ages 5–7',  price: '$165', unit: '/session' },
-      { name: 'Ages 8–12', price: '$185', unit: '/session' },
-      { name: 'Ages 13+',  price: '$200', unit: '/session' },
-    ],
-  },
-  {
-    title: 'Tumbling',
-    eyebrow: '6-week sessions',
-    accent: 'pink',
-    rows: [
-      { name: 'Tiny',         price: '$175', unit: '/session' },
-      { name: 'Beginner',     price: '$225', unit: '/session' },
-      { name: 'Intermediate', price: '$270', unit: '/session' },
-    ],
-  },
-  {
-    title: 'Specialty',
-    eyebrow: 'Add-ons & clinics',
-    accent: 'teal',
-    rows: [
-      { name: 'Mom Pom Class',   price: '$75', unit: '/month' },
-      { name: 'Jump Clinic',     price: '$75', unit: '/athlete' },
-      { name: 'Stunt Clinic',    price: '$75', unit: '/athlete' },
-    ],
-  },
-  {
-    title: '3-Day Clinic',
-    eyebrow: 'By age group',
-    accent: 'pink',
-    rows: [
-      { name: 'Tiny · 45 min',     price: '$75' },
-      { name: 'Youth · 1 hr',      price: '$100' },
-      { name: 'Junior · 1.5 hr',   price: '$125' },
-      { name: 'Senior · 2 hr',     price: '$175' },
-    ],
-  },
-];
+// Price groups now come live from program_classes (grouped by track) in
+// Hit Zero. Owner edits → website updates instantly.
+
+function fmtPrice(cents) {
+  if (cents == null) return '';
+  const dollars = cents / 100;
+  return Number.isInteger(dollars) ? `$${dollars}` : `$${dollars.toFixed(2)}`;
+}
+
+function unitLabel(cls) {
+  if (cls.price_unit_label) return cls.price_unit_label;
+  switch (cls.price_unit) {
+    case 'per_month': return '/month';
+    case 'per_session': return '/session';
+    case 'per_session_per_month': return '/month per session';
+    case 'per_athlete': return '/athlete';
+    case 'flat': return '';
+    default: return '';
+  }
+}
+
+function trackEyebrowLabel(track) {
+  if (!track) return 'Pricing';
+  if (track.eyebrow) return track.eyebrow;
+  return track.name || 'Pricing';
+}
+
+function trackAccent(track) {
+  return track?.tone === 'teal' ? 'teal' : 'pink';
+}
 
 function PricingPage({ go }) {
   const [windows, setWindows] = useS_p([]);
+  const [tracks, setTracks] = useS_p([]);
+  const [classes, setClasses] = useS_p([]);
+  const [loaded, setLoaded] = useS_p(false);
   useE_p(() => {
     let cancelled = false;
     if (window.HZ) {
       window.HZ.getActiveRegistrationWindows()
         .then(rows => { if (!cancelled) setWindows(rows || []); })
         .catch(() => { /* show no windows */ });
+      Promise.all([window.HZ.getTracks(), window.HZ.getClasses()])
+        .then(([t, c]) => { if (!cancelled) { setTracks(t || []); setClasses(c || []); setLoaded(true); } })
+        .catch(() => { if (!cancelled) setLoaded(true); });
+    } else {
+      setLoaded(true);
     }
     return () => { cancelled = true; };
   }, []);
+
+  // Group classes by track for the price-table display. Tracks with no
+  // priced classes don't render a card. Classes with no track go into a
+  // synthetic "Other" group at the end.
+  const groups = (() => {
+    const byTrack = new Map();
+    for (const t of tracks) byTrack.set(t.id, { track: t, rows: [] });
+    const other = { track: null, rows: [] };
+    for (const c of classes) {
+      const bucket = c.track_id && byTrack.has(c.track_id) ? byTrack.get(c.track_id) : other;
+      bucket.rows.push(c);
+    }
+    return [...byTrack.values(), other].filter(g => g.rows.length > 0);
+  })();
 
   return (
     <div>
@@ -199,23 +189,41 @@ function PricingPage({ go }) {
 
       <section className="sec">
         <div className="col gap-6">
-          {PRICE_GROUPS.map(g => (
-            <article key={g.title} className="card" style={{ padding: 22 }}>
-              <div className={`eyebrow eyebrow-${g.accent} mb-2`}>{g.eyebrow}</div>
-              <div className="display" style={{ fontSize: 26, marginBottom: 16 }}>{g.title}</div>
-              <div className="col" style={{ gap: 0 }}>
-                {g.rows.map((r, i) => (
-                  <div key={r.name} className="row between center" style={{ padding: '14px 0', borderTop: i === 0 ? '1px solid var(--line)' : 'none', borderBottom: '1px solid var(--line)', gap: 12 }}>
-                    <span style={{ fontWeight: 600, fontSize: 14 }}>{r.name}</span>
-                    <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 4, whiteSpace: 'nowrap' }}>
-                      <span className="display-strong grad-text" style={{ fontSize: 22, lineHeight: 1 }}>{r.price}</span>
-                      {r.unit && <span className="dim" style={{ fontSize: 11 }}>{r.unit}</span>}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </article>
-          ))}
+          {!loaded && (
+            <div className="dim" style={{ textAlign: 'center', padding: 40, fontSize: 13 }}>Loading pricing…</div>
+          )}
+          {loaded && groups.length === 0 && (
+            <div className="card" style={{ padding: 24, textAlign: 'center' }}>
+              <div className="display" style={{ fontSize: 22 }}>Pricing posted soon.</div>
+              <p className="dim mt-3" style={{ fontSize: 13 }}>Reach out for current rates and we'll walk you through everything.</p>
+              <button onClick={() => go('contact')} className="btn btn-primary btn-block mt-4">Email us →</button>
+            </div>
+          )}
+          {groups.map(g => {
+            const accent = trackAccent(g.track);
+            const title = g.track?.name || 'Other offerings';
+            const eyebrow = trackEyebrowLabel(g.track);
+            return (
+              <article key={g.track?.id || 'other'} className="card" style={{ padding: 22 }}>
+                <div className={`eyebrow eyebrow-${accent} mb-2`}>{eyebrow}</div>
+                <div className="display" style={{ fontSize: 26, marginBottom: 16 }}>{title}</div>
+                <div className="col" style={{ gap: 0 }}>
+                  {g.rows.map((r, i) => (
+                    <div key={r.id} className="row between center" style={{ padding: '14px 0', borderTop: i === 0 ? '1px solid var(--line)' : 'none', borderBottom: '1px solid var(--line)', gap: 12 }}>
+                      <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                        <span style={{ fontWeight: 600, fontSize: 14 }}>{r.name}</span>
+                        {r.schedule_summary && <span className="dim" style={{ fontSize: 11 }}>{r.schedule_summary}</span>}
+                      </span>
+                      <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 4, whiteSpace: 'nowrap' }}>
+                        <span className="display-strong grad-text" style={{ fontSize: 22, lineHeight: 1 }}>{fmtPrice(r.price_cents)}</span>
+                        {unitLabel(r) && <span className="dim" style={{ fontSize: 11 }}>{unitLabel(r)}</span>}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
