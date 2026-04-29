@@ -12,14 +12,31 @@ const TRACK_PHOTO = {
 };
 const TRACK_PHOTO_FALLBACK = ['athlete-1','athlete-2','athlete-3','athlete-4','athlete-5','athlete-6'].map(n => `assets/photos/${n}.jpeg`);
 
+function fmtClassPrice(cents) {
+  if (cents == null) return '';
+  const dollars = cents / 100;
+  return Number.isInteger(dollars) ? `$${dollars}` : `$${dollars.toFixed(2)}`;
+}
+function classUnitLabel(c) {
+  if (c.price_unit_label) return c.price_unit_label;
+  switch (c.price_unit) {
+    case 'per_month': return '/month';
+    case 'per_session': return '/session';
+    case 'per_session_per_month': return '/month per session';
+    case 'per_athlete': return '/athlete';
+    default: return '';
+  }
+}
+
 function ProgramsPage({ go }) {
   const [tracks, setTracks] = React.useState([]);
+  const [classes, setClasses] = React.useState([]);
   const [loaded, setLoaded] = React.useState(false);
   React.useEffect(() => {
     let cancelled = false;
     if (window.HZ) {
-      window.HZ.getTracks()
-        .then(rows => { if (!cancelled) { setTracks(rows || []); setLoaded(true); } })
+      Promise.all([window.HZ.getTracks(), window.HZ.getClasses()])
+        .then(([t, c]) => { if (!cancelled) { setTracks(t || []); setClasses(c || []); setLoaded(true); } })
         .catch(() => { if (!cancelled) setLoaded(true); });
     } else {
       setLoaded(true);
@@ -62,6 +79,7 @@ function ProgramsPage({ go }) {
           )}
           {tracks.map((p, i) => {
             const photo = TRACK_PHOTO[p.slug] || TRACK_PHOTO_FALLBACK[i % TRACK_PHOTO_FALLBACK.length];
+            const trackClasses = classes.filter(c => c.track_id === p.id);
             const onCta = () => {
               if (p.cta_kind === 'external' && p.cta_target) {
                 window.open(p.cta_target, '_blank', 'noopener,noreferrer');
@@ -92,6 +110,18 @@ function ProgramsPage({ go }) {
                         </ul>
                       </>
                     )}
+
+                    {/* Bookable classes for this track — owner-managed in Hit Zero */}
+                    {trackClasses.length > 0 && (
+                      <>
+                        <div className="hairline mt-6 mb-4"/>
+                        <div className="eyebrow eyebrow-teal mb-3">Sign up for a class</div>
+                        <div className="col gap-2">
+                          {trackClasses.map(c => <ClassBookingRow key={c.id} cls={c} trackName={p.name}/>)}
+                        </div>
+                      </>
+                    )}
+
                     {p.cta_kind !== 'none' && p.cta_label && (
                       <button onClick={onCta} className="btn btn-block mt-6">{p.cta_label} →</button>
                     )}
@@ -117,4 +147,152 @@ function ProgramsPage({ go }) {
   );
 }
 
-Object.assign(window, { ProgramsPage });
+// ─── Per-class booking row (collapsed → expanded inline form) ───
+function ClassBookingRow({ cls, trackName }) {
+  const [open, setOpen] = React.useState(false);
+  const [submitted, setSubmitted] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(false);
+  const [submitError, setSubmitError] = React.useState(null);
+  const [form, setForm] = React.useState({ athleteName: '', athleteDob: '', parentName: '', parentEmail: '', parentPhone: '', notes: '', hp: '' });
+  const [errors, setErrors] = React.useState({});
+  const mountedAt = React.useRef(Date.now());
+
+  const closed = !cls.registration_open;
+  const onChange = (k) => (e) => {
+    setForm({ ...form, [k]: e.target.value });
+    if (errors[k]) setErrors({ ...errors, [k]: undefined });
+  };
+
+  const validate = () => {
+    const next = {};
+    if (!form.athleteName.trim()) next.athleteName = 'Required';
+    if (!form.parentName.trim()) next.parentName = 'Required';
+    if (!form.parentEmail.trim()) next.parentEmail = 'Required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.parentEmail.trim())) next.parentEmail = 'Looks invalid';
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitError(null);
+    if (form.hp) { setSubmitted(true); return; }
+    if (Date.now() - mountedAt.current < 1500) {
+      setSubmitError('Take a second to review and resubmit.');
+      return;
+    }
+    if (!validate()) return;
+    setSubmitting(true);
+    try {
+      await window.HZ.submitRegistration({
+        class_id: cls.id,
+        athlete_name: form.athleteName.trim(),
+        athlete_dob: form.athleteDob || null,
+        parent_name: form.parentName.trim(),
+        parent_email: form.parentEmail.trim(),
+        parent_phone: form.parentPhone.trim() || null,
+        notes: form.notes.trim() || null,
+        metadata: { booked_class: cls.name, track: trackName },
+      });
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(err?.message || 'Couldn\'t book this class. Try again or email us.');
+      console.error('class booking failed', err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const priceStr = fmtClassPrice(cls.price_cents);
+  const unitStr = classUnitLabel(cls);
+
+  if (submitted) {
+    return (
+      <div className="card" role="status" aria-live="polite" style={{ padding: 14, background: 'linear-gradient(160deg, rgba(39,207,215,0.10), rgba(249,127,172,0.10))' }}>
+        <div className="row gap-3 center">
+          <div className="grad-text serif-italic" style={{ fontSize: 24, lineHeight: 1, fontWeight: 900 }}>✓</div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 700, fontSize: 14 }}>You're on the list for {cls.name}.</div>
+            <div className="dim" style={{ fontSize: 11, lineHeight: 1.4, marginTop: 2 }}>MCA staff will email you within 48 hours to confirm.</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="card" style={{ padding: 14 }}>
+      <div className="row between center" style={{ flexWrap: 'wrap', gap: 8 }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontWeight: 700, fontSize: 14 }}>{cls.name}</div>
+          {cls.schedule_summary && <div className="dim" style={{ fontSize: 11, marginTop: 2 }}>{cls.schedule_summary}</div>}
+        </div>
+        <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 4, whiteSpace: 'nowrap' }}>
+          <span className="display-strong grad-text" style={{ fontSize: 18, lineHeight: 1 }}>{priceStr}</span>
+          {unitStr && <span className="dim" style={{ fontSize: 10 }}>{unitStr}</span>}
+        </div>
+      </div>
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          disabled={closed}
+          className={closed ? 'btn btn-block mt-3' : 'btn btn-primary btn-block mt-3'}
+          style={{ fontSize: 13, padding: '10px 14px' }}
+        >
+          {closed ? 'Sign-ups closed' : 'Book this class →'}
+        </button>
+      )}
+      {open && (
+        <form onSubmit={onSubmit} className="col gap-3 mt-4" noValidate>
+          <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+            <label>Leave empty <input tabIndex="-1" autoComplete="off" type="text" value={form.hp} onChange={onChange('hp')}/></label>
+          </div>
+          <BookingField label="ATHLETE NAME" htmlFor={`b-${cls.id}-an`} error={errors.athleteName}>
+            <input id={`b-${cls.id}-an`} type="text" placeholder="Your athlete's name" value={form.athleteName} onChange={onChange('athleteName')} className="form-input" required aria-invalid={!!errors.athleteName}/>
+          </BookingField>
+          <BookingField label="ATHLETE DATE OF BIRTH (OPTIONAL)" htmlFor={`b-${cls.id}-dob`}>
+            <input id={`b-${cls.id}-dob`} type="date" value={form.athleteDob} onChange={onChange('athleteDob')} className="form-input"/>
+          </BookingField>
+          <BookingField label="PARENT/GUARDIAN NAME" htmlFor={`b-${cls.id}-pn`} error={errors.parentName}>
+            <input id={`b-${cls.id}-pn`} type="text" placeholder="First & last" value={form.parentName} onChange={onChange('parentName')} className="form-input" autoComplete="name" required aria-invalid={!!errors.parentName}/>
+          </BookingField>
+          <BookingField label="PARENT EMAIL" htmlFor={`b-${cls.id}-em`} error={errors.parentEmail}>
+            <input id={`b-${cls.id}-em`} type="email" placeholder="you@example.com" value={form.parentEmail} onChange={onChange('parentEmail')} className="form-input" autoComplete="email" required aria-invalid={!!errors.parentEmail}/>
+          </BookingField>
+          <BookingField label="PARENT PHONE (OPTIONAL)" htmlFor={`b-${cls.id}-ph`}>
+            <input id={`b-${cls.id}-ph`} type="tel" placeholder="(701) 555-0123" value={form.parentPhone} onChange={onChange('parentPhone')} className="form-input" autoComplete="tel"/>
+          </BookingField>
+          <BookingField label="NOTES (OPTIONAL)" htmlFor={`b-${cls.id}-no`}>
+            <textarea id={`b-${cls.id}-no`} rows="2" placeholder="Anything we should know" value={form.notes} onChange={onChange('notes')} className="form-input" style={{ resize: 'vertical', minHeight: 60 }}/>
+          </BookingField>
+          {submitError && (
+            <div role="alert" className="card" style={{ padding: 10, fontSize: 12, lineHeight: 1.5, borderColor: 'var(--pink)' }}>{submitError}</div>
+          )}
+          <div className="row gap-2 mt-1">
+            <button type="button" onClick={() => setOpen(false)} className="btn" style={{ flex: 1, fontSize: 13 }}>Cancel</button>
+            <button type="submit" disabled={submitting} className="btn btn-primary" style={{ flex: 2, fontSize: 13 }}>
+              {submitting ? 'Booking…' : `Book ${cls.name} →`}
+            </button>
+          </div>
+          <p className="dim" style={{ fontSize: 10, lineHeight: 1.5 }}>
+            Goes straight to MCA staff. Payment (if any) handled by the gym after acceptance.
+          </p>
+        </form>
+      )}
+    </div>
+  );
+}
+
+function BookingField({ label, htmlFor, error, children }) {
+  return (
+    <label className="col gap-2" htmlFor={htmlFor}>
+      <span className="row between center">
+        <span className="eyebrow" style={{ fontSize: 9 }}>{label}</span>
+        {error && <span className="eyebrow eyebrow-pink" role="alert" style={{ fontSize: 9 }}>{error}</span>}
+      </span>
+      {children}
+    </label>
+  );
+}
+
+Object.assign(window, { ProgramsPage, ClassBookingRow });
