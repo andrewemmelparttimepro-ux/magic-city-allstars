@@ -88,7 +88,7 @@ function TeamsPage({ go }) {
           Open to athletes ages 5–18. Required: 30-minute placement evaluation in the week prior. Returning athletes book directly in the app.
         </p>
         <div className="col gap-3 mt-6">
-          <button onClick={() => go('contact')} className="btn btn-primary btn-block">Reserve a tryout slot →</button>
+          <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Reserve a tryout slot →</a>
           <button className="btn btn-block">What to expect</button>
         </div>
       </section>

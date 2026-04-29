@@ -166,7 +166,7 @@ function PricingPage({ go }) {
             <div className="row gap-3 center"><span className="grad-text" style={{ fontFamily: 'var(--mono)' }}>◈</span><span>Coaches on the floor to answer anything</span></div>
           </div>
           <div className="col gap-3 mt-6">
-            <button onClick={() => go('contact')} className="btn btn-primary btn-block">Find the next open gym →</button>
+            <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Find the next open gym →</a>
           </div>
         </article>
       </section>
@@ -196,7 +196,7 @@ function PricingPage({ go }) {
             <div className="card" style={{ padding: 24, textAlign: 'center' }}>
               <div className="display" style={{ fontSize: 22 }}>Pricing posted soon.</div>
               <p className="dim mt-3" style={{ fontSize: 13 }}>Reach out for current rates and we'll walk you through everything.</p>
-              <button onClick={() => go('contact')} className="btn btn-primary btn-block mt-4">Email us →</button>
+              <a href="mailto:coaches@magiccityathletics.net" className="btn btn-primary btn-block mt-4" style={{ textDecoration: 'none', textAlign: 'center' }}>Email us →</a>
             </div>
           )}
           {groups.map(g => {
@@ -251,7 +251,7 @@ function PricingPage({ go }) {
         <div className="display" style={{ fontSize: 28 }}>Questions on pricing?</div>
         <p className="dim mt-3" style={{ fontSize: 13 }}>We'll walk you through every dollar before you sign anything. Book a tour or shoot us an email.</p>
         <div className="col gap-3 mt-4">
-          <button onClick={() => go('contact')} className="btn btn-primary btn-block">Book a tour →</button>
+          <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a tour →</a>
           <a href="mailto:coaches@magiccityathletics.net" className="btn btn-block">Email coaches@magiccityathletics.net</a>
         </div>
       </section>

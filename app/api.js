@@ -16,6 +16,7 @@
   const MCA_PROGRAM_ID = '11111111-1111-1111-1111-111111111111';
   const MCA_SLUG = 'mca';
   const HIT_ZERO_URL = 'https://hit-zero.vercel.app';
+  const HIT_ZERO_TRIAL_URL = `${HIT_ZERO_URL}/#trial/${MCA_SLUG}`;
 
   // Capture UTM + referrer once per session so every later insert carries them.
   function captureSourceContext() {
@@ -167,6 +168,7 @@
     MCA_PROGRAM_ID,
     MCA_SLUG,
     HIT_ZERO_URL,
+    HIT_ZERO_TRIAL_URL,
     getProgram,
     getTracks,
     getClasses,

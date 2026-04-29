@@ -225,7 +225,7 @@ function Drawer({ onClose, onNav, page }) {
       <div className="drawer__divider"/>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
         <div className="eyebrow eyebrow-teal">Schedule + sign-ups</div>
-        <a href="#/contact" onClick={(e) => { e.preventDefault(); onNav('contact'); }} className="btn btn-primary btn-block">Book a free trial →</a>
+        <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block">Book a free trial →</a>
         <a href={(window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app'} target="_blank" rel="noopener noreferrer" className="btn btn-block">Sign in to Hit Zero</a>
         <div className="dim" style={{ fontSize: 11, lineHeight: 1.5, marginTop: 6 }}>
           Real-time schedules, registration, billing and team rosters all live in the Hit Zero app.
@@ -361,7 +361,7 @@ function DesktopHeader({ page, go }) {
         <div className="site-header__actions">
           <ThemeToggle/>
           <a href={(window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app'} target="_blank" rel="noopener noreferrer" className="site-header__signin" aria-label="Sign in to Hit Zero">Sign in</a>
-          <a href="#/contact" onClick={(e) => { e.preventDefault(); go('contact'); }} className="btn btn-primary btn-sm site-header__cta">Book a free trial →</a>
+          <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-sm site-header__cta">Book a free trial →</a>
         </div>
       </div>
     </header>

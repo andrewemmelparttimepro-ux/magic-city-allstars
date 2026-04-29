@@ -74,7 +74,7 @@ function ProgramsPage({ go }) {
             <div className="card" style={{ padding: 24, textAlign: 'center' }}>
               <div className="display" style={{ fontSize: 22 }}>Programs coming soon.</div>
               <p className="dim mt-3" style={{ fontSize: 13 }}>Our tracks are being set up. Reach out and we'll walk you through the options.</p>
-              <button onClick={() => go('contact')} className="btn btn-primary btn-block mt-4">Get in touch →</button>
+              <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block mt-4" style={{ textDecoration: 'none', textAlign: 'center' }}>Get in touch →</a>
             </div>
           )}
           {tracks.map((p, i) => {
@@ -84,7 +84,7 @@ function ProgramsPage({ go }) {
               if (p.cta_kind === 'external' && p.cta_target) {
                 window.open(p.cta_target, '_blank', 'noopener,noreferrer');
               } else {
-                go('contact');
+                window.location.href = (window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca';
               }
             };
             return (
@@ -141,7 +141,7 @@ function ProgramsPage({ go }) {
         <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55 }}>
           Book a free placement evaluation. 30 minutes, no pressure, you leave with a recommendation.
         </p>
-        <button onClick={() => go('contact')} className="btn btn-primary btn-block mt-4">Book a placement →</button>
+        <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block mt-4" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a placement →</a>
       </section>
     </div>
   );

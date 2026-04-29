@@ -27,7 +27,7 @@ function HomePage({ go }) {
             Bring out the <em className="serif-italic grad-text" style={{ fontWeight: 800 }}>MAGIC</em> in <em className="serif-italic" style={{ color: '#fff' }}>YOU</em>.
           </p>
           <div className="col gap-3 mt-6">
-            <button onClick={() => go('contact')} className="btn btn-primary btn-block">Book a free trial class →</button>
+            <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a free trial class →</a>
             <button onClick={() => go('programs')} className="btn btn-block">Explore programs</button>
           </div>
         </div>
@@ -268,7 +268,7 @@ function FooterCTA({ go }) {
         First class is on us. Walk in, stretch out, see if it clicks. Most kids know within 30 minutes.
       </p>
       <div className="col gap-3 mt-6">
-        <button onClick={() => go('contact')} className="btn btn-primary btn-block">Book a free trial →</button>
+        <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a free trial →</a>
         <button onClick={() => go('faq')} className="btn btn-block">Read the FAQ first</button>
       </div>
       <div className="hairline mt-8 mb-4"/>
