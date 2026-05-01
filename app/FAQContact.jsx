@@ -118,7 +118,7 @@ function ContactPage() {
           <div className="hairline"/>
           <div className="row between" style={{ padding: '8px 0' }}>
             <span className="eyebrow">HOURS</span>
-            <span style={{ fontSize: 13, fontWeight: 600 }}>Mon–Fri 3–9 · Sat 9–5</span>
+            <span className="dim" style={{ fontSize: 12, fontStyle: 'italic' }}>Posting soon — reach out for current schedule</span>
           </div>
         </div>
 
