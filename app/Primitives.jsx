@@ -360,6 +360,7 @@ function DesktopHeader({ page, go }) {
         </nav>
         <div className="site-header__actions">
           <ThemeToggle/>
+          <a href={(window.HZ && window.HZ.HIT_ZERO_BILLING_URL) || 'https://hit-zero.vercel.app/#billing'} target="_blank" rel="noopener noreferrer" className="site-header__signin" aria-label="Pay tuition online" title="Pay tuition online — secured by Square">Pay tuition</a>
           <a href={(window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app'} target="_blank" rel="noopener noreferrer" className="site-header__signin" aria-label="Sign in to Hit Zero">Sign in</a>
           <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-sm site-header__cta">Book a free trial →</a>
         </div>
@@ -396,6 +397,10 @@ function DesktopFooter({ go }) {
             Schedules, billing, badges — all in <em className="grad-text">Hit Zero</em>.
           </p>
           <div className="col gap-2 mt-4">
+            <a href={(window.HZ && window.HZ.HIT_ZERO_BILLING_URL) || 'https://hit-zero.vercel.app/#billing'} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-block">Pay tuition online →</a>
+            <p className="dim" style={{ fontSize: 11, lineHeight: 1.5 }}>
+              Card payments processed securely by <strong style={{ color: 'var(--text)' }}>Square</strong>. Receipts land in your inbox.
+            </p>
             <a href={(window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app'} target="_blank" rel="noopener noreferrer" className="btn btn-block">Sign in to Hit Zero →</a>
             <p className="dim" style={{ fontSize: 11, lineHeight: 1.5 }}>
               No app-store install. Open in your browser, then add to home screen.
