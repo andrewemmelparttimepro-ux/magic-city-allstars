@@ -55,8 +55,12 @@ function TeamsPage({ go }) {
           </div>
         </Photo>
         <div className="row gap-3 mt-4">
-          <button className="btn" style={{ flex: 1 }}>Routine reel</button>
-          <button className="btn" style={{ flex: 1 }}>Tryout info →</button>
+          <button className="btn" style={{ flex: 1 }} onClick={() => go && go('faq')}>Routine reel</button>
+          <a
+            href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'}
+            className="btn"
+            style={{ flex: 1, textDecoration: 'none', textAlign: 'center' }}
+          >Tryout info →</a>
         </div>
       </section>
 
@@ -89,7 +93,7 @@ function TeamsPage({ go }) {
         </p>
         <div className="col gap-3 mt-6">
           <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Reserve a tryout slot →</a>
-          <button className="btn btn-block">What to expect</button>
+          <button className="btn btn-block" onClick={() => go && go('faq')}>What to expect</button>
         </div>
       </section>
     </div>
@@ -97,7 +101,7 @@ function TeamsPage({ go }) {
 }
 
 // ─────────── FACILITY ───────────
-function FacilityPage() {
+function FacilityPage({ go }) {
   return (
     <div>
       <section className="sec">
@@ -135,7 +139,11 @@ function FacilityPage() {
       <section className="sec">
         <div className="display" style={{ fontSize: 28 }}>Come tour the gym.</div>
         <p className="dim mt-3" style={{ fontSize: 13 }}>Walk the floor, watch a practice, ask questions. 20 minutes, weekday afternoons.</p>
-        <button className="btn btn-primary btn-block mt-4">Book a tour →</button>
+        <a
+          href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'}
+          className="btn btn-primary btn-block mt-4"
+          style={{ textDecoration: 'none', textAlign: 'center' }}
+        >Book a tour →</a>
       </section>
     </div>
   );

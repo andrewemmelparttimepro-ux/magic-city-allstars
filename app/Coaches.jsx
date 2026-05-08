@@ -20,7 +20,7 @@ const COACHES = [
     quote: 'Clean is louder than hard.' },
 ];
 
-function CoachesPage() {
+function CoachesPage({ go }) {
   return (
     <div>
       <section className="sec">
@@ -210,18 +210,32 @@ function PricingPage({ go }) {
                 <div className={`eyebrow eyebrow-${accent} mb-2`}>{eyebrow}</div>
                 <div className="display" style={{ fontSize: 26, marginBottom: 16 }}>{title}</div>
                 <div className="col" style={{ gap: 0 }}>
-                  {g.rows.map((r, i) => (
-                    <div key={r.id} className="row between center" style={{ padding: '14px 0', borderTop: i === 0 ? '1px solid var(--line)' : 'none', borderBottom: '1px solid var(--line)', gap: 12 }}>
-                      <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                        <span style={{ fontWeight: 600, fontSize: 14 }}>{r.name}</span>
-                        {r.schedule_summary && <span className="dim" style={{ fontSize: 11 }}>{r.schedule_summary}</span>}
-                      </span>
-                      <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 4, whiteSpace: 'nowrap' }}>
-                        <span className="display-strong grad-text" style={{ fontSize: 22, lineHeight: 1 }}>{fmtPrice(r.price_cents)}</span>
-                        {unitLabel(r) && <span className="dim" style={{ fontSize: 11 }}>{unitLabel(r)}</span>}
-                      </span>
-                    </div>
-                  ))}
+                  {g.rows.map((r, i) => {
+                    const hzUrl = (window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app';
+                    const bookHref = `${hzUrl}/#book/${r.id}`;
+                    const open = r.registration_open !== false;
+                    return (
+                      <div key={r.id} className="row between center" style={{ padding: '14px 0', borderTop: i === 0 ? '1px solid var(--line)' : 'none', borderBottom: '1px solid var(--line)', gap: 12, flexWrap: 'wrap' }}>
+                        <span style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minWidth: 180 }}>
+                          <span style={{ fontWeight: 600, fontSize: 14 }}>{r.name}</span>
+                          {r.schedule_summary && <span className="dim" style={{ fontSize: 11 }}>{r.schedule_summary}</span>}
+                        </span>
+                        <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 4, whiteSpace: 'nowrap' }}>
+                          <span className="display-strong grad-text" style={{ fontSize: 22, lineHeight: 1 }}>{fmtPrice(r.price_cents)}</span>
+                          {unitLabel(r) && <span className="dim" style={{ fontSize: 11 }}>{unitLabel(r)}</span>}
+                        </span>
+                        {open ? (
+                          <a
+                            href={bookHref}
+                            className="btn btn-primary"
+                            style={{ fontSize: 12, padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}
+                          >Book →</a>
+                        ) : (
+                          <span className="dim" style={{ fontSize: 11, fontStyle: 'italic' }}>Closed</span>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </article>
             );
@@ -278,11 +292,12 @@ function OwnerToolsCard() {
           Roster, leads, registrations, and billing all live in the owner console. Sign in with your magic-link email to manage everything — and connect your Square account to take payments.
         </p>
         <div className="col gap-2 mt-5">
-          <a href={`${HZ_URL}/#billing`} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-block">Connect Square (sign in) →</a>
+          <a href={`${HZ_URL}/#profile`} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-block">Connect Square (sign in) →</a>
+          <a href={`${HZ_URL}/#billing`} target="_blank" rel="noopener noreferrer" className="btn btn-block">Open Billing</a>
           <a href={`${HZ_URL}/#admin`} target="_blank" rel="noopener noreferrer" className="btn btn-block">Open owner console</a>
         </div>
         <p className="dim mt-3" style={{ fontSize: 11, lineHeight: 1.55 }}>
-          You'll be asked to sign in via magic link the first time. After that, deep links open straight into the right tab.
+          Sign in with your owner email + password. The "Connect Square" button opens the My Account screen with a step-by-step setup wizard.
         </p>
       </div>
     </section>
