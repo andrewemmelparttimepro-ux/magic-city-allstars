@@ -47,9 +47,9 @@ function FAQPage() {
 // ─────────── CONTACT ───────────
 function ContactPage() {
   const program = useProgram();
-  const CONTACT_EMAIL = program.public_email || 'coaches@magiccityathletics.net';
+  const CONTACT_EMAIL = program.public_email || 'teammca@mcaminot.com';
   const CONTACT_ADDRESS = [program.address_line1, [program.city, program.state, program.postal_code].filter(Boolean).join(', ')].filter(Boolean).join(', ');
-  const TRIAL_URL = (window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca';
+  const TRIAL_URL = (window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca';
 
   return (
     <div>
@@ -123,7 +123,7 @@ function ContactPage() {
         </div>
 
         <div className="dim mt-3" style={{ fontSize: 11, lineHeight: 1.5, textAlign: 'center' }}>
-          Already a member? <a href={window.HZ.HIT_ZERO_URL} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text)', fontWeight: 600 }}>Sign in to <em className="serif-italic grad-text">Hit Zero</em> →</a>
+          Already a member? <a href={(window.HZ && window.HZ.HIT_ZERO_SIGNIN_URL) || 'https://thehitzero.net/#signin'} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text)', fontWeight: 600 }}>Sign in to <em className="serif-italic grad-text">Hit Zero</em> →</a>
         </div>
       </section>
 

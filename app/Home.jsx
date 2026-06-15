@@ -1,15 +1,17 @@
-/* global React, Photo, SectionHead, Reveal, Wordmark */
+/* global React, Photo, SectionHead, Reveal, Wordmark, useProgram */
 const { useState: useState_h, useEffect: useEffect_h } = React;
 
 // ─────────── HOME ───────────
 function HomePage({ go }) {
+  const program = useProgram ? useProgram() : {};
+  const heroImage = program.public_hero_image_url || 'assets/photos/team-group-1.jpeg';
   return (
     <div>
       {/* HERO */}
       <section className="home-hero" style={{ position: 'relative', minHeight: 620, padding: '20px 22px 36px', overflow: 'hidden' }}>
         {/* Hero photo backdrop full-bleed */}
         <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-          <Photo ratio="auto" tone="mix" src="assets/photos/team-group-1.jpeg" alt="Magic City Athletics — owners and coaches" focal="50% 30%" label="HERO" style={{ height: '100%', borderRadius: 0 }}/>
+          <Photo ratio="auto" tone="mix" src={heroImage} alt="Magic City Athletics — owners and coaches" focal="50% 30%" label="HERO" style={{ height: '100%', borderRadius: 0 }}/>
           <div style={{ position: 'absolute', inset: 0, background: 'var(--hero-overlay)' }}/>
         </div>
 
@@ -26,10 +28,10 @@ function HomePage({ go }) {
           <p className="dim mt-4" style={{ fontSize: 16, lineHeight: 1.5, maxWidth: 420, color: '#fff' }}>
             Bring out the <em className="serif-italic grad-text" style={{ fontWeight: 800 }}>MAGIC</em> in <em className="serif-italic" style={{ color: '#fff' }}>YOU</em>.
           </p>
-          <div className="col gap-3 mt-6">
-            <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a free trial class →</a>
-            <button onClick={() => go('programs')} className="btn btn-block">Explore programs</button>
-          </div>
+	          <div className="col gap-3 mt-6">
+	            <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a free trial class →</a>
+	            <a href={(window.HZ && window.HZ.HIT_ZERO_CREATE_ACCOUNT_URL) || 'https://thehitzero.net/#signup?gym=mca&source=mcaminot'} className="btn btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Create family account →</a>
+	          </div>
         </div>
       </section>
 
@@ -61,16 +63,17 @@ function HomePage({ go }) {
       {/* Programs preview */}
       <section className="sec">
         <Reveal>
-          <SectionHead eyebrow="02 · WHAT WE DO" title={<><em>Six</em> ways to cheer.</>} kicker="From your kid's first cartwheel to a national-championship-bound senior team." accent="pink"/>
+          <SectionHead eyebrow="02 · WHAT WE DO" title={<>Current <em>ways</em> to cheer.</>} kicker="Fall teams, summer classes, camps, clinics, and privates from MCA's latest schedule." accent="pink"/>
         </Reveal>
         <div className="col gap-3">
           {[
-            { code: 'AS', name: 'All-Star', sub: 'Tiny → Senior · Prep + Elite', tone: 'pink', src: 'assets/photos/athlete-1.jpeg', body: 'Competitive teams across every age group. Prep and Elite levels by skill.' },
-            { code: 'PC', name: 'Performance Cheer', sub: '6-month program', tone: 'mix', src: 'assets/photos/athlete-2.jpeg', body: 'A taste of the All-Star experience without the long comp schedule. One competition, all the glitz.' },
-            { code: 'RC', name: 'Rec Cheer', sub: 'With pom-poms', tone: 'teal', src: 'assets/photos/athlete-3.jpeg', body: 'Non-competitive cheer — fun, friends, and pom-poms.' },
-            { code: 'TU', name: 'Tumbling', sub: 'Ages 5+', tone: 'teal', src: 'assets/photos/athlete-4.jpeg', body: 'From forward rolls to standing fulls. Beginner to advanced classes.' },
-            { code: 'ST', name: 'Stunting', sub: 'Ages 5+', tone: 'pink', src: 'assets/photos/athlete-5.jpeg', body: 'Group stunting fundamentals taught by certified coaches.' },
-            { code: 'PV', name: 'Privates', sub: 'One-on-one', tone: 'mix', src: 'assets/photos/athlete-6.jpeg', body: 'Private lessons for tumbling, stunting, or routine work.' },
+            { code: 'AS', name: 'All-Star Interest', sub: 'Evaluations TBD in August', tone: 'pink', src: 'assets/photos/athlete-1.jpeg', body: 'Tell MCA you are interested. Staff evaluates athletes and places them on the correct team.' },
+            { code: 'TC', name: 'Traditional Cheer', sub: 'Fall · Wed 5:30-6:30 PM', tone: 'teal', src: 'assets/photos/athlete-2.jpeg', body: 'Fall traditional cheer team from the current MCA schedule.' },
+            { code: 'SU', name: 'Summer Classes', sub: 'June 22-August 7', tone: 'mix', src: 'assets/photos/athlete-3.jpeg', body: 'Cheer Skill Builder, tumbling/stunts, flex & strength, and adult drop-in classes.' },
+            { code: 'SC', name: 'Summer Camps', sub: 'Tiny Camp · Aug 6-8', tone: 'pink', src: 'assets/photos/athlete-4.jpeg', body: 'Tiny Camp morning and evening sessions, now grouped under summer camps.' },
+            { code: 'STC', name: 'Team Clinics', sub: '4-week school team clinics', tone: 'teal', src: 'assets/photos/athlete-5.jpeg', body: 'School team clinics priced per athlete and scheduled by team.' },
+            { code: 'PV', name: 'Private Lessons', sub: '30 min · 1 hr · 1.5 hr', tone: 'mix', src: 'assets/photos/athlete-6.jpeg', body: 'Book private lesson time by the minute: $30, $55, or $75.' },
+            { code: 'BD', name: 'Birthday Party', sub: 'Details coming soon', tone: 'pink', src: 'assets/photos/team-group-1.jpeg', body: 'Birthday party information will be published here when MCA has the package ready.' },
           ].map((p, i) => (
             <Reveal key={p.code} delay={i * 60}>
               <button onClick={() => go('programs')} className="card" style={{ textAlign: 'left', cursor: 'pointer', border: 0, background: 'var(--ink-2)', width: '100%', display: 'grid', gridTemplateColumns: '64px 1fr auto', gap: 16, alignItems: 'center', padding: 16 }}>
@@ -213,7 +216,7 @@ function AppTeaser() {
               return <div key={i} style={{ aspectRatio: '1/1', borderRadius: 4, background: bg }}/>;
             })}
           </div>
-          <div className="dim mt-3" style={{ fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Sparkle · L2 · 25 skills tracked</div>
+          <div className="dim mt-3" style={{ fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>All-Star cheer · skills tracked</div>
         </div>
         <div className="card" style={{ padding: 14 }}>
           <div className="eyebrow eyebrow-pink mb-2">THIS WEEK</div>
@@ -268,7 +271,7 @@ function FooterCTA({ go }) {
         First class is on us. Walk in, stretch out, see if it clicks. Most kids know within 30 minutes.
       </p>
       <div className="col gap-3 mt-6">
-        <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a free trial →</a>
+        <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a free trial →</a>
         <button onClick={() => go('faq')} className="btn btn-block">Read the FAQ first</button>
       </div>
       <div className="hairline mt-8 mb-4"/>

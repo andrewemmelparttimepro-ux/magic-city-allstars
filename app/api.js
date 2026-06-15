@@ -16,6 +16,8 @@
   const MCA_PROGRAM_ID = '11111111-1111-1111-1111-111111111111';
   const MCA_SLUG = 'mca';
   const HIT_ZERO_URL = 'https://thehitzero.net';
+  const HIT_ZERO_SIGNIN_URL = `${HIT_ZERO_URL}/#signin?source=mcaminot`;
+  const HIT_ZERO_CREATE_ACCOUNT_URL = `${HIT_ZERO_URL}/#signup?gym=${MCA_SLUG}&source=mcaminot`;
   const HIT_ZERO_TRIAL_URL = `${HIT_ZERO_URL}/#trial/${MCA_SLUG}`;
   const HIT_ZERO_BILLING_URL = `${HIT_ZERO_URL}/#billing`;
 
@@ -169,6 +171,8 @@
     MCA_PROGRAM_ID,
     MCA_SLUG,
     HIT_ZERO_URL,
+    HIT_ZERO_SIGNIN_URL,
+    HIT_ZERO_CREATE_ACCOUNT_URL,
     HIT_ZERO_TRIAL_URL,
     HIT_ZERO_BILLING_URL,
     getProgram,

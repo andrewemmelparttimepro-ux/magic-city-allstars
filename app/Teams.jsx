@@ -1,84 +1,65 @@
 /* global React, Photo, SectionHead, Reveal */
 const { useState: useS_t } = React;
 
-const TEAMS = [
-  { name: 'Sparkle', level: 'L1', age: '5–8',  size: 18, tone: 'pink', src: 'assets/photos/athlete-1.jpeg', record: '4 zeros · 2 firsts' },
-  { name: 'Frost',   level: 'L1', age: '8–11', size: 22, tone: 'teal', src: 'assets/photos/athlete-2.jpeg', record: '3 zeros · 1 first' },
-  { name: 'Aurora',  level: 'L3', age: '11–14',size: 24, tone: 'mix',  src: 'assets/photos/athlete-3.jpeg', record: '2 zeros · Summit bid' },
-  { name: 'Onyx',    level: 'L4', age: '12–16',size: 20, tone: 'pink', src: 'assets/photos/athlete-4.jpeg', record: '5 zeros · 2 firsts' },
-  { name: 'Steel',   level: 'L5', age: '14–18',size: 22, tone: 'teal', src: 'assets/photos/athlete-5.jpeg', record: '6 zeros · Worlds bid' },
-  { name: 'Glacier', level: 'Sr', age: '15–18',size: 18, tone: 'mix',  src: 'assets/photos/athlete-6.jpeg', record: '4 zeros · 3 firsts' },
+const COMPETITION_NOTES = [
+  { label: 'Interest first', body: 'Families submit an interest form instead of choosing a named team.' },
+  { label: 'Evaluation next', body: 'MCA evaluates each athlete before placing them in the right competition group.' },
+  { label: 'Team names later', body: 'Final team names and rosters are assigned after placement.' },
 ];
 
 function TeamsPage({ go }) {
-  const [active, setActive] = useS_t(0);
-  const t = TEAMS[active];
   return (
     <div>
       <section className="sec">
-        <div className="eyebrow eyebrow-pink mb-2">03 · COMPETITIVE TEAMS</div>
+        <div className="eyebrow eyebrow-pink mb-2">03 · ALL-STAR TEAMS</div>
         <h1 className="display" style={{ fontSize: 52, margin: 0 }}>
-          Six teams. <em className="grad-text">One mindset.</em>
+          All-Star cheer. <em className="grad-text">Placement first.</em>
         </h1>
         <p className="dim mt-4" style={{ fontSize: 14, lineHeight: 1.55 }}>
-          From Tinies to Seniors, every Magic City team trains to one number: <em className="serif-italic" style={{ color: 'var(--text)' }}>zero</em>.
+          MCA builds all-star cheer groups after evaluations. Public sign-up is interest only; staff will place athletes and name teams when rosters are ready.
         </p>
       </section>
 
-      {/* Featured team carousel */}
-      <section className="sec-tight">
-        <div className="row gap-2 no-scrollbar" style={{ overflowX: 'auto', paddingBottom: 8 }}>
-          {TEAMS.map((tm, i) => (
-            <button key={tm.name} onClick={() => setActive(i)}
-              className="pill" style={{
-                background: i === active ? 'linear-gradient(135deg, var(--teal), var(--pink))' : 'var(--surface-soft)',
-                color: i === active ? 'var(--text-on-grad)' : 'var(--text)', whiteSpace: 'nowrap', cursor: 'pointer',
-                border: i === active ? 'none' : undefined,
-              }}>
-              {tm.name} · {tm.level}
-            </button>
-          ))}
-        </div>
-      </section>
-
       <section className="sec">
-        <Photo ratio="4/5" tone={t.tone} src={t.src} alt={`${t.name} team at Magic City Athletics`} focal="50% 30%" overlay label={`${t.name.toUpperCase()} · ${t.level} · ${t.age}`}>
+        <Photo ratio="4/5" tone="mix" src="assets/photos/team-group-1.jpeg" alt="Magic City Athletics all-star cheer athletes and coaches" focal="50% 30%" overlay label="ALL-STAR CHEER">
           <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 18, zIndex: 3, color: '#fff' }}>
             <div className="row between">
-              <span className="pill pill-grad">{t.level}</span>
-              <span className="pill" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)' }}>{t.size} ATHLETES</span>
+              <span className="pill pill-grad">Fall 2026</span>
+              <span className="pill" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)' }}>Evaluations</span>
             </div>
             <div>
-              <div className="display-strong" style={{ fontSize: 56, lineHeight: 0.9 }}>{t.name}</div>
-              <div className="eyebrow mt-2" style={{ color: '#fff' }}>{t.record}</div>
+              <div className="display-strong" style={{ fontSize: 52, lineHeight: 0.92 }}>All-Star Cheer</div>
+              <div className="eyebrow mt-2" style={{ color: '#fff' }}>Teams named after placement</div>
             </div>
           </div>
         </Photo>
         <div className="row gap-3 mt-4">
-          <button className="btn" style={{ flex: 1 }} onClick={() => go && go('faq')}>Routine reel</button>
+          <button className="btn" style={{ flex: 1 }} onClick={() => go && go('programs')}>See programs</button>
           <a
-            href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'}
+            href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'}
             className="btn"
             style={{ flex: 1, textDecoration: 'none', textAlign: 'center' }}
-          >Tryout info →</a>
+          >I'm interested →</a>
         </div>
       </section>
 
-      {/* Hit Zero hall of fame */}
+      {/* Placement process */}
       <section className="sec" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)' }}>
-        <div className="eyebrow eyebrow-teal mb-3">HALL OF ZERO · 2025–26</div>
-        <div className="display" style={{ fontSize: 30 }}>24 zero-deduction routines.</div>
-        <p className="dim mt-3" style={{ fontSize: 13 }}>The most in the gym's history. Tap a team to see the routine breakdown.</p>
+        <div className="eyebrow eyebrow-teal mb-3">HOW PLACEMENT WORKS</div>
+        <div className="display" style={{ fontSize: 30 }}>No public team picker.</div>
+        <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55 }}>
+          Athletes are placed by MCA staff. This keeps families from choosing the wrong group before coaches have evaluated skills, age, readiness, and schedule fit.
+        </p>
 
         <div className="col gap-2 mt-6">
-          {TEAMS.map(tm => (
-            <div key={tm.name} className="card" style={{ padding: 14, display: 'grid', gridTemplateColumns: '40px 1fr auto', gap: 14, alignItems: 'center' }}>
-              <Photo ratio="1/1" tone={tm.tone} src={tm.src} alt={`${tm.name} team`} label={tm.level} style={{ borderRadius: 10 }}/>
+          {COMPETITION_NOTES.map((item, i) => (
+            <div key={item.label} className="card" style={{ padding: 14, display: 'grid', gridTemplateColumns: '40px 1fr auto', gap: 14, alignItems: 'center' }}>
+              <div className="pill pill-grad" style={{ width: 40, height: 40, borderRadius: 10, display: 'grid', placeItems: 'center', padding: 0 }}>{i + 1}</div>
               <div>
-                <div style={{ fontWeight: 700, fontSize: 14 }}>{tm.name}</div>
-                <div className="eyebrow mt-1">{tm.record}</div>
+                <div style={{ fontWeight: 700, fontSize: 14 }}>{item.label}</div>
+                <div className="dim mt-1" style={{ fontSize: 12, lineHeight: 1.45 }}>{item.body}</div>
               </div>
-              <div className="grad-text serif-italic" style={{ fontSize: 28, fontWeight: 900 }}>0</div>
+              <div className="grad-text" style={{ fontSize: 12, fontWeight: 900, letterSpacing: '0.08em' }}>MCA</div>
             </div>
           ))}
         </div>
@@ -86,13 +67,13 @@ function TeamsPage({ go }) {
 
       <section className="sec">
         <div className="display" style={{ fontSize: 30 }}>
-          Tryouts are <em className="grad-text">May 28–30</em>.
+          Evaluations are <em className="grad-text">coming in August</em>.
         </div>
         <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55 }}>
-          Open to athletes ages 5–18. Required: 30-minute placement evaluation in the week prior. Returning athletes book directly in the app.
+          Open to athletes ages 5–18. Submit the interest form now and MCA will follow up with the right next step for placement.
         </p>
         <div className="col gap-3 mt-6">
-          <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Reserve a tryout slot →</a>
+          <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Send I'm interested form →</a>
           <button className="btn btn-block" onClick={() => go && go('faq')}>What to expect</button>
         </div>
       </section>
@@ -140,7 +121,7 @@ function FacilityPage({ go }) {
         <div className="display" style={{ fontSize: 28 }}>Come tour the gym.</div>
         <p className="dim mt-3" style={{ fontSize: 13 }}>Walk the floor, watch a practice, ask questions. 20 minutes, weekday afternoons.</p>
         <a
-          href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'}
+          href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'}
           className="btn btn-primary btn-block mt-4"
           style={{ textDecoration: 'none', textAlign: 'center' }}
         >Book a tour →</a>

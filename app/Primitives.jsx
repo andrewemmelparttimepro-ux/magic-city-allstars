@@ -14,7 +14,9 @@ const PROGRAM_FALLBACK = {
   description: null,
   website_url: null,
   logo_url: null,
-  public_email: 'coaches@magiccityathletics.net',
+  public_hero_image_url: null,
+  public_gallery_image_urls: [],
+  public_email: 'teammca@mcaminot.com',
   public_phone: null,
   address_line1: '111 45th Ave NE',
   address_line2: null,
@@ -165,7 +167,7 @@ function ThemeToggle({ className = '' }) {
 const NAV_ITEMS = [
   { id: 'home',     label: 'Home',         num: '01' },
   { id: 'programs', label: 'Programs',     num: '02' },
-  { id: 'teams',    label: 'Teams',        num: '03' },
+  { id: 'teams',    label: 'All-Star Cheer', num: '03' },
   { id: 'coaches',  label: 'Coaches',      num: '04' },
   { id: 'pricing',  label: 'Pricing',      num: '05' },
   { id: 'contact',  label: 'Contact',      num: '06' },
@@ -225,8 +227,9 @@ function Drawer({ onClose, onNav, page }) {
       <div className="drawer__divider"/>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
         <div className="eyebrow eyebrow-teal">Schedule + sign-ups</div>
-        <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block">Book a free trial →</a>
-        <a href={(window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app'} target="_blank" rel="noopener noreferrer" className="btn btn-block">Sign in to Hit Zero</a>
+        <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block">Book a free trial →</a>
+        <a href={(window.HZ && window.HZ.HIT_ZERO_CREATE_ACCOUNT_URL) || 'https://thehitzero.net/#signup'} target="_blank" rel="noopener noreferrer" className="btn btn-block">Create family account</a>
+        <a href={(window.HZ && window.HZ.HIT_ZERO_SIGNIN_URL) || 'https://thehitzero.net/#signin'} target="_blank" rel="noopener noreferrer" className="btn btn-block">Member sign in</a>
         <div className="dim" style={{ fontSize: 11, lineHeight: 1.5, marginTop: 6 }}>
           Real-time schedules, registration, billing and team rosters all live in the Hit Zero app.
         </div>
@@ -360,9 +363,9 @@ function DesktopHeader({ page, go }) {
         </nav>
         <div className="site-header__actions">
           <ThemeToggle/>
-          <a href={(window.HZ && window.HZ.HIT_ZERO_BILLING_URL) || 'https://hit-zero.vercel.app/#billing'} target="_blank" rel="noopener noreferrer" className="site-header__signin" aria-label="Pay tuition online" title="Pay tuition online — secured by Square">Pay tuition</a>
-          <a href={(window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app'} target="_blank" rel="noopener noreferrer" className="site-header__signin" aria-label="Sign in to Hit Zero">Sign in</a>
-          <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-sm site-header__cta">Book a free trial →</a>
+          <a href={(window.HZ && window.HZ.HIT_ZERO_BILLING_URL) || 'https://thehitzero.net/#billing'} target="_blank" rel="noopener noreferrer" className="site-header__signin" aria-label="Pay tuition online" title="Pay tuition online — secured by Square">Pay tuition</a>
+          <a href={(window.HZ && window.HZ.HIT_ZERO_CREATE_ACCOUNT_URL) || 'https://thehitzero.net/#signup'} target="_blank" rel="noopener noreferrer" className="site-header__signin" aria-label="Create a Hit Zero family account">Create account</a>
+          <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-sm site-header__cta">Book a free trial →</a>
         </div>
       </div>
     </header>
@@ -381,7 +384,7 @@ function DesktopFooter({ go }) {
           </p>
           <address style={{ fontStyle: 'normal', marginTop: 18 }}>
             <div style={{ fontSize: 13, lineHeight: 1.6 }}>111 45th Ave NE<br/>Minot, ND 58703</div>
-            <a href="mailto:coaches@magiccityathletics.net" style={{ display: 'block', marginTop: 8, fontSize: 13, color: 'var(--text)', textDecoration: 'none' }}>coaches@magiccityathletics.net</a>
+            <a href="mailto:teammca@mcaminot.com" style={{ display: 'block', marginTop: 8, fontSize: 13, color: 'var(--text)', textDecoration: 'none' }}>teammca@mcaminot.com</a>
           </address>
           <div className="mono dim mt-4" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Minot · ND</div>
         </div>
@@ -397,11 +400,12 @@ function DesktopFooter({ go }) {
             Schedules, billing, badges — all in <em className="grad-text">Hit Zero</em>.
           </p>
           <div className="col gap-2 mt-4">
-            <a href={(window.HZ && window.HZ.HIT_ZERO_BILLING_URL) || 'https://hit-zero.vercel.app/#billing'} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-block">Pay tuition online →</a>
+            <a href={(window.HZ && window.HZ.HIT_ZERO_BILLING_URL) || 'https://thehitzero.net/#billing'} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-block">Pay tuition online →</a>
             <p className="dim" style={{ fontSize: 11, lineHeight: 1.5 }}>
               Card payments processed securely by <strong style={{ color: 'var(--text)' }}>Square</strong>. Receipts land in your inbox.
             </p>
-            <a href={(window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app'} target="_blank" rel="noopener noreferrer" className="btn btn-block">Sign in to Hit Zero →</a>
+            <a href={(window.HZ && window.HZ.HIT_ZERO_CREATE_ACCOUNT_URL) || 'https://thehitzero.net/#signup'} target="_blank" rel="noopener noreferrer" className="btn btn-block">Create family account →</a>
+            <a href={(window.HZ && window.HZ.HIT_ZERO_SIGNIN_URL) || 'https://thehitzero.net/#signin'} target="_blank" rel="noopener noreferrer" className="site-footer__link" style={{ textAlign: 'center' }}>Already have an account? Sign in →</a>
             <p className="dim" style={{ fontSize: 11, lineHeight: 1.5 }}>
               No app-store install. Open in your browser, then add to home screen.
             </p>

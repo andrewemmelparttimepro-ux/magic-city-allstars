@@ -6,7 +6,7 @@ const COACHES = [
     src: 'assets/photos/coach-brynn-franklin.jpeg', focal: '50% 25%',
     bio: 'Co-founder of Magic City Athletics. Leads athletic operations — programs, coaching, and the work on the floor.',
     quote: 'Bring out the MAGIC in YOU.' },
-  { name: 'Melissa Rouser', role: 'Co-Owner · Chief Financial Officer', short: 'CFO', tone: 'teal',
+  { name: 'Melissa Rauser', role: 'Co-Owner · Chief Financial Officer', short: 'CFO', tone: 'teal',
     src: 'assets/photos/coach-melissa-rauser.jpeg', focal: '50% 25%',
     bio: 'Co-founder of Magic City Athletics. Runs the gym\'s finances — billing, planning, and keeping every season on solid footing.',
     quote: 'More than a gym — it\'s a cheer family.' },
@@ -14,7 +14,7 @@ const COACHES = [
     src: 'assets/photos/coach-carissa-todd.jpeg', focal: '50% 25%',
     bio: 'Co-founder of Magic City Athletics. Leads administration — schedules, registration, and the systems behind the scenes.',
     quote: 'Confidence is built one rep at a time.' },
-  { name: 'Carlie Collins', role: 'Co-Owner · Chief Operating Officer', short: 'COO', tone: 'pink',
+  { name: 'Carlie Wilson', role: 'Co-Owner · Chief Operating Officer', short: 'COO', tone: 'pink',
     src: 'assets/photos/coach-carlie-wilson.jpeg', focal: '50% 25%',
     bio: 'Co-founder of Magic City Athletics. Runs day-to-day operations — making sure every class, practice, and event runs on time.',
     quote: 'Clean is louder than hard.' },
@@ -73,6 +73,13 @@ function fmtPrice(cents) {
   const dollars = cents / 100;
   return Number.isInteger(dollars) ? `$${dollars}` : `$${dollars.toFixed(2)}`;
 }
+function priceParts(cls) {
+  const label = String(cls.price_unit_label || '');
+  if (cls.price_unit === 'custom' && label && (Number(cls.price_cents || 0) === 0 || label.includes('$') || label.toLowerCase() === 'tbd')) {
+    return { price: label, unit: '' };
+  }
+  return { price: fmtPrice(cls.price_cents), unit: unitLabel(cls) };
+}
 
 function unitLabel(cls) {
   if (cls.price_unit_label) return cls.price_unit_label;
@@ -84,6 +91,18 @@ function unitLabel(cls) {
     case 'flat': return '';
     default: return '';
   }
+}
+function isAllStarInterestClass(cls, track) {
+  return cls.track_slug === 'fall-2026-all-star' || /all star/i.test(track?.name || cls.track_name || '');
+}
+function interestHref(cls) {
+  const hzUrl = (window.HZ && window.HZ.HIT_ZERO_URL) || 'https://thehitzero.net';
+  const params = new URLSearchParams({
+    interest: cls.name || 'All-Star evaluation / team placement',
+    class_id: cls.id || '',
+    class_name: cls.name || '',
+  });
+  return `${hzUrl}/#trial/mca?${params.toString()}`;
 }
 
 function trackEyebrowLabel(track) {
@@ -138,7 +157,7 @@ function PricingPage({ go }) {
           Clear <em className="grad-text">pricing</em>.<br/>No surprises.
         </h1>
         <p className="dim mt-4" style={{ fontSize: 14, lineHeight: 1.55 }}>
-          Gym fees go directly to the gym. All-Star competition fees are regulated separately through the booster club. Hours scale with age and level.
+          Gym fees go directly to the gym. Current teams, classes, camps, and clinics reflect MCA's latest posted schedule and fee sheets.
         </p>
       </section>
 
@@ -152,7 +171,7 @@ function PricingPage({ go }) {
           <div className="row center" style={{ alignItems: 'baseline', gap: 14, marginTop: 14, flexWrap: 'wrap' }}>
             <div className="display" style={{ fontSize: 'clamp(34px, 8vw, 48px)', lineHeight: 1, fontStyle: 'italic' }}>Open Gym</div>
             <div className="display-strong grad-text" style={{ fontSize: 'clamp(48px, 12vw, 72px)', lineHeight: 0.9, letterSpacing: '-0.04em' }}>$10</div>
-            <div className="dim" style={{ fontSize: 14, alignSelf: 'flex-end', paddingBottom: 6 }}>/athlete</div>
+            <div className="dim" style={{ fontSize: 14, alignSelf: 'flex-end', paddingBottom: 6 }}>per drop-in</div>
           </div>
           <p className="mt-4" style={{ fontSize: 15, lineHeight: 1.55 }}>
             Cheer can feel intimidating from the outside — the music, the stunts, the gear, the lingo. We want to take that wall down.
@@ -168,7 +187,7 @@ function PricingPage({ go }) {
             <div className="row gap-3 center"><span className="grad-text" style={{ fontFamily: 'var(--mono)' }}>◈</span><span>Days + times posting soon — sign up to get notified</span></div>
           </div>
           <div className="col gap-3 mt-6">
-            <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Get on the open-gym list →</a>
+            <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Get on the open-gym list →</a>
           </div>
         </article>
       </section>
@@ -198,7 +217,7 @@ function PricingPage({ go }) {
             <div className="card" style={{ padding: 24, textAlign: 'center' }}>
               <div className="display" style={{ fontSize: 22 }}>Pricing posted soon.</div>
               <p className="dim mt-3" style={{ fontSize: 13 }}>Reach out for current rates and we'll walk you through everything.</p>
-              <a href="mailto:coaches@magiccityathletics.net" className="btn btn-primary btn-block mt-4" style={{ textDecoration: 'none', textAlign: 'center' }}>Email us →</a>
+              <a href="mailto:teammca@mcaminot.com" className="btn btn-primary btn-block mt-4" style={{ textDecoration: 'none', textAlign: 'center' }}>Email us →</a>
             </div>
           )}
           {groups.map(g => {
@@ -211,9 +230,11 @@ function PricingPage({ go }) {
                 <div className="display" style={{ fontSize: 26, marginBottom: 16 }}>{title}</div>
                 <div className="col" style={{ gap: 0 }}>
                   {g.rows.map((r, i) => {
-                    const hzUrl = (window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app';
+                    const hzUrl = (window.HZ && window.HZ.HIT_ZERO_URL) || 'https://thehitzero.net';
                     const bookHref = `${hzUrl}/#book/${r.id}`;
                     const open = r.registration_open !== false;
+                    const allStarInterest = isAllStarInterestClass(r, g.track);
+                    const { price, unit } = priceParts(r);
                     return (
                       <div key={r.id} className="row between center" style={{ padding: '14px 0', borderTop: i === 0 ? '1px solid var(--line)' : 'none', borderBottom: '1px solid var(--line)', gap: 12, flexWrap: 'wrap' }}>
                         <span style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minWidth: 180 }}>
@@ -221,10 +242,16 @@ function PricingPage({ go }) {
                           {r.schedule_summary && <span className="dim" style={{ fontSize: 11 }}>{r.schedule_summary}</span>}
                         </span>
                         <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 4, whiteSpace: 'nowrap' }}>
-                          <span className="display-strong grad-text" style={{ fontSize: 22, lineHeight: 1 }}>{fmtPrice(r.price_cents)}</span>
-                          {unitLabel(r) && <span className="dim" style={{ fontSize: 11 }}>{unitLabel(r)}</span>}
+                          <span className="display-strong grad-text" style={{ fontSize: 22, lineHeight: 1 }}>{price}</span>
+                          {unit && <span className="dim" style={{ fontSize: 11 }}>{unit}</span>}
                         </span>
-                        {open ? (
+                        {allStarInterest ? (
+                          <a
+                            href={interestHref(r)}
+                            className="btn btn-primary"
+                            style={{ fontSize: 12, padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}
+                          >I'm interested →</a>
+                        ) : open ? (
                           <a
                             href={bookHref}
                             className="btn btn-primary"
@@ -267,8 +294,8 @@ function PricingPage({ go }) {
         <div className="display" style={{ fontSize: 28 }}>Questions on pricing?</div>
         <p className="dim mt-3" style={{ fontSize: 13 }}>We'll walk you through every dollar before you sign anything. Book a tour or shoot us an email.</p>
         <div className="col gap-3 mt-4">
-          <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://hit-zero.vercel.app/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a tour →</a>
-          <a href="mailto:coaches@magiccityathletics.net" className="btn btn-block">Email coaches@magiccityathletics.net</a>
+          <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a tour →</a>
+          <a href="mailto:teammca@mcaminot.com" className="btn btn-block">Email teammca@mcaminot.com</a>
         </div>
       </section>
     </div>
@@ -277,7 +304,7 @@ function PricingPage({ go }) {
 
 // ─────────── Owner tools (deep links into Hit Zero) ───────────
 function OwnerToolsCard() {
-  const HZ_URL = (window.HZ && window.HZ.HIT_ZERO_URL) || 'https://hit-zero.vercel.app';
+  const HZ_URL = (window.HZ && window.HZ.HIT_ZERO_URL) || 'https://thehitzero.net';
   return (
     <section className="sec" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)' }}>
       <div className="card" style={{ padding: 22 }}>
@@ -289,10 +316,10 @@ function OwnerToolsCard() {
           Run the gym in <em className="grad-text">Hit Zero</em>.
         </div>
         <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55 }}>
-          Roster, leads, registrations, and billing all live in the owner console. Sign in with your magic-link email to manage everything — and connect your Square account to take payments.
+          Roster, leads, registrations, and billing all live in the owner console. Sign in with your owner email and password to manage everything — and connect your Square account to take payments.
         </p>
         <div className="col gap-2 mt-5">
-          <a href={`${HZ_URL}/#profile`} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-block">Connect Square (sign in) →</a>
+          <a href={`${HZ_URL}/#profile`} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-block">Connect Square (owner sign in) →</a>
           <a href={`${HZ_URL}/#billing`} target="_blank" rel="noopener noreferrer" className="btn btn-block">Open Billing</a>
           <a href={`${HZ_URL}/#admin`} target="_blank" rel="noopener noreferrer" className="btn btn-block">Open owner console</a>
         </div>
