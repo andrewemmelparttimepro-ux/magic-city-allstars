@@ -18,6 +18,7 @@
   window.HZ_ANALYTICS_CONFIG = {
     app: 'mca-site',
     clarityId: 'wt6hw0o9i1',
+    gaId: 'G-YQZXBGK1K0',
     privateApp: false
   };
 </script>
@@ -43,20 +44,20 @@
      Applies the cached theme before paint, then refreshes from the database. -->
 <script src="app/theme.js"></script>
 
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
 </head>
 <body>
 <div id="root"></div>
 
 <script src="app/api.js"></script>
-<script type="text/babel" src="app/Primitives.jsx"></script>
-<script type="text/babel" src="app/Home.jsx"></script>
-<script type="text/babel" src="app/Programs.jsx"></script>
-<script type="text/babel" src="app/Teams.jsx"></script>
-<script type="text/babel" src="app/Coaches.jsx"></script>
-<script type="text/babel" src="app/FAQContact.jsx"></script>
-<script type="text/babel" src="app/App.jsx"></script>
+<script src="dist/Primitives.js"></script>
+<script src="dist/Home.js"></script>
+<script src="dist/Programs.js"></script>
+<script src="dist/Teams.js"></script>
+<script src="dist/Calendar.js"></script>
+<script src="dist/Coaches.js"></script>
+<script src="dist/FAQContact.js"></script>
+<script src="dist/App.js"></script>
 </body>
 </html>

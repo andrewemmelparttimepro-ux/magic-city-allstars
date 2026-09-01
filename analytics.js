@@ -39,6 +39,9 @@
     try {
       if (typeof window.clarity === 'function') window.clarity('event', safeName);
     } catch (err) {}
+    try {
+      if (typeof window.gtag === 'function') window.gtag('event', safeName, payload);
+    } catch (err) {}
   }
 
   function markPage() {
@@ -58,6 +61,19 @@
     var script = document.createElement('script');
     script.async = true;
     script.src = 'https://www.clarity.ms/tag/' + encodeURIComponent(clarityId);
+    document.head.appendChild(script);
+  }
+
+  function loadGoogleAnalytics() {
+    var gaId = clean(config.gaId || '');
+    if (!gaId || !isProdHost()) return;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', gaId, { send_page_view: false });
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaId);
     document.head.appendChild(script);
   }
 
@@ -100,6 +116,7 @@
     };
     protectFormFields();
     loadClarity();
+    loadGoogleAnalytics();
     attachClickTracking();
     attachErrorTracking();
     markPage();

@@ -245,13 +245,7 @@ function PricingPage({ go }) {
                           <span className="display-strong grad-text" style={{ fontSize: 22, lineHeight: 1 }}>{price}</span>
                           {unit && <span className="dim" style={{ fontSize: 11 }}>{unit}</span>}
                         </span>
-                        {allStarInterest ? (
-                          <a
-                            href={interestHref(r)}
-                            className="btn btn-primary"
-                            style={{ fontSize: 12, padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}
-                          >I'm interested →</a>
-                        ) : open ? (
+                        {allStarInterest ? null : open ? (
                           <a
                             href={bookHref}
                             className="btn btn-primary"

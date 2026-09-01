@@ -1,0 +1,22 @@
+{
+  "outputDirectory": "public",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.mcaminot.com"
+        }
+      ],
+      "destination": "https://mcaminot.com/:path*",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/:page(home|programs|teams|calendar|facility|coaches|pricing|merch|contact|faq)",
+      "destination": "/"
+    }
+  ]
+}

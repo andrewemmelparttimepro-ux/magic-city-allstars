@@ -72,7 +72,7 @@ function Logo({ size = 28 }) {
 
 function Wordmark({ size = 18 }) {
   return (
-    <span className="serif-italic" style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontWeight: 800, letterSpacing: '-0.03em', fontSize: size, lineHeight: 1 }}>
+    <span className="wordmark serif-italic" style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontWeight: 800, letterSpacing: '-0.03em', fontSize: size, lineHeight: 1 }}>
       Magic City <span className="grad-text">Athletics</span>
     </span>
   );
@@ -163,14 +163,28 @@ function ThemeToggle({ className = '' }) {
 }
 
 // ─────────── Drawer (slide-down nav) ───────────
-// Primary nav — kept to 6 for clean fit on desktop (Grok feedback)
+// Full public directory — used in the drawer and footer.
 const NAV_ITEMS = [
   { id: 'home',     label: 'Home',         num: '01' },
   { id: 'programs', label: 'Programs',     num: '02' },
   { id: 'teams',    label: 'All-Star Cheer', num: '03' },
-  { id: 'coaches',  label: 'Coaches',      num: '04' },
-  { id: 'pricing',  label: 'Pricing',      num: '05' },
-  { id: 'contact',  label: 'Contact',      num: '06' },
+  { id: 'calendar', label: 'Calendar',     num: '04' },
+  { id: 'coaches',  label: 'Coaches',      num: '05' },
+  { id: 'pricing',  label: 'Pricing',      num: '06' },
+  { id: 'merch',    label: 'Magic Merch Shop', num: '07' },
+  { id: 'contact',  label: 'Contact',      num: '08' },
+];
+
+// Keep the desktop header aligned with the visible public-site route set so
+// families do not lose core pages depending on where they land first.
+const DESKTOP_NAV_ITEMS = [
+  { id: 'home',     label: 'Home' },
+  { id: 'programs', label: 'Programs' },
+  { id: 'teams',    label: 'All-Star Cheer' },
+  { id: 'calendar', label: 'Calendar' },
+  { id: 'coaches',  label: 'Coaches' },
+  { id: 'pricing',  label: 'Pricing' },
+  { id: 'contact',  label: 'Contact' },
 ];
 
 // Secondary — surfaced in footer + drawer, not main nav
@@ -201,6 +215,18 @@ function Drawer({ onClose, onNav, page }) {
         <Logo size={36}/>
         <Wordmark size={18}/>
       </div>
+      <div className="drawer__app-card">
+        <div className="eyebrow eyebrow-teal">Already an MCA family?</div>
+        <div className="drawer__app-title">Your athlete lives in Hit Zero.</div>
+        <a
+          href={(window.HZ && window.HZ.HIT_ZERO_SIGNIN_URL) || 'https://thehitzero.net/#signin?source=mcaminot'}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-primary btn-block"
+        >
+          Open Hit Zero →
+        </a>
+      </div>
       {NAV_ITEMS.map(it => (
         <button
           key={it.id}
@@ -226,12 +252,11 @@ function Drawer({ onClose, onNav, page }) {
       </div>
       <div className="drawer__divider"/>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
-        <div className="eyebrow eyebrow-teal">Schedule + sign-ups</div>
-        <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block">Book a free trial →</a>
+        <div className="eyebrow eyebrow-pink">New to MCA?</div>
+        <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block">Book a placement visit →</a>
         <a href={(window.HZ && window.HZ.HIT_ZERO_CREATE_ACCOUNT_URL) || 'https://thehitzero.net/#signup'} target="_blank" rel="noopener noreferrer" className="btn btn-block">Create family account</a>
-        <a href={(window.HZ && window.HZ.HIT_ZERO_SIGNIN_URL) || 'https://thehitzero.net/#signin'} target="_blank" rel="noopener noreferrer" className="btn btn-block">Member sign in</a>
         <div className="dim" style={{ fontSize: 11, lineHeight: 1.5, marginTop: 6 }}>
-          Real-time schedules, registration, billing and team rosters all live in the Hit Zero app.
+          Start with a placement visit. MCA will help match your athlete to the right program.
         </div>
       </div>
       <div className="drawer__divider"/>
@@ -350,10 +375,11 @@ function DesktopHeader({ page, go }) {
           <span className="pill pill-teal" style={{ marginLeft: 8 }}>◉ MINOT, ND</span>
         </button>
         <nav className="site-header__nav" aria-label="Primary">
-          {NAV_ITEMS.map(it => (
+          {DESKTOP_NAV_ITEMS.map(it => (
             <button
               key={it.id}
               onClick={() => go(it.id)}
+              data-page={it.id}
               className={`site-header__link${page === it.id ? ' is-active' : ''}`}
               aria-current={page === it.id ? 'page' : undefined}
             >
@@ -363,9 +389,16 @@ function DesktopHeader({ page, go }) {
         </nav>
         <div className="site-header__actions">
           <ThemeToggle/>
-          <a href={(window.HZ && window.HZ.HIT_ZERO_BILLING_URL) || 'https://thehitzero.net/#billing'} target="_blank" rel="noopener noreferrer" className="site-header__signin" aria-label="Pay tuition online" title="Pay tuition online — secured by Square">Pay tuition</a>
-          <a href={(window.HZ && window.HZ.HIT_ZERO_CREATE_ACCOUNT_URL) || 'https://thehitzero.net/#signup'} target="_blank" rel="noopener noreferrer" className="site-header__signin" aria-label="Create a Hit Zero family account">Create account</a>
-          <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-sm site-header__cta">Book a free trial →</a>
+          <a
+            href={(window.HZ && window.HZ.HIT_ZERO_SIGNIN_URL) || 'https://thehitzero.net/#signin?source=mcaminot'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="site-header__signin"
+            aria-label="Open Hit Zero for current MCA families"
+          >
+            Open Hit Zero
+          </a>
+          <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-sm site-header__cta">Book a placement →</a>
         </div>
       </div>
     </header>
@@ -410,14 +443,6 @@ function DesktopFooter({ go }) {
               No app-store install. Open in your browser, then add to home screen.
             </p>
           </div>
-          <div className="row gap-3 mt-6" style={{ alignItems: 'center' }}>
-            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="social-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
-            </a>
-            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="social-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>
-            </a>
-          </div>
         </div>
       </div>
       <div className="site-footer__legal">
@@ -428,4 +453,4 @@ function DesktopFooter({ go }) {
   );
 }
 
-Object.assign(window, { Logo, Wordmark, StatusBar, TopNav, Drawer, NAV_ITEMS, SECONDARY_NAV, Photo, SectionHead, Reveal, useInView, useMediaQuery, DesktopHeader, DesktopFooter, ThemeToggle, useTheme, useProgram });
+Object.assign(window, { Logo, Wordmark, StatusBar, TopNav, Drawer, NAV_ITEMS, DESKTOP_NAV_ITEMS, SECONDARY_NAV, Photo, SectionHead, Reveal, useInView, useMediaQuery, DesktopHeader, DesktopFooter, ThemeToggle, useTheme, useProgram });

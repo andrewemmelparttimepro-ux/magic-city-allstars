@@ -1,6 +1,8 @@
 .DS_Store
 .claude/
 node_modules/
+dist/
+public/
 _scripts/__pycache__/
 
 # local Vercel link

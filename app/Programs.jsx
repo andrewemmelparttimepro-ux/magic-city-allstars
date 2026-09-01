@@ -11,6 +11,32 @@ const TRACK_PHOTO = {
   'privates':          'assets/photos/athlete-6.jpeg',
 };
 const TRACK_PHOTO_FALLBACK = ['athlete-1','athlete-2','athlete-3','athlete-4','athlete-5','athlete-6'].map(n => `assets/photos/${n}.jpeg`);
+const MCA_ALL_STAR_RESOURCES = [
+  {
+    title: 'Handbook packet',
+    detail: 'Current all-star welcome packet',
+    href: '/mca-all-star-welcome-packet.pdf',
+    ctaLabel: 'Download PDF',
+  },
+  {
+    title: 'Team contract',
+    detail: 'Will be added here when MCA uploads it',
+    href: null,
+    ctaLabel: 'Coming soon',
+  },
+  {
+    title: 'Competition schedule',
+    detail: 'Will be added here when the comp calendar is ready',
+    href: null,
+    ctaLabel: 'Coming soon',
+  },
+  {
+    title: '2026-2027 evaluation form',
+    detail: 'Current cheer combine evaluation sheet for all-star placements',
+    href: '/mca-cheer-combine-evaluations-form.pdf',
+    ctaLabel: 'Download PDF',
+  },
+];
 
 function fmtClassPrice(cents) {
   if (cents == null) return '';
@@ -83,12 +109,52 @@ function ProgramsPage({ go }) {
           Cheer, <em className="grad-text">your way</em>.
         </h1>
         <p className="dim mt-4" style={{ fontSize: 14, lineHeight: 1.55 }}>
-          Current teams, classes, camps, and clinics come straight from MCA's live schedule. Find the one that fits — or change tracks anytime.
+          Browse MCA's public programs, compare tracks, and choose the right next step for your athlete.
         </p>
       </section>
 
+      <section className="sec parent-router" aria-labelledby="parent-router-title">
+        <div className="eyebrow eyebrow-teal mb-2">START HERE</div>
+        <h2 id="parent-router-title" className="display parent-router__title">
+          What do you need <em className="grad-text">right now?</em>
+        </h2>
+        <div className="parent-router__grid mt-6">
+          <a
+            href={(window.HZ && window.HZ.HIT_ZERO_SIGNIN_URL) || 'https://thehitzero.net/#signin?source=mcaminot'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="card parent-path parent-path--primary"
+          >
+            <span className="eyebrow eyebrow-teal">Already on an MCA team</span>
+            <strong>Find my athlete's information</strong>
+            <span className="dim">See the assigned team, practice schedule, announcements, registration, and billing in Hit Zero.</span>
+            <span className="parent-path__cta">Open Hit Zero →</span>
+          </a>
+          <button
+            type="button"
+            className="card parent-path"
+            onClick={() => go && go('teams')}
+          >
+            <span className="eyebrow eyebrow-pink">Looking for All-Star Cheer</span>
+            <strong>See the All-Star overview</strong>
+            <span className="dim">Placement process, handbook, evaluation form, and the right next step for new or returning athletes.</span>
+            <span className="parent-path__cta">All-Star Cheer →</span>
+          </button>
+          <a
+            href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'}
+            className="card parent-path"
+          >
+            <span className="eyebrow">New to MCA</span>
+            <strong>Help me choose a program</strong>
+            <span className="dim">Book a placement visit and MCA will match your athlete to the right program.</span>
+            <span className="parent-path__cta">Book a placement →</span>
+          </a>
+        </div>
+      </section>
+
       <section className="sec-tight" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
-        <div className="row gap-2 no-scrollbar" style={{ overflowX: 'auto', paddingBottom: 4 }}>
+        <div className="eyebrow mb-3">BROWSE PUBLIC PROGRAMS</div>
+        <div className="row gap-2 no-scrollbar program-filter-row" style={{ overflowX: 'auto', paddingBottom: 4 }}>
           {[{ id: 'all', name: 'All' }, ...tracks].map((t) => {
             const active = activeTrackId === (t.id || 'all');
             return (
@@ -184,7 +250,7 @@ function ProgramsPage({ go }) {
       <section className="sec" style={{ background: 'linear-gradient(160deg, rgba(39,207,215,0.06), rgba(249,127,172,0.06))', borderTop: '1px solid var(--line)' }}>
         <div className="display" style={{ fontSize: 28 }}>Not sure where you fit?</div>
         <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55 }}>
-          Book a free placement evaluation. 30 minutes, no pressure, you leave with a recommendation.
+          Book a placement evaluation. 30 minutes, no pressure, you leave with a recommendation.
         </p>
         <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block mt-4" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a placement →</a>
       </section>
@@ -192,14 +258,109 @@ function ProgramsPage({ go }) {
   );
 }
 
+function MerchPage() {
+  return (
+    <div>
+      <section className="sec" style={{ paddingTop: 28 }}>
+        <div className="eyebrow eyebrow-pink mb-2">07 · MAGIC MERCH SHOP</div>
+        <h1 className="display" style={{ fontSize: 52, margin: 0 }}>
+          Team merch, <em className="grad-text">ready to print</em>.
+        </h1>
+        <p className="dim mt-4" style={{ fontSize: 14, lineHeight: 1.55 }}>
+          Download the current MCA merch order form, fill it out, then email it back or turn in a printed copy at the gym.
+        </p>
+      </section>
+
+      <section className="sec">
+        <article className="card" style={{ padding: 26 }}>
+          <div className="row between center" style={{ gap: 12, flexWrap: 'wrap' }}>
+            <div>
+              <div className="eyebrow eyebrow-teal mb-2">Current order form</div>
+              <div className="display" style={{ fontSize: 30 }}>Magic Merch Shop</div>
+              <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55, maxWidth: 560 }}>
+                This fillable PDF is the live merch sheet for MCA families. Download it, complete the order, and send it back to the gym or bring it in.
+              </p>
+            </div>
+            <a
+              href="/mca-magic-merch-order-form.pdf"
+              className="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}
+            >
+              Download order form →
+            </a>
+          </div>
+          <div className="hairline mt-6 mb-4"/>
+          <div className="col gap-2" style={{ fontSize: 13, lineHeight: 1.5 }}>
+            <div className="row gap-3 center"><span className="grad-text" style={{ fontFamily: 'var(--mono)' }}>◈</span><span>Fill it out digitally or print it first.</span></div>
+            <div className="row gap-3 center"><span className="grad-text" style={{ fontFamily: 'var(--mono)' }}>◈</span><span>Email the completed form back to MCA or turn it in at the front desk.</span></div>
+            <div className="row gap-3 center"><span className="grad-text" style={{ fontFamily: 'var(--mono)' }}>◈</span><span>Need help with sizing or pickup? Use the Contact page and MCA will follow up.</span></div>
+          </div>
+        </article>
+      </section>
+    </div>
+  );
+}
+
 // ─── Per-class booking row — opens Hit Zero PWA for booking + payment ───
-function ClassBookingRow({ cls }) {
+function ClassBookingRow({ cls, trackName }) {
   const closed = !cls.registration_open;
   const { price: priceStr, unit: unitStr } = classPriceParts(cls);
   const ageLabel = classAgeLabel(cls);
-  const allStarInterest = isAllStarInterestClass(cls);
+  const allStarInterest = isAllStarInterestClass(cls, trackName);
+  // All-Star classes stay available as placement-interest leads while closed,
+  // but an owner explicitly opening registration must make the class bookable.
+  const interestOnly = allStarInterest && closed;
+  const externalRegistrationUrl = /^https:\/\//i.test(String(cls.external_registration_url || ''))
+    ? cls.external_registration_url
+    : '';
   const hzUrl = (window.HZ && window.HZ.HIT_ZERO_URL) || 'https://thehitzero.net';
   const bookHref = `${hzUrl}/#book/${cls.id}`;
+  const rowHref = externalRegistrationUrl || (interestOnly ? interestHref(cls) : bookHref);
+  const ctaLabel = externalRegistrationUrl
+    ? 'Register with Prairie Grit →'
+    : interestOnly
+      ? 'Send interest form →'
+      : 'Book this class →';
+  const affordanceHint = externalRegistrationUrl
+    ? 'Opens Prairie Grit registration in a new tab'
+    : interestOnly
+      ? 'Tap anywhere to send the interest form'
+      : 'Tap anywhere on this card to book';
+
+  if (interestOnly || !closed) {
+    return (
+      <a
+        href={rowHref}
+        className="card card-action"
+        style={{ padding: 14, display: 'block', textDecoration: 'none' }}
+        aria-label={`${cls.name}. ${affordanceHint}.`}
+        target={externalRegistrationUrl ? '_blank' : undefined}
+        rel={externalRegistrationUrl ? 'noopener noreferrer' : undefined}
+      >
+        <div className="row between center" style={{ flexWrap: 'wrap', gap: 8 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontWeight: 700, fontSize: 14 }}>{cls.name}</div>
+            {ageLabel && <div className="eyebrow eyebrow-teal" style={{ fontSize: 9, marginTop: 4 }}>{ageLabel}</div>}
+            {cls.schedule_summary && <div className="dim" style={{ fontSize: 11, marginTop: 2 }}>{cls.schedule_summary}</div>}
+            {cls.description && <div className="dim" style={{ fontSize: 11, marginTop: 4 }}>{cls.description}</div>}
+          </div>
+          <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 4, whiteSpace: 'nowrap' }}>
+            <span className="display-strong grad-text" style={{ fontSize: 18, lineHeight: 1 }}>{priceStr}</span>
+            {unitStr && <span className="dim" style={{ fontSize: 10 }}>{unitStr}</span>}
+          </div>
+        </div>
+        <div className="row between center mt-3" style={{ gap: 10, flexWrap: 'wrap' }}>
+          <span className={`eyebrow card-action__hint ${interestOnly ? 'eyebrow-pink' : 'eyebrow-teal'}`} style={{ fontSize: 9 }}>{affordanceHint}</span>
+          <span className={`btn card-action__cta ${interestOnly ? '' : 'btn-primary'}`} style={{ fontSize: 13, padding: '10px 14px', whiteSpace: 'nowrap' }}>
+            {ctaLabel}
+          </span>
+        </div>
+      </a>
+    );
+  }
+
   return (
     <div className="card" style={{ padding: 14 }}>
       <div className="row between center" style={{ flexWrap: 'wrap', gap: 8 }}>
@@ -214,29 +375,11 @@ function ClassBookingRow({ cls }) {
           {unitStr && <span className="dim" style={{ fontSize: 10 }}>{unitStr}</span>}
         </div>
       </div>
-      {allStarInterest ? (
-        <a
-          href={interestHref(cls)}
-          className="btn btn-primary btn-block mt-3"
-          style={{ fontSize: 13, padding: '10px 14px', textDecoration: 'none', textAlign: 'center' }}
-        >
-          I'm interested →
-        </a>
-      ) : closed ? (
-        <button disabled className="btn btn-block mt-3" style={{ fontSize: 13, padding: '10px 14px' }}>
-          Sign-ups closed
-        </button>
-      ) : (
-        <a
-          href={bookHref}
-          className="btn btn-primary btn-block mt-3"
-          style={{ fontSize: 13, padding: '10px 14px', textDecoration: 'none', textAlign: 'center' }}
-        >
-          Book this class →
-        </a>
-      )}
+      <button disabled className="btn btn-block mt-3" style={{ fontSize: 13, padding: '10px 14px' }}>
+        Sign-ups closed
+      </button>
     </div>
   );
 }
 
-Object.assign(window, { ProgramsPage, ClassBookingRow });
+Object.assign(window, { ProgramsPage, MerchPage, ClassBookingRow });

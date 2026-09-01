@@ -16,6 +16,20 @@ const FAQ = [
   },
 ];
 
+const FACILITY_GALLERY_FALLBACK = [
+  'assets/photos/team-group-2.jpeg',
+  'assets/photos/team-group-1.jpeg',
+  'assets/photos/athlete-2.jpeg',
+  'assets/photos/athlete-5.jpeg',
+];
+
+function facilityGalleryImages(program) {
+  const live = Array.isArray(program?.public_gallery_image_urls)
+    ? program.public_gallery_image_urls.filter(Boolean)
+    : [];
+  return (live.length ? live : FACILITY_GALLERY_FALLBACK).slice(0, 4);
+}
+
 function FAQPage() {
   const [open, setOpen] = useS_c(0);
   return (
@@ -50,6 +64,7 @@ function ContactPage() {
   const CONTACT_EMAIL = program.public_email || 'teammca@mcaminot.com';
   const CONTACT_ADDRESS = [program.address_line1, [program.city, program.state, program.postal_code].filter(Boolean).join(', ')].filter(Boolean).join(', ');
   const TRIAL_URL = (window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca';
+  const galleryImages = facilityGalleryImages(program);
 
   return (
     <div>
@@ -63,30 +78,44 @@ function ContactPage() {
         </p>
       </section>
 
-      {/* "Map" — stylized, theme-aware */}
       <section className="sec-tight" aria-label="Location map illustration">
-        <div style={{ position: 'relative', borderRadius: 18, overflow: 'hidden', aspectRatio: '4/3', background: 'linear-gradient(135deg, var(--bg-elev-2) 0%, var(--bg-elev-3) 100%)', color: 'var(--text)', border: '1px solid var(--line)' }}>
-          <svg viewBox="0 0 400 300" role="img" aria-label="Stylized map of Minot showing Magic City Athletics location" style={{ width: '100%', height: '100%', display: 'block' }}>
-            <defs>
-              <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" strokeOpacity="0.08" strokeWidth="0.5"/>
-              </pattern>
-            </defs>
-            <rect width="400" height="300" fill="url(#grid)"/>
-            <path d="M0 180 L400 160" stroke="currentColor" strokeOpacity="0.22" strokeWidth="2"/>
-            <path d="M0 100 L400 80" stroke="currentColor" strokeOpacity="0.14" strokeWidth="1.5"/>
-            <path d="M120 0 L140 300" stroke="currentColor" strokeOpacity="0.22" strokeWidth="2"/>
-            <path d="M260 0 L280 300" stroke="currentColor" strokeOpacity="0.14" strokeWidth="1.5"/>
-            <path d="M0 230 Q150 210 250 250 T400 240" stroke="rgba(39,207,215,0.55)" strokeWidth="6" fill="none"/>
-            <text x="320" y="225" fill="rgba(39,207,215,0.85)" fontSize="9" fontFamily="JetBrains Mono">SOURIS RIVER</text>
-            <g transform="translate(200,150)">
-              <circle r="40" fill="rgba(249,127,172,0.18)"/>
-              <circle r="20" fill="rgba(249,127,172,0.45)"/>
-              <circle r="8" fill="#F97FAC" stroke="currentColor" strokeWidth="2"/>
-            </g>
-            <text x="200" y="115" fill="currentColor" textAnchor="middle" fontSize="12" fontFamily="Fraunces" fontStyle="italic" fontWeight="800">Magic City Athletics</text>
-            <text x="200" y="195" fill="currentColor" fillOpacity="0.55" textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="2">111 45TH AVE NE · MINOT</text>
-          </svg>
+        <div style={{ display: 'grid', gap: 14 }}>
+          <div style={{ position: 'relative', borderRadius: 18, overflow: 'hidden', aspectRatio: '16/8.5', background: 'linear-gradient(135deg, var(--bg-elev-2) 0%, var(--bg-elev-3) 100%)', color: 'var(--text)', border: '1px solid var(--line)' }}>
+            <svg viewBox="0 0 400 220" role="img" aria-label="Stylized map of Minot showing Magic City Athletics location" style={{ width: '100%', height: '100%', display: 'block' }}>
+              <defs>
+                <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" strokeOpacity="0.08" strokeWidth="0.5"/>
+                </pattern>
+              </defs>
+              <rect width="400" height="220" fill="url(#grid)"/>
+              <path d="M0 155 L400 135" stroke="currentColor" strokeOpacity="0.22" strokeWidth="2"/>
+              <path d="M0 92 L400 74" stroke="currentColor" strokeOpacity="0.14" strokeWidth="1.5"/>
+              <path d="M130 0 L145 220" stroke="currentColor" strokeOpacity="0.22" strokeWidth="2"/>
+              <path d="M255 0 L270 220" stroke="currentColor" strokeOpacity="0.14" strokeWidth="1.5"/>
+              <path d="M0 176 Q150 160 252 188 T400 182" stroke="rgba(39,207,215,0.55)" strokeWidth="6" fill="none"/>
+              <text x="318" y="174" fill="rgba(39,207,215,0.85)" fontSize="9" fontFamily="JetBrains Mono">SOURIS RIVER</text>
+              <g transform="translate(204,108)">
+                <circle r="34" fill="rgba(249,127,172,0.18)"/>
+                <circle r="18" fill="rgba(249,127,172,0.45)"/>
+                <circle r="8" fill="#F97FAC" stroke="currentColor" strokeWidth="2"/>
+              </g>
+              <text x="204" y="78" fill="currentColor" textAnchor="middle" fontSize="12" fontFamily="Fraunces" fontStyle="italic" fontWeight="800">Magic City Athletics</text>
+              <text x="204" y="145" fill="currentColor" fillOpacity="0.55" textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="2">111 45TH AVE NE · MINOT</text>
+            </svg>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 12 }}>
+            {galleryImages.map((src, index) => (
+              <Photo
+                key={`${src}-${index}`}
+                ratio="4/3"
+                tone={index % 2 === 0 ? 'mix' : 'teal'}
+                src={src}
+                alt={`Magic City Athletics facility view ${index + 1}`}
+                focal={index === 0 ? '50% 35%' : '50% 30%'}
+                label={`FACILITY ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -130,12 +159,12 @@ function ContactPage() {
       {/* Lead capture lives in Hit Zero so the gym staff have one place
           for everything: leads, classes, billing, registrations. */}
       <section className="sec" style={{ background: 'var(--bg-elev-2)', borderTop: '1px solid var(--line)' }}>
-        <div className="display" style={{ fontSize: 28 }}>Book a <em className="grad-text">tour</em> or a free trial.</div>
+        <div className="display" style={{ fontSize: 28 }}>Book a <em className="grad-text">tour</em> or placement visit.</div>
         <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55 }}>
           20 minutes. Walk the floor, watch a class, ask anything. Reach out below — your inquiry lands directly in our coaches' inbox in <em className="serif-italic">Hit Zero</em>.
         </p>
         <div className="col gap-3 mt-6">
-          <a href={TRIAL_URL} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a tour or free trial →</a>
+          <a href={TRIAL_URL} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a tour or placement →</a>
           <a href={`mailto:${CONTACT_EMAIL}`} className="btn btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Or email us directly</a>
         </div>
         <p className="dim mt-4" style={{ fontSize: 11, lineHeight: 1.55, textAlign: 'center' }}>

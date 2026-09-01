@@ -6,17 +6,68 @@ const COMPETITION_NOTES = [
   { label: 'Evaluation next', body: 'MCA evaluates each athlete before placing them in the right competition group.' },
   { label: 'Team names later', body: 'Final team names and rosters are assigned after placement.' },
 ];
+const MCA_ALL_STAR_RESOURCES = [
+  {
+    title: 'Handbook packet',
+    detail: 'Public All-Star welcome packet',
+    href: '/mca-all-star-welcome-packet.pdf',
+    ctaLabel: 'Download PDF',
+  },
+  {
+    title: 'Current team details',
+    detail: 'Assigned team, practice schedule, announcements, registration, and billing',
+    href: 'https://thehitzero.net/#signin?source=mcaminot',
+    ctaLabel: 'Open Hit Zero',
+  },
+  {
+    title: '2026-2027 evaluation form',
+    detail: 'Current cheer combine evaluation sheet for all-star placements',
+    href: '/mca-cheer-combine-evaluations-form.pdf',
+    ctaLabel: 'Download PDF',
+  },
+];
 
 function TeamsPage({ go }) {
+  const placementHref = (window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca';
+  const memberHref = (window.HZ && window.HZ.HIT_ZERO_SIGNIN_URL) || 'https://thehitzero.net/#signin?source=mcaminot';
   return (
     <div>
       <section className="sec">
         <div className="eyebrow eyebrow-pink mb-2">03 · ALL-STAR TEAMS</div>
         <h1 className="display" style={{ fontSize: 52, margin: 0 }}>
-          All-Star cheer. <em className="grad-text">Placement first.</em>
+          All-Star Cheer, <em className="grad-text">without the hunt.</em>
         </h1>
         <p className="dim mt-4" style={{ fontSize: 14, lineHeight: 1.55 }}>
-          MCA builds all-star cheer groups after evaluations. Public sign-up is interest only; staff will place athletes and name teams when rosters are ready.
+          Start with the path that matches your family. Public All-Star information stays here; athlete-specific details stay private in Hit Zero.
+        </p>
+      </section>
+
+      <section className="sec parent-router parent-router--all-star" aria-labelledby="all-star-path-title">
+        <div className="eyebrow eyebrow-teal mb-2">FIND YOUR ALL-STAR INFORMATION</div>
+        <h2 id="all-star-path-title" className="display parent-router__title">
+          Current family or <em className="grad-text">future athlete?</em>
+        </h2>
+        <div className="parent-router__grid parent-router__grid--two mt-6">
+          <a
+            href={memberHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="card parent-path parent-path--primary"
+          >
+            <span className="eyebrow eyebrow-teal">My athlete is already placed</span>
+            <strong>See my athlete's All-Star details</strong>
+            <span className="dim">Open Hit Zero for the assigned team, practice schedule, announcements, registration, and billing.</span>
+            <span className="parent-path__cta">Open Hit Zero →</span>
+          </a>
+          <a href={placementHref} className="card parent-path">
+            <span className="eyebrow eyebrow-pink">New or returning athlete</span>
+            <strong>Start the placement process</strong>
+            <span className="dim">MCA evaluates age, skills, readiness, and schedule fit before assigning the right competition group.</span>
+            <span className="parent-path__cta">Book a placement →</span>
+          </a>
+        </div>
+        <p className="dim parent-router__note">
+          Hit Zero works in any web browser. You do not need to install an app to check your athlete from a work computer.
         </p>
       </section>
 
@@ -36,19 +87,46 @@ function TeamsPage({ go }) {
         <div className="row gap-3 mt-4">
           <button className="btn" style={{ flex: 1 }} onClick={() => go && go('programs')}>See programs</button>
           <a
-            href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'}
+            href={placementHref}
             className="btn"
             style={{ flex: 1, textDecoration: 'none', textAlign: 'center' }}
-          >I'm interested →</a>
+          >Book a placement →</a>
+        </div>
+      </section>
+
+      <section className="sec" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
+        <div className="eyebrow eyebrow-teal mb-3">HANDBOOKS &amp; FORMS</div>
+        <div className="col gap-2">
+          {MCA_ALL_STAR_RESOURCES.map((resource) => (
+            <div key={resource.title} className="card" style={{ padding: 14 }}>
+              <div style={{ fontWeight: 700, fontSize: 14 }}>{resource.title}</div>
+              <div className="dim" style={{ fontSize: 11, marginTop: 4 }}>{resource.detail}</div>
+              {resource.href ? (
+                <a
+                  href={resource.href}
+                  className="btn btn-primary btn-block mt-3"
+                  style={{ fontSize: 13, padding: '10px 14px', textDecoration: 'none', textAlign: 'center' }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {resource.ctaLabel} →
+                </a>
+              ) : (
+                <button disabled className="btn btn-block mt-3" style={{ fontSize: 13, padding: '10px 14px' }}>
+                  {resource.ctaLabel}
+                </button>
+              )}
+            </div>
+          ))}
         </div>
       </section>
 
       {/* Placement process */}
       <section className="sec" style={{ background: 'var(--ink-2)', borderTop: '1px solid var(--line)' }}>
         <div className="eyebrow eyebrow-teal mb-3">HOW PLACEMENT WORKS</div>
-        <div className="display" style={{ fontSize: 30 }}>No public team picker.</div>
+        <div className="display" style={{ fontSize: 30 }}>MCA places every athlete.</div>
         <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55 }}>
-          Athletes are placed by MCA staff. This keeps families from choosing the wrong group before coaches have evaluated skills, age, readiness, and schedule fit.
+          Families submit interest first. MCA coaches evaluate skills, age, readiness, and schedule fit before assigning the right competition group.
         </p>
 
         <div className="col gap-2 mt-6">
@@ -73,7 +151,7 @@ function TeamsPage({ go }) {
           Open to athletes ages 5–18. Submit the interest form now and MCA will follow up with the right next step for placement.
         </p>
         <div className="col gap-3 mt-6">
-          <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Send I'm interested form →</a>
+          <a href={placementHref} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Send placement form →</a>
           <button className="btn btn-block" onClick={() => go && go('faq')}>What to expect</button>
         </div>
       </section>

@@ -1,0 +1,10 @@
+{
+  "name": "magic-city-athletics-site",
+  "private": true,
+  "scripts": {
+    "build": "node _scripts/build-site.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

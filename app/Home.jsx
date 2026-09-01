@@ -5,6 +5,15 @@ const { useState: useState_h, useEffect: useEffect_h } = React;
 function HomePage({ go }) {
   const program = useProgram ? useProgram() : {};
   const heroImage = program.public_hero_image_url || 'assets/photos/team-group-1.jpeg';
+  const jump = (page, hash) => {
+    go(page);
+    if (!hash || typeof window === 'undefined') return;
+    window.setTimeout(() => {
+      const target = document.getElementById(hash);
+      history.replaceState(null, '', `/${page}#${hash}`);
+      target?.scrollIntoView({ block: 'start', behavior: 'auto' });
+    }, 0);
+  };
   return (
     <div>
       {/* HERO */}
@@ -28,10 +37,10 @@ function HomePage({ go }) {
           <p className="dim mt-4" style={{ fontSize: 16, lineHeight: 1.5, maxWidth: 420, color: '#fff' }}>
             Bring out the <em className="serif-italic grad-text" style={{ fontWeight: 800 }}>MAGIC</em> in <em className="serif-italic" style={{ color: '#fff' }}>YOU</em>.
           </p>
-	          <div className="col gap-3 mt-6">
-	            <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a free trial class →</a>
-	            <a href={(window.HZ && window.HZ.HIT_ZERO_CREATE_ACCOUNT_URL) || 'https://thehitzero.net/#signup?gym=mca&source=mcaminot'} className="btn btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Create family account →</a>
-	          </div>
+          <div className="col gap-3 mt-6">
+            <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a placement visit →</a>
+            <a href={(window.HZ && window.HZ.HIT_ZERO_SIGNIN_URL) || 'https://thehitzero.net/#signin?source=mcaminot'} className="btn btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Current family? Open Hit Zero →</a>
+          </div>
         </div>
       </section>
 
@@ -63,25 +72,24 @@ function HomePage({ go }) {
       {/* Programs preview */}
       <section className="sec">
         <Reveal>
-          <SectionHead eyebrow="02 · WHAT WE DO" title={<>Current <em>ways</em> to cheer.</>} kicker="Fall teams, summer classes, camps, clinics, and privates from MCA's latest schedule." accent="pink"/>
+          <SectionHead eyebrow="02 · WHAT WE DO" title={<>Current <em>ways</em> to cheer.</>} kicker="Current public programs from MCA's latest schedule." accent="pink"/>
         </Reveal>
         <div className="col gap-3">
           {[
-            { code: 'AS', name: 'All-Star Interest', sub: 'Evaluations TBD in August', tone: 'pink', src: 'assets/photos/athlete-1.jpeg', body: 'Tell MCA you are interested. Staff evaluates athletes and places them on the correct team.' },
-            { code: 'TC', name: 'Traditional Cheer', sub: 'Fall · Wed 5:30-6:30 PM', tone: 'teal', src: 'assets/photos/athlete-2.jpeg', body: 'Fall traditional cheer team from the current MCA schedule.' },
-            { code: 'SU', name: 'Summer Classes', sub: 'June 22-August 7', tone: 'mix', src: 'assets/photos/athlete-3.jpeg', body: 'Cheer Skill Builder, tumbling/stunts, flex & strength, and adult drop-in classes.' },
-            { code: 'SC', name: 'Summer Camps', sub: 'Tiny Camp · Aug 6-8', tone: 'pink', src: 'assets/photos/athlete-4.jpeg', body: 'Tiny Camp morning and evening sessions, now grouped under summer camps.' },
-            { code: 'STC', name: 'Team Clinics', sub: '4-week school team clinics', tone: 'teal', src: 'assets/photos/athlete-5.jpeg', body: 'School team clinics priced per athlete and scheduled by team.' },
-            { code: 'PV', name: 'Private Lessons', sub: '30 min · 1 hr · 1.5 hr', tone: 'mix', src: 'assets/photos/athlete-6.jpeg', body: 'Book private lesson time by the minute: $30, $55, or $75.' },
-            { code: 'BD', name: 'Birthday Party', sub: 'Details coming soon', tone: 'pink', src: 'assets/photos/team-group-1.jpeg', body: 'Birthday party information will be published here when MCA has the package ready.' },
+            { code: 'TC', name: 'Traditional Cheer', sub: 'Fall · Wed 5:30-6:30 PM', tone: 'teal', src: 'assets/photos/athlete-2.jpeg', body: 'Fall traditional cheer team from the current MCA schedule.', page: 'programs', hint: 'Tap anywhere for live class options' },
+            { code: 'STC', name: 'Team Clinics', sub: '4-week school team clinics', tone: 'teal', src: 'assets/photos/athlete-5.jpeg', body: 'School team clinics priced per athlete and scheduled by team.', page: 'programs', hint: 'Tap anywhere for live class options' },
+            { code: 'BD', name: 'Birthday Party', sub: 'Details coming soon', tone: 'pink', src: 'assets/photos/team-group-1.jpeg', body: 'Birthday party information will be published here when MCA has the package ready.', page: 'programs', hash: 'birthday-party', hint: 'Tap anywhere for package updates' },
           ].map((p, i) => (
             <Reveal key={p.code} delay={i * 60}>
-              <button onClick={() => go('programs')} className="card" style={{ textAlign: 'left', cursor: 'pointer', border: 0, background: 'var(--ink-2)', width: '100%', display: 'grid', gridTemplateColumns: '64px 1fr auto', gap: 16, alignItems: 'center', padding: 16 }}>
+              <button onClick={() => jump(p.page, p.hash)} className="card card-action" style={{ textAlign: 'left', background: 'var(--ink-2)', width: '100%', display: 'grid', gridTemplateColumns: '64px 1fr auto', gap: 16, alignItems: 'center', padding: 16, border: 0 }} aria-label={`${p.name}. ${p.hint}.`}>
                 <Photo ratio="1/1" tone={p.tone} src={p.src} alt={`${p.name} at Magic City Athletics`} label={p.code} style={{ borderRadius: 14 }}/>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 16 }}>{p.name}</div>
                   <div className="eyebrow mt-1">{p.sub}</div>
                   <div className="dim" style={{ fontSize: 12, marginTop: 6, lineHeight: 1.45 }}>{p.body}</div>
+                  <div className="row between center mt-3" style={{ gap: 10, flexWrap: 'wrap' }}>
+                    <span className={`eyebrow card-action__hint ${p.tone === 'pink' ? 'eyebrow-pink' : 'eyebrow-teal'}`} style={{ fontSize: 9 }}>{p.hint}</span>
+                  </div>
                 </div>
                 <span className="grad-text" style={{ fontSize: 22, fontFamily: 'var(--mono)' }}>→</span>
               </button>
@@ -265,13 +273,13 @@ function FooterCTA({ go }) {
   return (
     <section className="sec" style={{ background: 'var(--ink)', borderTop: '1px solid var(--line)' }}>
       <div className="display" style={{ fontSize: 36, lineHeight: 0.95 }}>
-        Come <em className="grad-text">try a class</em>. <span className="dim" style={{ fontStyle: 'normal', fontWeight: 400 }}>It's free.</span>
+        Come <em className="grad-text">find your class</em>.
       </div>
       <p className="dim mt-3" style={{ fontSize: 13, lineHeight: 1.55 }}>
-        First class is on us. Walk in, stretch out, see if it clicks. Most kids know within 30 minutes.
+        Walk the floor, meet the coaches, and find the right fit before you register.
       </p>
       <div className="col gap-3 mt-6">
-        <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a free trial →</a>
+        <a href={(window.HZ && window.HZ.HIT_ZERO_TRIAL_URL) || 'https://thehitzero.net/#trial/mca'} className="btn btn-primary btn-block" style={{ textDecoration: 'none', textAlign: 'center' }}>Book a placement visit →</a>
         <button onClick={() => go('faq')} className="btn btn-block">Read the FAQ first</button>
       </div>
       <div className="hairline mt-8 mb-4"/>
